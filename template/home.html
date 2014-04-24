@@ -4,12 +4,12 @@
 	<title>{{ web_title }}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script type="text/javascript" src="static/js/jquery-2.0.0.min.js"></script>
-  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="static/js/bigfalse.js"></script>
-  <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="static/css/bootstrap-theme.min.css" />
-  <link rel="stylesheet" type="text/css" href="static/css/bigfalse.css" />
+  <script type="text/javascript" src="js/jquery-2.0.0.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/bigfalse.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/bigfalse.css" />
 </head>
 <body>
   {% include 'header.html' %}
@@ -20,15 +20,19 @@
   <div class="container">
     <div class="row">
       <div class="col-md-9">
+       {% if passages %}
        {% for passage in passages %}
-       {{ passage }}
+       {% include 'passage.html' %}
        {% endfor %}
        {% include 'pagecount.html' %}
+       {% endif %}
       </div>
       <div class="col-md-3">
+       {% if bulletins %}
        {% for bulletin in bulletins %}
        {{ bulletin }}
        {% endfor %}
+       {% endif %}
       </div>
     </div>
   </div>

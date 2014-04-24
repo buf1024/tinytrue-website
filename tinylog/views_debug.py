@@ -45,7 +45,7 @@ if tinytrue.settings.DEBUG:
 		html = t.render(Context(d))
 		return HttpResponse(html)
 
-def test_view_passagecount(req):
+	def test_view_pagecount(req):
 		t = get_template('pagecount.html')
 		pc = {
 		'laquo' : True,
@@ -54,6 +54,19 @@ def test_view_passagecount(req):
 		}
 		d = {
 		'page_count' : pc,
+		}
+		html = t.render(Context(d))
+		return HttpResponse(html)
+
+	def test_view_gameitem(req):
+		t = get_template('gameitem.html')
+		g = {
+		'src' : 'http://www.baidu.com',
+		'width': '800',
+		'height' : '600'
+		}
+		d = {
+		'game' : g,
 		}
 		html = t.render(Context(d))
 		return HttpResponse(html)

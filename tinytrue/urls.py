@@ -16,6 +16,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^$', 'tinylog.views.home'),
+    url(r'^install$', 'tinylog.views.install'),
 )
 
 if tinytrue.settings.DEBUG:
@@ -24,4 +27,5 @@ if tinytrue.settings.DEBUG:
 		url(r'^test/footer$', 'test_view_footer'),
 		url(r'^test/passage$', 'test_view_passage'),
 		url(r'^test/passagecount$', 'test_view_passagecount'),
+        url(r'^test/gameitem$', 'test_view_gameitem'),
 	)
