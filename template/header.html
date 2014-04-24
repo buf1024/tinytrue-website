@@ -1,0 +1,55 @@
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">{{ brand }}</a>
+    </div>
+    <div class="navbar-collapse collapse">
+
+      <ul class="nav navbar-nav">
+        {% if game_list %}
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            游戏 <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            {% for game in game_list %}
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ game.link }}">{{ game.title }}</a></li>
+            {% endfor %}
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ nav_link_more_game }}">更多……</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li><a href="#" id="nav-menu-nogame">游戏</a></li>
+        {% endif %}
+
+        {% if admin %}
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              管理 <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ nav_link_passage }}">文章管理</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ nav_link_comment }}">评论管理</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ nav_link_catalog }}">分类管理</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ nav_link_label }}">标签管理</a></li>
+              <li role="presentation" class="divider"></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ nav_link_blog }}">博客设置</a></li>
+              <li role="presentation" class="divider"></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ nav_link_game }}">游戏管理</a></li>
+            </ul>
+          </li>
+        {% else %}
+        <li><a href="{{ nav_link_manage }}">管理</a></li>
+        {% endif %}
+      </ul>
+      <form class="navbar-form navbar-right" role="search" method="get" action="{{ nav_act_search }}">
+        <div class="form-group">
+          <input type="text" class="form-control" name="navq" placeholder="搜索本微站……">
+        </div>
+        <button type="submit" class="btn btn-success">GO!</button>
+      </form>
+    </div>
+  </div>
+</div>

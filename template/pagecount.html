@@ -1,0 +1,15 @@
+<div class="text-center-align">
+  {% if page_count %}
+  <ul class="pagination">
+    {% if page_count.laquo %}
+    <li><a href="#">&laquo;</a></li>
+    {% endif %}
+    {% for pi in page_count.count_list%}
+    <li class="{{ pi.class }}"><a href="{{ pi.link }}">{{ pi.num }}</a></li>
+    {% endfor %}
+    {% if page_count.raquo %}
+    <li><a href="#">&raquo;</a></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+</div>

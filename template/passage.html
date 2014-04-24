@@ -1,0 +1,17 @@
+<div>
+  {% if passage %}
+  <h2><a href="{{ passage.link }}">{{ passage.title }}</a></h2>
+  <p>{{ passage.content|safe }}</p>
+  <p>
+    <br>
+    <div>
+      <a href="{{ passage.link_comment }}"><span class="label label-success">评论({{ passage.comment_count }})</span></a>
+      {% if passage.label_list %}
+      {% for label in passage.label_list%}
+      <a href="label.link"><span class="label label-info">{{ label.name }}</span></a>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </p>
+  {% endif %}
+</div>
