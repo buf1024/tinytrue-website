@@ -1,0 +1,8 @@
+<div class="bulletin">
+	{% if bulletin %}
+	<h3>{{ bulletin.title }}</h3><hr>
+	{% for bi in bulletin.itemlist %}
+	<p>{{ bi|safe }}</p>
+	{% endfor %}
+	{% endif %}
+</div>
