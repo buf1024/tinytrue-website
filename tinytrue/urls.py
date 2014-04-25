@@ -1,4 +1,8 @@
+# coding: utf-8
 from django.conf.urls import patterns, include, url
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 import tinytrue
 
@@ -19,13 +23,21 @@ urlpatterns = patterns('',
 
     url(r'^$', 'tinylog.views.home'),
     url(r'^install$', 'tinylog.views.install'),
-)
+    )
 
 if tinytrue.settings.DEBUG:
-	urlpatterns += patterns('tinylog.views_debug',
-		url(r'^test/header$', 'test_view_header'),
-		url(r'^test/footer$', 'test_view_footer'),
-		url(r'^test/passage$', 'test_view_passage'),
-		url(r'^test/passagecount$', 'test_view_passagecount'),
+    urlpatterns += patterns('tinylog.views_debug',
+        url(r'^test/header$', 'test_view_header'),
+        url(r'^test/footer$', 'test_view_footer'),
+        url(r'^test/passage$', 'test_view_passage'),
+        url(r'^test/passagecount$', 'test_view_passagecount'),
         url(r'^test/gameitem$', 'test_view_gameitem'),
-	)
+    )
+
+    #静态文件
+    urlpatterns += patterns('',
+        url(r'^js/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT + '/js'}),
+        url(r'^css/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT + '/css'}),
+        url(r'^img/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT + '/img'}),
+        )
+    

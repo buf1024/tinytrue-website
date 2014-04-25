@@ -3,9 +3,9 @@ $(function () {
 });
 
 function tiny_setup() {
-    $('#nav_menu_nogame').click(nav_menu_nogame);
+    $('#nav-menu-nogame').click(nav_menu_nogame);
 }
 
 function nav_menu_nogame() {
-	// 弹出没有游戏对话框
+	$('#glabal_dialog').modal();
 }

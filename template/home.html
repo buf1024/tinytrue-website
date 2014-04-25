@@ -12,7 +12,8 @@
   <link rel="stylesheet" type="text/css" href="css/bigfalse.css" />
 </head>
 <body>
-  {% include 'header.html' %}
+  {{ extral_block|safe }}
+  {{ head_nav_block|safe }}
 
   <hr>
   <hr>
@@ -20,23 +21,15 @@
   <div class="container">
     <div class="row">
       <div class="col-md-9">
-       {% if passages %}
-       {% for passage in passages %}
-       {% include 'passage.html' %}
-       {% endfor %}
-       {% include 'pagecount.html' %}
-       {% endif %}
+       {{ passages_block|safe }}
+       {{ passage_count_block|safe }}
       </div>
       <div class="col-md-3">
-       {% if bulletins %}
-       {% for bulletin in bulletins %}
-       {{ bulletin }}
-       {% endfor %}
-       {% endif %}
+       {{ bulletins_block|safe }}
       </div>
     </div>
   </div>
   <hr>
-  {% include 'footer.html' %}
+  {{ footer_block|safe }}
 </body>
 </html>

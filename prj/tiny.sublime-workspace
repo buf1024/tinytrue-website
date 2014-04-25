@@ -1,0 +1,420 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"a",
+				"all"
+			],
+			[
+				"pa",
+				"passages"
+			],
+			[
+				"g",
+				"games"
+			],
+			[
+				"gam",
+				"game"
+			],
+			[
+				"set",
+				"settings"
+			],
+			[
+				"se",
+				"setting"
+			],
+			[
+				"url",
+				"urlpatterns"
+			],
+			[
+				"Mo",
+				"models"
+			],
+			[
+				"mod",
+				"models"
+			],
+			[
+				"c",
+				"class	New Class"
+			],
+			[
+				"tin",
+				"tinylog"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"bo",
+				"bottom"
+			],
+			[
+				"ma",
+				"margin-bottom"
+			],
+			[
+				"i",
+				"iframe	Tag"
+			],
+			[
+				"t",
+				"text-align"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"s",
+				"style"
+			],
+			[
+				"te",
+				"text-decoration"
+			],
+			[
+				"bor",
+				"border-left"
+			],
+			[
+				"table-c",
+				"table-cell"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"tabl",
+				"table"
+			],
+			[
+				"cl",
+				"clickTimes"
+			],
+			[
+				"he",
+				"header	Tag"
+			],
+			[
+				"ar",
+				"arguments"
+			],
+			[
+				"fo",
+				"for	for (…) {…}"
+			],
+			[
+				"so",
+				"songName"
+			],
+			[
+				"Son",
+				"songName"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"bak",
+				"background-color"
+			],
+			[
+				"th",
+				"th"
+			],
+			[
+				"thi",
+				"thin"
+			],
+			[
+				"b",
+				"black"
+			],
+			[
+				"back",
+				"background-position"
+			],
+			[
+				"borer-c",
+				"border-color"
+			],
+			[
+				"u",
+				"ul	Tag"
+			],
+			[
+				"f",
+				"font-family"
+			],
+			[
+				"m",
+				"margin-right"
+			],
+			[
+				"ur",
+				"url"
+			],
+			[
+				"C",
+				"CharField"
+			],
+			[
+				"d",
+				"def	Function"
+			],
+			[
+				"in",
+				"input	Tag"
+			],
+			[
+				"dj",
+				"django"
+			],
+			[
+				"body",
+				"border-right-style"
+			]
+		]
+	},
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 380.0,
+		"selected_items":
+		[
+			[
+				"pci",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"view",
+				"View: Toggle Menu"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/F/private/git/tinytrue-website/template/dialog.html",
+		"/F/private/git/tinytrue-website/tinytrue/settings.py",
+		"/F/private/git/tinytrue-website/template/home.html",
+		"/F/private/git/tinytrue-website/template/header.html",
+		"/F/private/git/tinytrue-website/tinylog/util.py",
+		"/F/private/git/tinytrue-website/template/bulletin.html",
+		"/F/private/git/tinytrue-website/template/footer.html",
+		"/F/private/git/tinytrue-website/template/pagecount.html",
+		"/F/private/git/tinytrue-website/tinylog/models.py",
+		"/F/private/git/tinytrue-website/static/js/bigfalse.js",
+		"/F/private/git/tinytrue-website/prj/manage.py",
+		"/C/Users/heidong/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/F/private/git/tinytrue-website/tinytrue/__init__.py",
+		"/F/private/git/tinytrue-website/tinytrue/urls.py",
+		"/F/private/git/tinytrue-website/tinylog/views.py",
+		"/F/private/git/tinytrue-website/template/gameitem.html",
+		"/C/Users/heidong/Desktop/bigfalse/passage.html",
+		"/F/private/git/tinytrue-website/template/passage.html",
+		"/F/private/git/tinytrue-website/tinylog/views_debug.py",
+		"/F/private/git/tinytrue-website/model",
+		"/C/Users/heidong/Desktop/bigfalse/mngcatolog.html",
+		"/C/Users/heidong/Desktop/bigfalse/mngblog.html",
+		"/F/private/djcode/tinytrue/template/pagecount.html",
+		"/F/private/djcode/tinytrue/tinylog/views_debug.py",
+		"/F/private/djcode/tinytrue/tinytrue/settings.py",
+		"/F/private/djcode/tinytrue/tinytrue/urls.py",
+		"/C/Users/heidong/Desktop/bigfalse/game.html",
+		"/F/private/djcode/tinytrue/template/passage.html",
+		"/F/private/djcode/tinytrue/template/footer.html",
+		"/F/private/djcode/tinytrue/template/header.html",
+		"/F/private/djcode/tinytrue/tinylog/views.py",
+		"/F/private/djcode/tinytrue/template/passageoverview.html",
+		"/C/Users/heidong/Desktop/bigfalse/mnggame.html",
+		"/C/Users/heidong/Desktop/bigfalse/mngsetting.html",
+		"/C/Users/heidong/Desktop/bigfalse/index.html",
+		"/C/Users/heidong/Desktop/bigfalse/static/game/2048/style/main.css",
+		"/C/Users/heidong/Desktop/bigfalse/game/2048/index.html",
+		"/C/Users/heidong/Desktop/2048-master/index.html",
+		"/C/Users/heidong/Desktop/bigfalse/mnglabel.html",
+		"/C/Users/heidong/Desktop/bigfalse/mngcoment.html",
+		"/C/Users/heidong/Desktop/bigfalse/manage.html",
+		"/C/Users/heidong/Desktop/bigfalse/login.html",
+		"/C/Users/heidong/Desktop/bigfalse/static/css/bootstrap.min.css",
+		"/C/Users/heidong/Desktop/bigfalse/bigfalse.css",
+		"/C/Users/heidong/Desktop/bigfalse/bigfalse.js",
+		"/C/Users/heidong/Desktop/tinytrue/tinytrue.js",
+		"/C/Users/heidong/AppData/Roaming/Sublime Text 2/Packages/User/sftp_servers/www.bigfalse.com",
+		"/F/private/tmp/lua/test.lua",
+		"/C/Users/heidong/Desktop/宁波/nb.txt",
+		"/F/private/djcode/xcoll/xcoll/bootstrap/css/bootstrap.css",
+		"/F/private/djcode/xcoll/xcoll/bootstrap/css/bootstrap.min.css",
+		"/C/Users/heidong/Desktop/a",
+		"/F/private/djcode/xcoll/xcoll/bootstrap/js/jquery.ui.touch-punch.min.js",
+		"/F/private/djcode/xcoll/xcoll/bootstrap/js/jquery.htmlClean.js.dump",
+		"/F/private/djcode/xcoll/xcoll/bootstrap/css/my.css",
+		"/C/Users/heidong/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/Users/heidong/AppData/Roaming/Sublime Text 2/Packages/User/JSON.sublime-settings",
+		"/C/Users/heidong/Desktop/ioms_new.conf.dump",
+		"/C/Users/heidong/Desktop/ioms_new.conf",
+		"/C/Users/heidong/Desktop/a.html",
+		"/C/Users/heidong/Desktop/a.css"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"generate_passage_block",
+			"game_list",
+			"ManytoMany",
+			"ManytoManyField",
+			"ManytoMayField",
+			"DateFiled",
+			"container",
+			"html",
+			"center",
+			"myModal",
+			"navbar-brand",
+			" class=\"cnto\"",
+			"float-center",
+			">\n",
+			"tinytrue",
+			"dbRollback",
+			"dbReconnect",
+			"release",
+			"G_DB_ERROR_CODE",
+			"judgeReconnect",
+			"main",
+			"control-label"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"games",
+			"ManyToManyField",
+			"ManytoMany",
+			"ManytoManyField",
+			"DateField",
+			"",
+			"center",
+			"bigfalse"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.sftp":
+	{
+		"height": 76.0
+	},
+	"replace":
+	{
+		"height": 66.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 231.0,
+	"status_bar_visible": true
+}
