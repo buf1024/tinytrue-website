@@ -30,7 +30,7 @@ def home(req):
     #模块数据填充
     d['bulletins_block'] = generate_footer_block()
     #填充脚注
-    d['footer_block'] = 
+    d['footer_block'] = ''
         
 
     t = get_template('home.html')

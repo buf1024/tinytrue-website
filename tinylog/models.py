@@ -1,3 +1,5 @@
+#coding: utf-8
+
 from django.db import models
 
 # Create your models here.
@@ -59,11 +61,10 @@ class Comment(models.Model):
     ip_address = models.IPAddressField()
 
     passage = models.ForeignKey(Passage)
+    parent = models.ForeignKey('self')
 
     def __unicode__(self):
         return self.author
-def ChildComment(models.Model):
-    child = models.ForeignKey(Comment)
 
 class View(models.Model):
     ip_address = models.IPAddressField()
@@ -76,12 +77,16 @@ class View(models.Model):
 class Settings(models.Model):
     title = models.CharField(max_length = 128)
     brand = models.CharField(max_length = 128)
-    display_count = models.IntegerField()
-    enable_notify = models.BooleanField()
-    display_all = models.BooleanField()
-    web_initialize = models.BooleanField()
-
     copy_info = models.CharField(max_length = 256)
+    
+    #blog setting
+    blog_display_count = models.IntegerField()
+    blog_notify = models.BooleanField()
+    blog_overview = models.BooleanField()
+    blog_overview_count = models.IntegerField()
+  
+    #game setting
+    game_menu_count = models.IntegerField()
 
     def __unicode__(self):
         return self.title
@@ -90,7 +95,10 @@ class Module(models.Model):
     name = models.CharField(max_length = 64)
     title = models.CharField(max_length = 64)
     desc = models.CharField(max_length = 512)
+    
+    #setting
     enable = models.BooleanField()
+    display_count = models.IntegerField()
 
     setting = models.ForeignKey(Settings)
 
@@ -103,13 +111,13 @@ class User(models.Model):
     email = models.EmailField()
 
     def __unicode__(self):
-        return name
+        return self.name
 
 
 class Game(models.Model):
     name = models.CharField(max_length = 64)
     desc = models.CharField(max_length = 512)
-    img = models.CharField(max_length = 128)
+    image = models.CharField(max_length = 128)
     link = models.CharField(max_length = 128)
     enable = models.BooleanField()
     hot = models.IntegerField()
