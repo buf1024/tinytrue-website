@@ -5,9 +5,21 @@ from django.http import *
 
 from tinylog.models import *
 
+from time import time
+
+# 10分钟
+_g_read_interval = 10 * 60
+_g_last_time = 0
+
 _g_settings = {}
 
 def get_settings():
+    
+    global _g_last_time
+    global _g_read_interval
+    
+    if _g_last_time == 0:
+        _g_last_time = int(time())
     if len(_g_settings) <= 0:
         settings = Settings.objects.all()
         if len(settings) > 0:
