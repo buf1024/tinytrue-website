@@ -1,15 +1,18 @@
 <div class="text-center-align">
-  {% if page_count %}
-  <ul class="pagination">
-    {% if page_count.laquo %}
-    <li><a href="#">&laquo;</a></li>
+  {% if page_count_all %}
+  <ul class="pagination" id="pagination" data-role="{{data_role}}"
+    data-total="{{ page_count_all }}" data-per-page="{{page_count}}">
+ <!--
+ {% if page_count_laquo %}
+    <li><a href="#" id = "page_count_laquo">&laquo;</a></li>
     {% endif %}
-    {% for pi in page_count.count_list%}
+    {% for pi in page_count_list%}
     <li class="{{ pi.class }}"><a href="{{ pi.link }}">{{ pi.num }}</a></li>
     {% endfor %}
-    {% if page_count.raquo %}
+    {% if page_count_raquo %}
     <li><a href="#">&raquo;</a></li>
     {% endif %}
+    -->
   </ul>
   {% endif %}
 </div>

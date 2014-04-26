@@ -233,6 +233,10 @@
 	},
 	"file_history":
 	[
+		"/F/private/git/tinytrue-website/tinylog/models.py",
+		"/F/private/git/tinytrue-website/tinylog/models.py.dump",
+		"/F/private/git/tinytrue-website/data/init.sql",
+		"/F/private/git/tinytrue-website/data/init.sql.dump",
 		"/F/private/git/tinytrue-website/template/dialog.html",
 		"/F/private/git/tinytrue-website/tinytrue/settings.py",
 		"/F/private/git/tinytrue-website/template/home.html",
@@ -241,7 +245,6 @@
 		"/F/private/git/tinytrue-website/template/bulletin.html",
 		"/F/private/git/tinytrue-website/template/footer.html",
 		"/F/private/git/tinytrue-website/template/pagecount.html",
-		"/F/private/git/tinytrue-website/tinylog/models.py",
 		"/F/private/git/tinytrue-website/static/js/bigfalse.js",
 		"/F/private/git/tinytrue-website/prj/manage.py",
 		"/C/Users/heidong/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",

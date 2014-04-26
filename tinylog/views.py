@@ -28,9 +28,9 @@ def home(req):
     #文章数填充
     d['passage_count_block'] = generate_passage_count_block()
     #模块数据填充
-    d['bulletins_block'] = generate_footer_block()
+    d['bulletins_block'] = generate_bulletins_block()
     #填充脚注
-    d['footer_block'] = ''
+    d['footer_block'] = generate_footer_block()
         
 
     t = get_template('home.html')

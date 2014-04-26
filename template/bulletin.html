@@ -1,8 +1,10 @@
 <div class="bulletin">
 	{% if bulletin %}
 	<h3>{{ bulletin.title }}</h3><hr>
-	{% for bi in bulletin.itemlist %}
+    {% if bulletin_list %}
+	{% for bi in bulletin_list %}
 	<p>{{ bi|safe }}</p>
 	{% endfor %}
+    {% endif %}
 	{% endif %}
 </div>

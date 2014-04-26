@@ -107,8 +107,6 @@ class Module(models.Model):
     create_date = models.DateField()
     update_date = models.DateField()
 
-    setting = models.ForeignKey(Settings)
-
     def __unicode__(self):
         return self.name
 
