@@ -10,7 +10,11 @@ buf1024@gmail.com, Power by<a href="http://nginx.org/" target="_blank">nginx</a>
  
  -- modules
  insert into tinylog_module(id, name, title, "desc", enable, display_count, setting_id)
- values(1, 'comment', '评论列表', 1, 5, 1)
+ values(1, 'comment', '评论列表', '评论列表', 1, 5, 1);
+ 
+ -- admin user
+ insert into tinylog_user(id, name, password, email, create_date, update_date)
+ values(1, 'buf1024', '111111', 'buf1024@gmail.com', '2014-01-01', '2014-01-01');
  
  commit;
  
