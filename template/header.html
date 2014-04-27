@@ -12,10 +12,10 @@
           </a>
           <ul class="dropdown-menu">
             {% for game in games %}
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="game/{{ game.catalog.name }}">{{ game.name }}</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/game/{{ game.catalog.name }}">{{ game.name }}</a></li>
             {% endfor %}
             <li role="presentation" class="divider"></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="game/more">更多……</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/game/more">更多……</a></li>
           </ul>
         </li>
         {% else %}
@@ -23,27 +23,26 @@
         {% endif %}
 
         {% if admin %}
-        <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              管理 <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="manage/passsage">文章管理</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="manage/comment">评论管理</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="manage/catalog">分类管理</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="manage/label">标签管理</a></li>
-              <li role="presentation" class="divider"></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="manage/blog">博客设置</a></li>
-              <li role="presentation" class="divider"></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="manage/game">游戏管理</a></li>
-            </ul>
-          </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            管理 <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/passsage">文章管理</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/comment">评论管理</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/catalog">分类管理</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/label">标签管理</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/setting">博客设置</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/game">游戏管理</a></li>
+          </ul>
+        </li>
         {% else %}
-        <li><a href="manage/admin">管理</a></li>
+        <li><a href="/manage/admin">管理</a></li>
         {% endif %}
       </ul>
-      <form class="navbar-form navbar-right" role="search" method="get" action="search">
+      <form class="navbar-form navbar-right" role="search" method="get" action="/search">
         <div class="form-group">
           <input type="text" class="form-control" name="navq" placeholder="搜索本微站……">
         </div>

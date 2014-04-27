@@ -23,6 +23,14 @@ urlpatterns = patterns('',
 
     url(r'^$', 'tinylog.views.home'),
     url(r'^install$', 'tinylog.views.install'),
+    url(r'^manage$', 'tinylog.views.admin'),
+    url(r'^manage/admin$', 'tinylog.views.admin'),
+    url(r'^manage/passage$', 'tinylog.views.mngpassage'),
+    url(r'^manage/comment$', 'tinylog.views.mngcomment'),
+    url(r'^manage/catalog$', 'tinylog.views.mngcatalog'),
+    url(r'^manage/label$', 'tinylog.views.mnglabel'),
+    url(r'^manage/setting$', 'tinylog.views.mngsetting'),
+    url(r'^manage/game$', 'tinylog.views.mnggame'),
     )
 
 if tinytrue.settings.DEBUG:

@@ -29,17 +29,21 @@ def get_settings():
             modules = Module.objects.filter(visiable=True)
             games = Game.objects.filter(visiable=True)[:setting.game_menu_count]
             passages = Passage.objects.order_by('-front_flag').order_by('-update_date')[:setting.blog_display_count]
+            pcatalogs = Catalog.objects.filter(type=1)
+            gcatalogs = Catalog.objects.filter(type=2)
 
 
             _g_settings['setting'] = setting
             _g_settings['modules'] = modules
             _g_settings['games'] = games
             _g_settings['passages'] = passages
+            _g_settings['pcatalogs'] = pcatalogs
+            _g_settings['gcatalogs'] = gcatalogs
 
     return _g_settings
 
 
-def generate_extral_block():
+def generate_home_extral_block():
     settings = get_settings()
     games = settings['games']
     
@@ -57,6 +61,18 @@ def generate_extral_block():
 
     return h;
 
+def generate_login_extral_block():
+    d = {}
+    d['dialog_title'] = r'错误'
+    d['dialog_body'] = r'<h3>邮件或密码为空，请重新输入!</h3>'
+    d['dialog_buttongs'] = False
+
+    t = get_template('dialog.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return h;
+    
 def generate_head_nav_block():
     settings = get_settings()
     setting = settings['setting']
@@ -166,4 +182,4 @@ def generate_footer_block():
     return h;
 
 def is_admin():
-    return False
+    return True

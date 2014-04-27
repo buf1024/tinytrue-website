@@ -5,13 +5,13 @@
   <p>
     <br>
     <div>
-      <a href="passage/{{ passage_id }}#comment"><span class="label label-success">评论({{ passage_comment_count }})</span></a>
+      <a href="/passage/{{ passage_id }}#comment"><span class="label label-success">评论({{ passage_comment_count }})</span></a>
       {% if passage_catolog %}
-      <a href="cat/{{ passage_catolog.name }}" title="{{ passage_catolog.desc }}"><span class="label label-primary">{{ passage_catolog.name }}</span></a>
+      <a href="/cat/{{ passage_catolog.name }}" title="{{ passage_catolog.desc }}"><span class="label label-primary">{{ passage_catolog.name }}</span></a>
       {% endif %}
       {% if passage_label_list %}
       {% for label in passage_label_list%}
-      <a href="label/{{ label.name }}" title="{{ label.desc }}"><span class="label label-info">{{ label.name }}</span></a>
+      <a href="/label/{{ label.name }}" title="{{ label.desc }}"><span class="label label-info">{{ label.name }}</span></a>
       {% endfor %}
       {% endif %}
     </div>
