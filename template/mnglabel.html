@@ -1,15 +1,16 @@
+<div class="col-md-9">
 <ol class="breadcrumb">
-  <li><a href="#">¹ÜÀí</a></li>
-  <li class="active">±êÇ©¹ÜÀí</li>
+  <li><a href="#">ç®¡ç†</a></li>
+  <li class="active">æ ‡ç­¾ç®¡ç†</li>
 </ol>
 
 <table class="table table-hover table-bordered table-striped table-condensed">
   <tr>
-    <th class="text-center-align">ĞòºÅ</th>
-    <th class="text-center-align">±êÇ©</th>
-    <th class="text-center-align">ÃèÊö</th>
-    <th class="text-center-align">¹éÊôÊı</th>
-    <th class="text-center-align">»ù±¾²Ù×÷</th>
+    <th class="text-center-align">åºå·</th>
+    <th class="text-center-align">æ ‡ç­¾</th>
+    <th class="text-center-align">æè¿°</th>
+    <th class="text-center-align">å½’å±æ•°</th>
+    <th class="text-center-align">åŸºæœ¬æ“ä½œ</th>
   </tr>
   {% if labels %}
   {% for label in labels %}
@@ -19,10 +20,19 @@
     <td>{{ label.label.desc }}</td>
     <td class="text-center-align">{{ label.label_count }}</td>
     <td class="text-center-align">
-      <button type="submit" class="btn btn-xs btn-info" id="mnglabel-modidy">ĞŞ¸Ä</button>
-      <button type="submit" class="btn btn-xs btn-danger" id="mnglabel-delete">É¾³ı</button>
+      <button type="submit" class="btn btn-xs btn-info" id="mnglabel-modidy">ä¿®æ”¹</button>
+      <button type="submit" class="btn btn-xs btn-danger" id="mnglabel-delete">åˆ é™¤</button>
     </td>
   </tr>
   {% endfor %}
   {% endif %}
 </table>
+</div>
+<div class="col-md-3">
+  <div class="bulletin">
+    <h3>æ ‡ç­¾ç®¡ç†</h3><hr>
+    <p>
+      <button type="submit" class="btn btn-info" id="mngcatalog_new_label">æ–°å¢æ ‡ç­¾</button>
+    </p>
+  </div>
+</div>

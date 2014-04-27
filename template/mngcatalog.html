@@ -1,3 +1,4 @@
+<div class="col-md-9">
 <ol class="breadcrumb">
   <li><a href="#">管理</a></li>
   <li class="active">分类管理</li>
@@ -18,13 +19,22 @@
     <td class="text-center-align">{{ catalog.catalog.id }}</td>
     <td>{{ catalog.catalog.name }}</td>
     <td>{{ catalog.catalog.desc }}</td>
-    <td>{{ catalog.catalog.type }}</td>
+    <td class="text-center-align">{{ catalog.catalog.type }}</td>
     <td class="text-center-align">{{ catalog.passage_count }}</td>
     <td class="text-center-align">
-      <button type="submit" class="btn btn-xs btn-info" id="mngcatalog_modify">修改</button>
-      <button type="submit" class="btn btn-xs btn-danger" id="mngcatalog_delete">删除</button>
+      <button type="submit" class="btn btn-xs btn-info" data="{{ catalog.catalog.id }}" id="mngcatalog_modify">修改</button>
+      <button type="submit" class="btn btn-xs btn-danger" data="{{ catalog.catalog.id }}" id="mngcatalog_delete">删除</button>
     </td>
   </tr>
   {% endfor %}
   {% endif %}
 </table>
+</div>
+<div class="col-md-3">
+  <div class="bulletin">
+    <h3>分类管理</h3><hr>
+    <p>
+      <button type="submit" class="btn btn-info" id="mngcatalog_new_catalog">新增分类</button>
+    </p>
+  </div>
+</div>

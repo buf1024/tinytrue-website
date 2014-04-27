@@ -1,0 +1,53 @@
+<div class="col-sm-9">
+  <ol class="breadcrumb">
+    <li><a href="#">管理</a></li>
+    <li class="active">文章管理</li>
+  </ol>
+
+  <table class="table table-hover table-bordered table-striped table-condensed">
+    <tr>
+      <th class="text-center-align">序号</th>
+      <th class="text-center-align">文章</th>
+      <th class="text-center-align">分类</th>
+      <th class="text-center-align">页面浏览</th>
+      <th class="text-center-align">评论数</th>
+      <th class="text-center-align">基本操作</th>
+    </tr>
+    {% if passages %}
+    {% for passage in passages %}
+    <tr>
+      <td class="text-center-align">{{ passage.passage.id }}</td>
+      <td>{{ passage.passage.title }}</td>
+      <td>{{ passage.catalog.name }}</td>
+      <td class="text-center-align">{{ passage.passage.hot }}</td>
+      <td class="text-center-align">{{ passage.comment_count }}</td>
+      <td class="text-center-align">
+        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_view">查看</button>
+        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_modify">修改</button>
+        <button class="btn btn-xs btn-danger" data="{{ passage.passage.id }}" id="mngcomment_delete">删除</button>
+        {% if passage.passage.front_flag %}
+        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_cancel_front">取消置顶</button>
+        {% else %}
+        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_front">置顶</button>
+        {% endif %}
+        {% if passage.passage.visiable %}
+        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_hide">隐藏</button>
+        {% else %}
+        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_show">显示</button>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+  </table>
+  {{ page_count_block|safe }}
+</div>
+<div class="col-sm-3">
+    <div class="bulletin">
+      <h3>文章管理</h3><hr>
+      <p>
+        <button type="submit" class="btn btn-info" id="mngpassage_new_passage">新增文章</button>
+        <button type="submit" class="btn btn-info" id="mngpassage_backup_passage">备份文章</button>
+      </p>
+    </div>
+</div>

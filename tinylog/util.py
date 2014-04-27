@@ -31,7 +31,7 @@ def get_settings():
             passages = Passage.objects.order_by('-front_flag').order_by('-update_date')[:setting.blog_display_count]
             pcatalogs = Catalog.objects.filter(type=1)
             gcatalogs = Catalog.objects.filter(type=2)
-
+            labels = Label.objects.all()
 
             _g_settings['setting'] = setting
             _g_settings['modules'] = modules
@@ -39,6 +39,7 @@ def get_settings():
             _g_settings['passages'] = passages
             _g_settings['pcatalogs'] = pcatalogs
             _g_settings['gcatalogs'] = gcatalogs
+            _g_settings['labels'] = labels
 
     return _g_settings
 
@@ -151,7 +152,26 @@ def generate_passage_count_block():
         h = t.render(c)
 
     return h;
+    
+def generate_comment_count_block():
+    settings = get_settings()
+    setting = settings['setting']
+    
+    comment_count = Comment.objects.count()
 
+    h = ''
+    if comment_count > 0:
+        d = {}
+        
+        d['page_count_all'] = comment_count
+        d['page_count'] = setting.blog_display_count
+        d['data_role'] = 'comment'
+
+        t = get_template('pagecount.html')
+        c = Context(d)
+        h = t.render(c)
+
+    return h;
 def generate_module(module):
     return ''
     

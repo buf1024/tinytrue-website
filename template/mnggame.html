@@ -1,3 +1,4 @@
+<div class="col-md-9">
 <ol class="breadcrumb">
   <li><a href="#">管理</a></li>
   <li class="active">游戏管理</li>
@@ -24,9 +25,7 @@
       <button class="btn btn-xs btn-danger" id="mnggame_delete" data="{{ game.id }}">删除</button>
       {% if game.visiable %}
       <button class="btn btn-xs btn-success" id="mnggame_hide" data="{{ game.id }}">隐藏</button>
-      <button class="btn btn-xs btn-info" disabled="disabled" id="mnggame_show" data="{{ game.id }}">发布</button>
       {% else %}
-      <button class="btn btn-xs btn-info" disabled="disabled" id="mnggame_hide" data="{{ game.id }}">隐藏</button>
       <button class="btn btn-xs btn-success" id="mnggame_show" data="{{ game.id }}">发布</button>
       {% endif %}
     </td>
@@ -34,3 +33,12 @@
   {% endfor %}
   {% endif %}
 </table>
+</div>
+<div class="col-md-3">
+  <div class="bulletin">
+    <h3>游戏管理</h3><hr>
+    <p>
+      <button type="submit" class="btn btn-info" id="mngcatalog_new_game">新增游戏</button>
+    </p>
+  </div>
+</div>

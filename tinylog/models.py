@@ -47,10 +47,13 @@ class Author(models.Model):
 
 class Passage(models.Model):
     title = models.CharField(max_length = 128)
-    content = models.TextField()
-    enable_comment = models.BooleanField()
+    content = models.TextField()    
+    hot = models.IntegerField()
+    
+    visiable = models.BooleanField()
+    enable_comment = models.BooleanField()    
     front_flag = models.BooleanField()
-
+    
     create_date = models.DateField()
     update_date = models.DateField()
 

@@ -1,0 +1,36 @@
+<div class="col-sm-9">
+  <ol class="breadcrumb">
+    <li><a href="#">管理</a></li>
+    <li class="active">评论管理</li>
+  </ol>
+
+  <table class="table table-hover table-bordered table-striped table-condensed">
+    <tr>
+      <th class="text-center-align">序号</th>
+      <th class="text-center-align">文章</th>
+      <th class="text-center-align">评论</th>
+      <th class="text-center-align">作者</th>
+      <th class="text-center-align">时间</th>
+      <th class="text-center-align">基本操作</th>
+    </tr>
+    {% if comments %}
+    {% for comment in comments %}
+    <tr>
+      <td class="text-center-align">{{ comment.id }}</td>
+      <td>{{ comment.passage.title }}</td>
+      <td>{{ comment.content }}</td>
+      <td class="text-center-align">{{ comment.autor }}</td>
+      <td class="text-center-align">{{ comment.create_date }}</td>
+      <td class="text-center-align">
+        <button class="btn btn-xs btn-info" data="{{ comment.id }}" id="mngcomment_view">查看</button>
+        <button class="btn btn-xs btn-info" data="{{ comment.id }}" id="mngcomment_reply">回复</button>
+        <button class="btn btn-xs btn-danger" data="{{ comment.id }}" id="mngcomment_delete">删除</button>
+      </td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+  </table>
+  {{ page_count_block|safe }}
+</div>
+  <div class="col-sm-3"></div>
+</div>

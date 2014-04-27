@@ -35,7 +35,7 @@ def generate_mngcatalog_block():
         d['catalog'] = catalog
         d['passage_count'] = catalog.game_set.count()
         l = l + [d]
-        
+    d = {}
     d['catalogs'] = l
     t = get_template('mngcatalog.html')
     c = Context(d)
@@ -45,23 +45,55 @@ def generate_mngcatalog_block():
     
 def generate_mnglabel_block():
     settings = get_settings()
-    label = settings['pcatalogs']
+    labels = settings['labels']
         
     l = []
-    for catalog in pcatalogs:
+    for label in labels:
         d = {}
-        d['catalog'] = catalog
-        d['passage_count'] = catalog.passage_set.count()
-        l = l + [d]
-    
-    for catalog in gcatalogs:
-        d = {}
-        d['catalog'] = catalog
-        d['passage_count'] = catalog.game_set.count()
+        d['label'] = label
+        d['label_count'] = label.passage_set.count()
         l = l + [d]
         
-    d['catalogs'] = l
-    t = get_template('mngcatalog.html')
+    d = {}        
+    d['labels'] = l
+    t = get_template('mnglabel.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return h
+    
+def generate_mngcomment_block():
+    settings = get_settings()
+    setting = settings['setting']
+    comments = Comment.objects.all()[:setting.blog_display_count]
+    
+        
+    d = {}        
+    d['comments'] = comments
+    d['page_count_block'] = generate_comment_count_block()
+    t = get_template('mngcomment.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return h
+    
+def generate_mngpassage_block():
+    settings = get_settings()
+    
+    passages = settings['passages']
+    
+    l = []
+    for passage in passages:
+        d = {}
+        d['passage'] = passage
+        d['comment_count'] = passage.comment_set.count()
+        l = l + [d]
+        
+    d = {}        
+    d['passages'] = l
+    d['page_count_block'] = generate_passage_count_block()
+    
+    t = get_template('mngpassage.html')
     c = Context(d)
     h = t.render(c)
 

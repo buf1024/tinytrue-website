@@ -83,16 +83,16 @@ def mngpassage(req):
 
     setting = settings['setting']
     #title 数据填充
-    d['web_title'] = setting.title
-    #额外信息填充
-    d['extral_block'] = generate_login_extral_block()
+    d['web_title'] = setting.title + u' : 文章管理'
     #导航数据填充
     d['head_nav_block'] = generate_head_nav_block()
+    #文章管理填充
+    d['manage_block'] = generate_mngpassage_block()
     #填充脚注
     d['footer_block'] = generate_footer_block()
         
 
-    t = get_template('login.html')
+    t = get_template('manage.html')
     c = Context(d)
     h = t.render(c)
 
@@ -113,15 +113,15 @@ def mngcomment(req):
     setting = settings['setting']
     #title 数据填充
     d['web_title'] = setting.title
-    #额外信息填充
-    d['extral_block'] = generate_login_extral_block()
     #导航数据填充
     d['head_nav_block'] = generate_head_nav_block()
+    #评论管理
+    d['manage_block'] = generate_mngcomment_block()
     #填充脚注
     d['footer_block'] = generate_footer_block()
         
 
-    t = get_template('login.html')
+    t = get_template('manage.html')
     c = Context(d)
     h = t.render(c)
 
@@ -145,7 +145,7 @@ def mngcatalog(req):
     d['web_title'] = setting.title + u' : 分类管理'
     #导航数据填充
     d['head_nav_block'] = generate_head_nav_block()
-    #游戏管理
+    #分类管理
     d['manage_block'] = generate_mngcatalog_block()
     #填充脚注
     d['footer_block'] = generate_footer_block()
@@ -166,21 +166,21 @@ def mnglabel(req):
 
     if is_admin() == False:
         return HttpResponseRedirect('/manage/admin')
-        
+      
     d = {}
 
     setting = settings['setting']
     #title 数据填充
-    d['web_title'] = setting.title
-    #额外信息填充
-    d['extral_block'] = generate_login_extral_block()
+    d['web_title'] = setting.title + u' : 标签管理'
     #导航数据填充
     d['head_nav_block'] = generate_head_nav_block()
+    #标签管理
+    d['manage_block'] = generate_mnglabel_block()
     #填充脚注
     d['footer_block'] = generate_footer_block()
         
 
-    t = get_template('login.html')
+    t = get_template('manage.html')
     c = Context(d)
     h = t.render(c)
 
