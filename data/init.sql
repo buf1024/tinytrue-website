@@ -21,5 +21,17 @@ buf1024@gmail.com, Power by<a href="http://nginx.org/" target="_blank">nginx</a>
  insert into tinylog_user(id, name, password, email, create_date, update_date)
  values(1, 'buf1024', '111111', 'buf1024@gmail.com', '2014-01-01', '2014-01-01');
  
+ -- catalog
+delete from tinylog_catalog;
+insert into tinylog_catalog(id, name, "desc", "type", create_date, update_date)
+values(1, '2048', '2048 game', 2, '2014-01-01', '2014-01-01');
+insert into tinylog_catalog(id, name, "desc", "type", create_date, update_date)
+values(2, 'misc', '杂项', 1, '2014-01-01', '2014-01-01');
+ 
+ -- game
+ delete from tinylog_game;
+ insert into tinylog_game(id, name, "desc", image, visiable, hot, catalog_id)
+ values(1, '2048', 'an 2048 game', 'game/2048/game.png', 1, 0, 1);
+  
  commit;
  

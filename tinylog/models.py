@@ -128,10 +128,11 @@ class Game(models.Model):
     image = models.CharField(max_length = 128)
     visiable = models.BooleanField()
     
-    catalog = models.ForeignKey(Catalog)
-    
     #statistic
     hot = models.IntegerField()
+    
+    catalog = models.ForeignKey(Catalog)
+    
 
     def __unicode__(self):
         return name

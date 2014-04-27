@@ -82,29 +82,35 @@ def generate_passage_block():
 
     h = ''
     t = get_template('passage.html')
-    for passage in passages:
+    if len(passages) > 0:
+        for passage in passages:
+            d['has_passage'] = True
+            d['passage_id'] = passage.id
+            d['passage_title'] = passage.title
+            content = passage.content
+            if setting.blog_overview:
+                content = content[:setting.blog_overview_count]
+            d['passage_content'] = content
+
+            comments = passage.comment_set.all()
+            count = len(comments)
+            for comment in comments:
+                count += comment.comment_set.count()
+            d['passage_comment_count'] = count
+
+            cats = passage.catalog_set.all()
+            if len(cats) > 0:
+                d['passage_catolog'] = cats[0].name
+                    
+        
+            labels = passage.label_set.all()
+            d['passage_label_list'] = labels
+            
+            c = Context(d)        
+            h = h + t.render(c) + '\n'
+    else:
         d = {}
-        
-        d['passage_title'] = passage.title
-        content = passage.content
-        if setting.blog_overview:
-            content = content[:setting.blog_overview_count]
-        d['passage_content'] = content
-
-        comments = passage.comment_set.all()
-        count = len(comments)
-        for comment in comments:
-            count += comment.comment_set.count()
-        d['passage_comment_count'] = count
-
-        cats = passage.catalog_set.all()
-        if len(cats) > 0:
-            d['passage_catolog'] = cats[0].name
-                
-    
-        labels = passage.label_set.all()
-        d['passage_label_list'] = labels
-        
+        d['has_passage'] = False
         c = Context(d)        
         h = h + t.render(c) + '\n'
         

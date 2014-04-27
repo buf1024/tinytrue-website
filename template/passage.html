@@ -1,11 +1,11 @@
 <div class="passage">
-  {% if passage %}
-  <h2><a href="passage/{{ passage.id }}">{{ passage_title }}</a></h2>
+  {% if has_passage %}
+  <h2><a href="passage/{{ passage_id }}">{{ passage_title }}</a></h2>
   <p>{{ passage_content|safe }}</p>
   <p>
     <br>
     <div>
-      <a href="passage/{{ passage.id }}#comment"><span class="label label-success">评论({{ passage_comment_count }})</span></a>
+      <a href="passage/{{ passage_id }}#comment"><span class="label label-success">评论({{ passage_comment_count }})</span></a>
       {% if passage_catolog %}
       <a href="cat/{{ passage_catolog.name }}" title="{{ passage_catolog.desc }}"><span class="label label-primary">{{ passage_catolog.name }}</span></a>
       {% endif %}
@@ -16,5 +16,7 @@
       {% endif %}
     </div>
   </p>
+  {% else %}
+  <p><h2>SORRY，由于懒惰，还没有任何文章……</h2></p>
   {% endif %}
 </div>
