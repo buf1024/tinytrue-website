@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <title>{{ web_title }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/bigfalse.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" type="text/css" href="/css/bigfalse.css" />
+</head>
+<body>
+  {{ extral_block|safe }}
+  {{ head_nav_block|safe }}
+  <hr>
+  <hr>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+       <form class="form-horizontal" role="form" method="post" id="admin-form-login" action="/login">
+          <div class="form-group">
+              <label for="inputEmail" class="col-sm-3 control-label">邮箱(*)</label>
+              <div class="col-sm-9">
+              <input type="email" class="form-control" name="email" id="inputEmail" placeholder="电子邮箱">
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="inputPassword" class="col-sm-3 control-label">密码(*)</label>
+              <div class="col-sm-9">
+              <input type="password" class="form-control" name="password" id="inputPassword" placeholder="密码">
+              </div>
+          </div>
+          <div class="form-group">
+              <div class="form-login-submit-align">
+              <button class="btn btn-sm btn-info" id="admin-login-summit">登录</button>
+              </div>
+              <div class="form-login-check-align">
+              <div class="checkbox">
+                  <label>
+                  <input type="checkbox">记住登陆状态
+                  </label>
+              </div>
+              </div>
+          </div>
+          </form>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+  </div>
+  <hr>
+  {{ footer_block|safe }}
+</body>
+</html>

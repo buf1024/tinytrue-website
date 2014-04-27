@@ -1,0 +1,36 @@
+<ol class="breadcrumb">
+  <li><a href="#">管理</a></li>
+  <li class="active">游戏管理</li>
+</ol>
+<table class="table table-hover table-bordered table-striped table-condensed">
+  <tr>
+    <th class="text-center-align">序号</th>
+    <th class="text-center-align">名称</th>
+    <th class="text-center-align">描述</th>
+    <th class="text-center-align">分类</th>
+    <th class="text-center-align">游戏次数</th>
+    <th class="text-center-align">基本操作</th>
+  </tr>
+  {% if games %}
+  {% for game in games %}
+  <tr>
+    <td class="text-center-align">{{ game.id}}</td>
+    <td>{{ game.name }}</td>
+    <td>{{ game.desc }}</td>
+    <td>{{ game.catalog.name }}</td>
+    <td class="text-center-align">{{ game.hot }}</td>
+    <td class="text-center-align">
+      <button class="btn btn-xs btn-info" id="mnggame_modify" data="{{ game.id }}">修改</button>
+      <button class="btn btn-xs btn-danger" id="mnggame_delete" data="{{ game.id }}">删除</button>
+      {% if game.visiable %}
+      <button class="btn btn-xs btn-success" id="mnggame_hide" data="{{ game.id }}">隐藏</button>
+      <button class="btn btn-xs btn-info" disabled="disabled" id="mnggame_show" data="{{ game.id }}">发布</button>
+      {% else %}
+      <button class="btn btn-xs btn-info" disabled="disabled" id="mnggame_hide" data="{{ game.id }}">隐藏</button>
+      <button class="btn btn-xs btn-success" id="mnggame_show" data="{{ game.id }}">发布</button>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+  {% endif %}
+</table>

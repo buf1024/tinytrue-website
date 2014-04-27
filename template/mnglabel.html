@@ -1,0 +1,28 @@
+<ol class="breadcrumb">
+  <li><a href="#">管理</a></li>
+  <li class="active">标签管理</li>
+</ol>
+
+<table class="table table-hover table-bordered table-striped table-condensed">
+  <tr>
+    <th class="text-center-align">序号</th>
+    <th class="text-center-align">标签</th>
+    <th class="text-center-align">描述</th>
+    <th class="text-center-align">归属数</th>
+    <th class="text-center-align">基本操作</th>
+  </tr>
+  {% if labels %}
+  {% for label in labels %}
+  <tr>
+    <td class="text-center-align">{{ label.label.id }}</td>
+    <td>{{ label.label.name }}</td>
+    <td>{{ label.label.desc }}</td>
+    <td class="text-center-align">{{ label.label_count }}</td>
+    <td class="text-center-align">
+      <button type="submit" class="btn btn-xs btn-info" id="mnglabel-modidy">修改</button>
+      <button type="submit" class="btn btn-xs btn-danger" id="mnglabel-delete">删除</button>
+    </td>
+  </tr>
+  {% endfor %}
+  {% endif %}
+</table>
