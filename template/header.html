@@ -12,7 +12,7 @@
           </a>
           <ul class="dropdown-menu">
             {% for game in games %}
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="/game/{{ game.catalog.name }}">{{ game.name }}</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/game/{{ game.name }}">{{ game.name }}</a></li>
             {% endfor %}
             <li role="presentation" class="divider"></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="/game/more">更多……</a></li>

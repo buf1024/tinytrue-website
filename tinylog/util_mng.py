@@ -43,7 +43,7 @@ def generate_mngcatalog_block():
 
     return h
     
-def generate_mngcatalog_block():
+def generate_mnglabel_block():
     settings = get_settings()
     label = settings['pcatalogs']
         

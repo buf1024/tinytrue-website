@@ -76,6 +76,9 @@ def mngpassage(req):
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
+    if is_admin() == False:
+        return HttpResponseRedirect('/manage/admin')
+    
     d = {}
 
     setting = settings['setting']
@@ -101,7 +104,10 @@ def mngcomment(req):
     #第一次启动初始化数据
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
-
+    
+    if is_admin() == False:
+        return HttpResponseRedirect('/manage/admin')
+        
     d = {}
 
     setting = settings['setting']
@@ -129,6 +135,9 @@ def mngcatalog(req):
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
+    if is_admin() == False:
+        return HttpResponseRedirect('/manage/admin')
+    
     d = {}
 
     setting = settings['setting']
@@ -155,6 +164,9 @@ def mnglabel(req):
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
+    if is_admin() == False:
+        return HttpResponseRedirect('/manage/admin')
+        
     d = {}
 
     setting = settings['setting']
@@ -181,6 +193,9 @@ def mngsetting(req):
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
+    if is_admin() == False:
+        return HttpResponseRedirect('/manage/admin')
+        
     d = {}
 
     setting = settings['setting']
@@ -207,6 +222,9 @@ def mnggame(req):
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
+    if is_admin() == False:
+        return HttpResponseRedirect('/manage/admin')
+        
     d = {}
 
     setting = settings['setting']
