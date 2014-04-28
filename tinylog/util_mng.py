@@ -98,3 +98,36 @@ def generate_mngpassage_block():
     h = t.render(c)
 
     return h
+    
+def generate_mngsetting_block():
+    settings = get_settings()
+    
+    setting = settings['setting']
+    
+    d = {}        
+    d['setting'] = setting
+    modules = Module.objects.all()
+        
+    l = len(modules)
+    
+    lst = []
+    if l > 0:
+        lst_tmp = []
+        for i in range(l):
+            module = modules[i]
+            if (i + 1) % 4 == 0:
+                lst.append(lst_tmp)
+                lst_tmp = []
+            lst_tmp.append(module)
+        if len(lst_tmp) > 0:
+            lst.append(lst_tmp)
+    d['modules'] = lst
+    
+    t = get_template('mngsetting.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return h
+    
+    
+    

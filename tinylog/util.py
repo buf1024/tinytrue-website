@@ -13,14 +13,14 @@ _g_last_time = 0
 
 _g_settings = {}
 
-def get_settings():
+def get_settings(is_force = False):
     
     global _g_last_time
     global _g_read_interval
     
     now = int(time())
     diff = now - _g_last_time
-    if len(_g_settings) <= 0 or diff >= _g_read_interval:
+    if len(_g_settings) <= 0 or diff >= _g_read_interval or is_force:
         _g_last_time = now
         
         settings = Settings.objects.all()

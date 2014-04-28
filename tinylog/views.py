@@ -70,7 +70,7 @@ def admin(req):
     return HttpResponse(h)
     
 def mngpassage(req):
-    settings = get_settings();
+    settings = get_settings(True);
 
     #第一次启动初始化数据
     if len(settings) == 0:
@@ -99,7 +99,7 @@ def mngpassage(req):
     return HttpResponse(h)
     
 def mngcomment(req):
-    settings = get_settings();
+    settings = get_settings(True);
 
     #第一次启动初始化数据
     if len(settings) == 0:
@@ -129,7 +129,7 @@ def mngcomment(req):
     
     
 def mngcatalog(req):
-    settings = get_settings();
+    settings = get_settings(True);
 
     #第一次启动初始化数据
     if len(settings) == 0:
@@ -158,7 +158,7 @@ def mngcatalog(req):
     return HttpResponse(h)
     
 def mnglabel(req):
-    settings = get_settings();
+    settings = get_settings(True);
 
     #第一次启动初始化数据
     if len(settings) == 0:
@@ -187,7 +187,7 @@ def mnglabel(req):
     return HttpResponse(h)
     
 def mngsetting(req):
-    settings = get_settings();
+    settings = get_settings(True);
 
     #第一次启动初始化数据
     if len(settings) == 0:
@@ -201,22 +201,22 @@ def mngsetting(req):
     setting = settings['setting']
     #title 数据填充
     d['web_title'] = setting.title
-    #额外信息填充
-    d['extral_block'] = generate_login_extral_block()
     #导航数据填充
     d['head_nav_block'] = generate_head_nav_block()
+    #设置数据填充
+    d['manage_block'] = generate_mngsetting_block()
     #填充脚注
     d['footer_block'] = generate_footer_block()
         
 
-    t = get_template('login.html')
+    t = get_template('manage.html')
     c = Context(d)
     h = t.render(c)
 
     return HttpResponse(h)
    
 def mnggame(req):
-    settings = get_settings();
+    settings = get_settings(True);
 
     #第一次启动初始化数据
     if len(settings) == 0:
