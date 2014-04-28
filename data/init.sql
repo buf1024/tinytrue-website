@@ -3,12 +3,12 @@ begin;
 -- settings
 delete from tinylog_settings;
 insert into tinylog_settings(id, title, brand, copy_info, blog_display_count,
-blog_notify, blog_overview, blog_overview_count, game_menu_count)
+blog_notify, blog_overview, game_menu_count)
 values (1, 'the bigfalse small website', 'BIGFALSE', '<em>Copyright &copy; 
 buf1024@gmail.com, Power by<a href="http://nginx.org/" target="_blank">nginx</a>
  &&<a href="http://www.raspberrypi.org/" target="_blank">raspbery pi</a> && 
  <a href="http://pidora.ca/" target="_blank">pidaro</a>.</em>', 10,
- 1, 0, 500, 5);
+ 1, 0, 5);
  
  -- modules
  delete from tinylog_module;

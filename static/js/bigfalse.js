@@ -3,6 +3,8 @@ $(function () {
 });
 
 function tiny_setup() {
+    //editor
+    tinymce.init({selector:"#tinymce_editor"});
     $('#nav-menu-nogame').click(nav_menu_nogame);
     $('#admin-login-summit').click(admin_login_submit);
 }
@@ -28,3 +30,5 @@ function admin_login_submit() {
     }
     return pass;
 }
+
+/**/

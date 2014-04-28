@@ -13,6 +13,10 @@ _g_last_time = 0
 
 _g_settings = {}
 
+def get_standard_jss():
+    return 
+
+        
 def get_settings(is_force = False):
     
     global _g_last_time
@@ -40,9 +44,11 @@ def get_settings(is_force = False):
             _g_settings['pcatalogs'] = pcatalogs
             _g_settings['gcatalogs'] = gcatalogs
             _g_settings['labels'] = labels
+            
+            _g_settings['standarjs'] = ['/js/jquery-2.0.0.min.js', '/js/bootstrap.min.js', '/js/bigfalse.js']
+            _g_settings['standarcss'] = ['/css/bootstrap.min.css', '/css/bootstrap-theme.min.css', '/css/bigfalse.css']
 
     return _g_settings
-
 
 def generate_home_extral_block():
     settings = get_settings()
@@ -86,7 +92,7 @@ def generate_head_nav_block():
     d['games'] = games
     d['admin'] = is_admin()
 
-    t = get_template('header.html')
+    t = get_template('nav.html')
     c = Context(d)
     h = t.render(c)
 

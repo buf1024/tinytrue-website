@@ -115,7 +115,7 @@ def generate_mngsetting_block():
         lst_tmp = []
         for i in range(l):
             module = modules[i]
-            if (i + 1) % 4 == 0:
+            if (i + 1) % 3 == 0:
                 lst.append(lst_tmp)
                 lst_tmp = []
             lst_tmp.append(module)

@@ -34,20 +34,10 @@ class Archive(models.Model):
     def __unicode__(self):
         return self.year + '-' + self.month
 
-class Author(models.Model):
-    name = models.CharField(max_length = 64)
-    email = models.EmailField()
-    web_url = models.URLField()
-    
-    create_date = models.DateField()
-    update_date = models.DateField()
-    
-    def __unicode__(self):
-        return self.name
-
 class Passage(models.Model):
     title = models.CharField(max_length = 128)
-    content = models.TextField()    
+    content = models.TextField()
+    summary = models.TextField()    
     hot = models.IntegerField()
     
     visiable = models.BooleanField()
@@ -60,7 +50,6 @@ class Passage(models.Model):
     catalog = models.ForeignKey(Catalog)
     labels = models.ManyToManyField(Label)
     archive = models.ForeignKey(Archive)
-    author = models.ForeignKey(Author)
 
     def __unicode__(self):
         return self.title
@@ -89,7 +78,6 @@ class Settings(models.Model):
     blog_display_count = models.IntegerField()
     blog_notify = models.BooleanField()
     blog_overview = models.BooleanField()
-    blog_overview_count = models.IntegerField()
   
     #game setting
     game_menu_count = models.IntegerField()
