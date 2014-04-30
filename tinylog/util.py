@@ -13,10 +13,7 @@ _g_last_time = 0
 
 _g_settings = {}
 
-def get_standard_jss():
-    return 
-
-        
+       
 def get_settings(is_force = False):
     
     global _g_last_time
@@ -32,9 +29,9 @@ def get_settings(is_force = False):
             setting = settings[0]
             modules = Module.objects.filter(visiable=True)
             games = Game.objects.filter(visiable=True)[:setting.game_menu_count]
-            passages = Passage.objects.order_by('-front_flag').order_by('-update_date')[:setting.blog_display_count]
-            pcatalogs = Catalog.objects.filter(type=1)
-            gcatalogs = Catalog.objects.filter(type=2)
+            passages = Passage.objects.order_by('-front_flag').order_by('-update_time')[:setting.blog_display_count]
+            pcatalogs = Catalog.objects.filter(type=1).order_by('-update_time')
+            gcatalogs = Catalog.objects.filter(type=2).order_by('-update_time')
             labels = Label.objects.all()
 
             _g_settings['setting'] = setting
@@ -45,12 +42,32 @@ def get_settings(is_force = False):
             _g_settings['gcatalogs'] = gcatalogs
             _g_settings['labels'] = labels
             
-            _g_settings['standarjs'] = ['/js/jquery-2.0.0.min.js', '/js/bootstrap.min.js', '/js/bigfalse.js']
-            _g_settings['standarcss'] = ['/css/bootstrap.min.css', '/css/bootstrap-theme.min.css', '/css/bigfalse.css']
+            _g_settings['stdjss'] = ['/js/jquery-2.0.0.min.js', '/js/bootstrap.min.js', '/js/bigfalse.js']
+            _g_settings['stdcss'] = ['/css/bootstrap.min.css', '/css/bootstrap-theme.min.css', '/css/bigfalse.css']
 
     return _g_settings
 
-def generate_home_extral_block():
+def get_header_block(webtitle, extjs = None, extcss = None):
+    settings = get_settings()
+            
+    d = {}
+    
+    d['webtitle'] = webtitle
+    
+    d['mstdjss'] = settings['stdjss']
+    d['mstdcss'] = settings['stdcss']
+    
+    d['mextjs'] = extjs
+    d['mextcss'] = extcss
+       
+    
+    t = get_template('header.html')
+    c = Context(d)
+    h = t.render(c)
+    
+    return h
+    
+def get_home_extral_block():
     settings = get_settings()
     games = settings['games']
     
@@ -66,21 +83,9 @@ def generate_home_extral_block():
         c = Context(d)
         h = t.render(c)
 
-    return h;
-
-def generate_login_extral_block():
-    d = {}
-    d['dialog_title'] = r'错误'
-    d['dialog_body'] = r'<h3>邮件或密码为空，请重新输入!</h3>'
-    d['dialog_buttongs'] = False
-
-    t = get_template('dialog.html')
-    c = Context(d)
-    h = t.render(c)
-
-    return h;
-    
-def generate_head_nav_block():
+    return h
+   
+def get_nav_block():
     settings = get_settings()
     setting = settings['setting']
     
@@ -96,9 +101,9 @@ def generate_head_nav_block():
     c = Context(d)
     h = t.render(c)
 
-    return h;
+    return h
 
-def generate_passage_block():
+def get_passage_block():
     settings = get_settings()
     setting = settings['setting']
     passages = settings['passages']
@@ -137,9 +142,9 @@ def generate_passage_block():
         c = Context(d)        
         h = h + t.render(c) + '\n'
         
-    return h;
+    return h
 
-def generate_passage_count_block():
+def get_passage_count_block():
     settings = get_settings()
     setting = settings['setting']
     
@@ -159,7 +164,7 @@ def generate_passage_count_block():
 
     return h;
     
-def generate_comment_count_block():
+def get_comment_count_block():
     settings = get_settings()
     setting = settings['setting']
     
@@ -177,11 +182,11 @@ def generate_comment_count_block():
         c = Context(d)
         h = t.render(c)
 
-    return h;
-def generate_module(module):
-    return ''
+    return h
     
-def generate_bulletins_block():
+def get_module(module):
+    pass
+def get_bulletins_block():
     settings = get_settings()
     setting = settings['setting']
     
@@ -189,11 +194,11 @@ def generate_bulletins_block():
     
     h = ''
     for module in modules:
-        h = generate_module(module)
+        h = get_module(module)
 
-    return h;
+    return h
 
-def generate_footer_block():
+def get_footer_block():
     settings = get_settings()
 
     setting = settings['setting']
@@ -205,7 +210,33 @@ def generate_footer_block():
     c = Context(d)
     h = t.render(c)
 
-    return h;
+    return h
 
+def get_confirm_dialog():
+    
+    d = {}
+    d['dialog_id'] = 'dialog_confirm'
+    d['dialog_title_id'] = 'dialog_confirm_title'
+    d['dialog_body_id'] = 'dialog_confirm_body'
+    
+    d['dialog_title'] = u'确认'
+    d['dialog_body'] = u'<h2>操作不可逆，是否确定？</h2>'
+    
+    btn_no = {}
+    btn_no['id'] = 'dialog_confirm_no'
+    btn_no['title'] = u'取消'
+    
+    btn_yes = {}
+    btn_yes['id'] = 'dialog_confirm_yes'
+    btn_yes['title'] = u'确定'
+    
+    d['btns'] = [btn_no, btn_yes]
+
+    t = get_template('dialog.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return h
+    
 def is_admin():
     return True

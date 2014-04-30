@@ -74,9 +74,9 @@
           <div class="checkbox">
             <label>
               {% if submodule.visiable %}
-              <input type="checkbox" checked="checked" id="setting_opt_module" data="{{submodule.id}}"> {{submodule.name}}
+              <input type="checkbox" checked="checked" id="setting_opt_module_{{submodule.id}}" data="{{submodule.id}}"> {{submodule.name}}
               {% else %}
-              <input type="checkbox" id="setting_opt_module" data="{{submodule.id}}"> {{submodule.name}}
+              <input type="checkbox" id="setting_opt_module_{{submodule.id}}" data="{{submodule.id}}"> {{submodule.name}}
               {% endif %}
             </label>
           </div>
@@ -86,12 +86,12 @@
       {% endfor %}
     </fieldset>
     {% endif %}
-    <hr>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" id="setting_opt_submit" class="btn btn-info">提交</button>
-      </div>
-    </div>
   </form>
+  <hr>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button id="setting_opt_submit" class="btn btn-info" data="{{setting.id}}">提交</button>
+    </div>
+  </div>  
 </div>
 <div class="col-sm-3"></div>

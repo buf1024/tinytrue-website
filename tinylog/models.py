@@ -11,8 +11,8 @@ class Catalog(models.Model):
     #1 ²©¿Í 2 ÓÎÏ·
     type = models.IntegerField()
     
-    create_date = models.DateField()
-    update_date = models.DateField()
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
 
     def __unicode__(self):
         return self.name
@@ -21,8 +21,8 @@ class Label(models.Model):
     name = models.CharField(max_length = 32)
     desc = models.CharField(max_length = 512)
     
-    create_date = models.DateField()
-    update_date = models.DateField()
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
     
     def __unicode__(self):
         return self.name
@@ -44,8 +44,8 @@ class Passage(models.Model):
     enable_comment = models.BooleanField()    
     front_flag = models.BooleanField()
     
-    create_date = models.DateField()
-    update_date = models.DateField()
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
 
     catalog = models.ForeignKey(Catalog)
     labels = models.ManyToManyField(Label)
@@ -61,7 +61,7 @@ class Comment(models.Model):
     ip_address = models.IPAddressField()
     visiable = models.IPAddressField()
     
-    create_date = models.DateField()
+    create_time = models.DateTimeField()
     
     passage = models.ForeignKey(Passage)
     parent = models.ForeignKey('self')
@@ -95,8 +95,8 @@ class Module(models.Model):
     visiable = models.BooleanField()
     display_count = models.IntegerField()
     
-    create_date = models.DateField()
-    update_date = models.DateField()
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
 
     def __unicode__(self):
         return self.name
@@ -106,8 +106,8 @@ class User(models.Model):
     password = models.CharField(max_length = 128)
     email = models.EmailField()
     
-    create_date = models.DateField()
-    update_date = models.DateField()
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
     
     def __unicode__(self):
         return self.name

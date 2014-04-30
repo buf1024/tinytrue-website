@@ -16,14 +16,14 @@
   {% if catalogs %}
   {% for catalog in catalogs %}
   <tr>
-    <td class="text-center-align">{{ catalog.catalog.id }}</td>
+    <td class="text-center-align">{{ forloop.counter }}</td>
     <td>{{ catalog.catalog.name }}</td>
     <td>{{ catalog.catalog.desc }}</td>
     <td class="text-center-align">{{ catalog.catalog.type }}</td>
     <td class="text-center-align">{{ catalog.passage_count }}</td>
     <td class="text-center-align">
-      <button type="submit" class="btn btn-xs btn-info" data="{{ catalog.catalog.id }}" id="mngcatalog_modify">修改</button>
-      <button type="submit" class="btn btn-xs btn-danger" data="{{ catalog.catalog.id }}" id="mngcatalog_delete">删除</button>
+      <button class="btn btn-xs btn-info" data="{{ catalog.catalog.id }}" id="mngcatalog_modify_{{ catalog.catalog.id }}">修改</button>
+      <button class="btn btn-xs btn-danger" data="{{ catalog.catalog.id }}" id="mngcatalog_delete_{{ catalog.catalog.id }}">删除</button>
     </td>
   </tr>
   {% endfor %}
@@ -34,7 +34,7 @@
   <div class="bulletin">
     <h3>分类管理</h3><hr>
     <p>
-      <button type="submit" class="btn btn-info" id="mngcatalog_new_catalog">新增分类</button>
+      <button class="btn btn-info" id="mngcatalog_new_catalog">新增分类</button>
     </p>
   </div>
 </div>

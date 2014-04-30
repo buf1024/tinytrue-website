@@ -3,15 +3,8 @@ $(function () {
 });
 
 function tiny_setup() {
-    //editor
-    tinymce.init({selector:"#tinymce_editor"});
-    $('#nav-menu-nogame').click(nav_menu_nogame);
-    $('#admin-login-summit').click(admin_login_submit);
 }
 
-function nav_menu_nogame() {
-	$('#glabal_dialog').modal();
-}
 
 function admin_login_submit() {
     var email$ = $('#inputEmail')[0];

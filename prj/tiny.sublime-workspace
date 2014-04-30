@@ -314,6 +314,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"update_date",
+			"create_date",
 			"generate_passage_block",
 			"game_list",
 			"ManytoMany",
@@ -343,6 +345,8 @@
 		"regex": true,
 		"replace_history":
 		[
+			"update_time",
+			"create_time",
 			"games",
 			"ManyToManyField",
 			"ManytoMany",

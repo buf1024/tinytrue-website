@@ -13,20 +13,20 @@ buf1024@gmail.com, Power by<a href="http://nginx.org/" target="_blank">nginx</a>
  -- modules
  delete from tinylog_module;
  insert into tinylog_module(id, name, title, "desc", visiable, display_count, 
-    create_date, update_date)
- values(1, 'comment', '评论列表', '评论列表', 1, 5, '2014-01-01', '2014-01-01');
+    create_time, update_time)
+ values(1, 'comment', '评论列表', '评论列表', 1, 5, '2014-01-01 00:00:00', '2014-01-01 00:00:00');
  
  -- admin user
  delete from tinylog_user;
- insert into tinylog_user(id, name, password, email, create_date, update_date)
- values(1, 'buf1024', '111111', 'buf1024@gmail.com', '2014-01-01', '2014-01-01');
+ insert into tinylog_user(id, name, password, email, create_time, update_time)
+ values(1, 'buf1024', '111111', 'buf1024@gmail.com', '2014-01-01 00:00:00', '2014-01-01 00:00:00');
  
  -- catalog
 delete from tinylog_catalog;
-insert into tinylog_catalog(id, name, "desc", "type", create_date, update_date)
-values(1, '2048', '2048 game', 2, '2014-01-01', '2014-01-01');
-insert into tinylog_catalog(id, name, "desc", "type", create_date, update_date)
-values(2, 'misc', '杂项', 1, '2014-01-01', '2014-01-01');
+insert into tinylog_catalog(id, name, "desc", "type", create_time, update_time)
+values(1, '2048', '2048 game', 2, '2014-01-01', '2014-01-01 00:00:00');
+insert into tinylog_catalog(id, name, "desc", "type", create_time, update_time)
+values(2, 'misc', '杂项', 1, '2014-01-01', '2014-01-01 00:00:00');
  
  -- game
  delete from tinylog_game;

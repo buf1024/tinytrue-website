@@ -31,6 +31,15 @@ urlpatterns = patterns('',
     url(r'^manage/label$', 'tinylog.views.mnglabel'),
     url(r'^manage/setting$', 'tinylog.views.mngsetting'),
     url(r'^manage/game$', 'tinylog.views.mnggame'),
+    
+    #catalog
+    url(r'^manage/catalog/(\d+)\.json$', 'tinylog.views.req_catalog'),
+    url(r'^manage/catalog/new$', 'tinylog.views.new_catalog'),
+    url(r'^manage/catalog/update$', 'tinylog.views.update_catalog'),
+    url(r'^manage/catalog/delete$', 'tinylog.views.del_catalog'),
+    
+    #setting
+    url(r'^manage/setting/update$', 'tinylog.views.update_setting'),
     )
 
 if tinytrue.settings.DEBUG:

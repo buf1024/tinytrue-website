@@ -2,9 +2,9 @@
     <form class="form-horizontal" role="form">
       <fieldset>
         <div class="form-group">
-          <label for="mngpassage_passage_title" class="col-sm-2 control-label">标题</label>
+          <label for="mngpassage_passage_title" class="col-sm-2 control-label">鏍囬</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="mngpassage_passage_title" placeholder="文章标题">
+            <input type="text" class="form-control" id="mngpassage_passage_title" placeholder="鏂囩珷鏍囬">
           </div>
         </div>
         <div class="form-group">
@@ -15,7 +15,7 @@
       </fieldset>
       <fieldset>
         <div class="form-group">
-          <label for="mngpassage_passage_title" class="col-sm-2 control-label">文章分类: </label>
+          <label for="mngpassage_passage_title" class="col-sm-2 control-label">鏂囩珷鍒嗙被: </label>
           <div class="col-sm-5">
             <select class="form-control" id="mngpassage_passage_catalog">
               {% if catalogs %}
@@ -23,7 +23,7 @@
               <option>{{ catalog.name }}</option>
               {% endfor %}
               {% endif }
-              <option id="mngpassage_passage_catalog_more">新建分类</option>
+              <option id="mngpassage_passage_catalog_more">鏂板缓鍒嗙被</option>
             </select>
           </div>
           <div class="col-sm-5"></div>              
@@ -33,38 +33,38 @@
           <div class="col-sm-3">
             <div class="checkbox">
               <label>
-                <input type="checkbox" checked="checked" id="mngpassage_passage_visable"> 发布                    
+                <input type="checkbox" checked="checked" id="mngpassage_passage_visable"> 鍙戝竷                    
               </label>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="checkbox">
               <label>
-                <input type="checkbox" checked="checked" id="mngpassage_passage_visable"> 置顶                    
+                <input type="checkbox" checked="checked" id="mngpassage_passage_visable"> 缃《                    
               </label>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="checkbox">
               <label>
-                <input type="checkbox" checked="checked" id="mngpassage_passage_commentable"> 允许评论                    
+                <input type="checkbox" checked="checked" id="mngpassage_passage_commentable"> 鍏佽璇勮                    
               </label>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="mngpassage_passage_summary" class="col-sm-2 control-label">摘要</label>
+          <label for="mngpassage_passage_summary" class="col-sm-2 control-label">鎽樿</label>
           <div class="col-sm-10">                
             <textarea class="form-control" id="mngpassage_passage_summary" rows="8"></textarea>
           </div>
         </div>
         <div class="form-group">
-          <label for="mngpassage_passage_tags" class="col-sm-2 control-label">标签(;分隔)</label>
+          <label for="mngpassage_passage_tags" class="col-sm-2 control-label">鏍囩(;鍒嗛殧)</label>
           <div class="col-sm-8">                
-            <input type="text"  class="form-control" id="mngpassage_passage_tags" placeholder="插入标签(;分隔)">
+            <input type="text"  class="form-control" id="mngpassage_passage_tags" placeholder="鎻掑叆鏍囩(;鍒嗛殧)">
           </div>
           <div class="col-sm-2">                
-            <button class="btn btn-info" id="mngpassage_passage_insert_tag">插入已有标签</button>
+            <button class="btn btn-info" id="mngpassage_passage_insert_tag">鎻掑叆宸叉湁鏍囩</button>
           </div>
         </div>
       </fieldset>
