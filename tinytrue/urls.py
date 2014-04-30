@@ -40,6 +40,12 @@ urlpatterns = patterns('',
     
     #setting
     url(r'^manage/setting/update$', 'tinylog.views.update_setting'),
+    
+    #label
+    url(r'^manage/label/(\d+)\.json$', 'tinylog.views.req_label'),
+    url(r'^manage/label/new$', 'tinylog.views.new_label'),
+    url(r'^manage/label/update$', 'tinylog.views.update_label'),
+    url(r'^manage/label/delete$', 'tinylog.views.del_label'),
     )
 
 if tinytrue.settings.DEBUG:

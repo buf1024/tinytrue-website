@@ -21,12 +21,12 @@
     <td>{{ game.catalog.name }}</td>
     <td class="text-center-align">{{ game.hot }}</td>
     <td class="text-center-align">
-      <button class="btn btn-xs btn-info" id="mnggame_modify" data="{{ game.id }}">修改</button>
-      <button class="btn btn-xs btn-danger" id="mnggame_delete" data="{{ game.id }}">删除</button>
+      <button class="btn btn-xs btn-info" id="mnggame_modify_{{ game.id }}" data="{{ game.id }}">修改</button>
+      <button class="btn btn-xs btn-danger" id="mnggame_delete_{{ game.id }}" data="{{ game.id }}">删除</button>
       {% if game.visiable %}
-      <button class="btn btn-xs btn-success" id="mnggame_hide" data="{{ game.id }}">隐藏</button>
+      <button class="btn btn-xs btn-success" id="mnggame_hide_{{ game.id }}" data="{{ game.id }}">隐藏</button>
       {% else %}
-      <button class="btn btn-xs btn-success" id="mnggame_show" data="{{ game.id }}">发布</button>
+      <button class="btn btn-xs btn-success" id="mnggame_show_{{ game.id }}" data="{{ game.id }}">发布</button>
       {% endif %}
     </td>
   </tr>

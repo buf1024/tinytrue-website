@@ -40,7 +40,7 @@ def get_mngcatalog_block():
 def get_calalog_form(id = None):
     cat = None
     if id != None:
-        cat = Catalog.objects.filter(id=id)
+        cat = Catalog.objects.get(id=id)
     
     d = {}
     d['catalog'] = cat
@@ -89,10 +89,9 @@ def req_catalog(req, ctx):
     if is_admin() == False:
         return HttpResponseRedirect('/manage/admin')
         
-    objs = Catalog.objects.filter(id=ctx)
+    obj = Catalog.objects.get(id=ctx)
     d = {}
-    if len(objs) > 0:
-        obj = objs[0]
+    if obj != None:
         d['id'] = obj.id
         d['name'] = obj.name
         d['desc'] = obj.desc

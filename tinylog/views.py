@@ -17,30 +17,23 @@ from tinylog.util_setting import *
 from tinylog.util_passage import *
 
 def home(req):
-    settings = get_settings();
+    settings = get_settings()
 
-    #第一次启动初始化数据
+    
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
     d = {}
 
     setting = settings['setting']
-    #title 数据填充
-    d['header_block'] = get_header_block(setting.title)
-    #额外信息填充
-    d['extral_block'] = get_home_extral_block()
     
+    d['header_block'] = get_header_block(setting.title)    
+    d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block()    
-    #文章数据填充
-    d['passages_block'] = get_passage_block()
-    #文章数填充
-    d['passage_count_block'] = get_passage_count_block()
-    #模块数据填充
-    d['bulletins_block'] = get_bulletins_block()
-    
-    d['footer_block'] = get_footer_block()
-        
+    d['passages_block'] = get_passage_block()    
+    d['passage_count_block'] = get_passage_count_block()    
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
 
     t = get_template('home.html')
     c = Context(d)
@@ -52,9 +45,9 @@ def install(req):
     return HttpResponse('not implement')
     
 def admin(req):
-    settings = get_settings();
+    settings = get_settings()
 
-    #第一次启动初始化数据
+    
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
@@ -62,16 +55,11 @@ def admin(req):
 
     setting = settings['setting']
     
-    d['header_block'] = get_header_block(setting.title + u' : 登录')
-    #额外信息填充
-    d['extral_block'] = get_login_extral_block()
-    
+    d['header_block'] = get_header_block(setting.title + u' : 登录')    
+    d['extral_block'] = get_login_extral_block()    
     d['nav_block'] = get_nav_block()
-    #登陆数据填充
-    d['content_block'] = get_mnglogin_block();
-    
-    d['footer_block'] = get_footer_block()
-        
+    d['content_block'] = get_mnglogin_block()    
+    d['footer_block'] = get_footer_block()        
 
     t = get_template('general.html')
     c = Context(d)
@@ -80,9 +68,9 @@ def admin(req):
     return HttpResponse(h)
     
 def mngpassage(req):
-    settings = get_settings(True);
+    settings = get_settings(True)
 
-    #第一次启动初始化数据
+    
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
@@ -93,15 +81,11 @@ def mngpassage(req):
 
     setting = settings['setting']
     
-    d['header_block'] = get_header_block(setting.title + u' : 文章管理')
-    
+    d['header_block'] = get_header_block(setting.title + u' : 文章管理')    
     d['nav_block'] = get_nav_block()
-    #文章管理填充
     d['content_block'] = get_mngpassage_block()
-    
     d['footer_block'] = get_footer_block()
-        
-
+    
     t = get_template('general.html')
     c = Context(d)
     h = t.render(c)
@@ -109,9 +93,9 @@ def mngpassage(req):
     return HttpResponse(h)
     
 def mngcomment(req):
-    settings = get_settings(True);
+    settings = get_settings(True)
 
-    #第一次启动初始化数据
+    
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
     
@@ -120,16 +104,11 @@ def mngcomment(req):
         
     d = {}
 
-    setting = settings['setting']
-    
-    d['header_block'] = get_header_block(setting.title + u' : 评论管理')
-    
+    setting = settings['setting']    
+    d['header_block'] = get_header_block(setting.title + u' : 评论管理')    
     d['nav_block'] = get_nav_block()
-    #评论管理
-    d['content_block'] = get_mngcomment_block()
-    
-    d['footer_block'] = get_footer_block()
-        
+    d['content_block'] = get_mngcomment_block()    
+    d['footer_block'] = get_footer_block()        
 
     t = get_template('general.html')
     c = Context(d)
@@ -139,9 +118,9 @@ def mngcomment(req):
     
     
 def mngcatalog(req):
-    settings = get_settings(True);
+    settings = get_settings(True)
 
-    #第一次启动初始化数据
+    
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
@@ -166,9 +145,9 @@ def mngcatalog(req):
     return HttpResponse(h)
     
 def mnglabel(req):
-    settings = get_settings(True);
+    settings = get_settings(True)
 
-    #第一次启动初始化数据
+    
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
@@ -178,8 +157,10 @@ def mnglabel(req):
     d = {}
 
     setting = settings['setting']
-
-    d['header_block'] = get_header_block(setting.title + u' : 标签管理')    
+    
+    d['extral_block'] = get_mnglabel_extral_block()
+    d['header_block'] = get_header_block(setting.title + u' : 标签管理',
+                                              extjs = ['/js/mnglabel.js'])    
     d['nav_block'] = get_nav_block()    
     d['content_block'] = get_mnglabel_block()    
     d['footer_block'] = get_footer_block()
@@ -192,9 +173,9 @@ def mnglabel(req):
     return HttpResponse(h)
     
 def mngsetting(req):
-    settings = get_settings(True);
+    settings = get_settings(True)
 
-    #第一次启动初始化数据
+    
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
@@ -219,9 +200,9 @@ def mngsetting(req):
     return HttpResponse(h)
    
 def mnggame(req):
-    settings = get_settings(True);
+    settings = get_settings(True)
 
-    #第一次启动初始化数据
+    
     if len(settings) == 0:
         return HttpResponseRedirect('/install')
 
@@ -232,12 +213,11 @@ def mnggame(req):
 
     setting = settings['setting']
     
-    d['header_block'] = get_header_block(setting.title + u' : 游戏管理')
-    
+    d['extral_block'] = get_mnggame_extral_block()
+    d['header_block'] = get_header_block(setting.title + u' : 游戏管理',
+                                             extjs = ['/js/mnggame.js'])    
     d['nav_block'] = get_nav_block()
-    #游戏管理
-    d['content_block'] = get_mnggame_block()
-    
+    d['content_block'] = get_mnggame_block()    
     d['footer_block'] = get_footer_block()
         
 

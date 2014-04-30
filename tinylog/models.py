@@ -81,6 +81,9 @@ class Settings(models.Model):
   
     #game setting
     game_menu_count = models.IntegerField()
+    
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
 
 
     def __unicode__(self):
@@ -122,7 +125,12 @@ class Game(models.Model):
     #statistic
     hot = models.IntegerField()
     
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
+    
     catalog = models.ForeignKey(Catalog)
+    
+
     
 
     def __unicode__(self):

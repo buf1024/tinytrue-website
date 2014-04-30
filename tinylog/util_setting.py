@@ -6,6 +6,8 @@ from django.http import *
 from django.views.decorators.csrf import csrf_exempt
 
 import json
+from datetime import *
+
 
 from tinylog.models import *
 from tinylog.util import *
@@ -57,6 +59,7 @@ def update_setting(req):
         setting.blog_notify = jobj['notify']
         setting.blog_overview = jobj['overview']
         setting.game_menu_count = jobj['game_count']
+        setting.update_time = datetime.today()
         setting.save()
         
         for m in jobj['module']:
