@@ -1,12 +1,12 @@
 $(function () {
-	mngcatalog_setup();
+	mnggame_setup();
 });
 
-function mngcatalog_setup() {
-    $("button[id^='mngcatalog_modify']").bind("click", mngcatalog_modify);
-    $("button[id^='mngcatalog_delete']").bind("click", mngcatalog_delete);
-    $("#mngcatalog_new_catalog").bind("click", mngcatalog_new_catalog);
-    $("#dialog_catalog_save").bind("click", dialog_catalog_save);
+function mnggame_setup() {
+    $("button[id^='mnggame_modify']").bind("click", mnggame_modify);
+    $("button[id^='mnggame_delete']").bind("click", mnggame_delete);
+    $("#mnggame_new_game").bind("click", mnggame_new_game);
+    $("#dialog_game_save").bind("click", dialog_game_save);
     $("#dialog_confirm_no").bind("click", dialog_confirm_no);
     $("#dialog_confirm_yes").bind("click", dialog_confirm_yes);
 }
@@ -15,7 +15,7 @@ function dialog_confirm_yes() {
     var id = $("#dialog_confirm_yes").attr("data");  
     var obj = {"id":id};
     var jobj = JSON.stringify(obj);
-    $.post("/manage/catalog/delete", jobj, function(data) {
+    $.post("/manage/game/delete", jobj, function(data) {
         if(data == "FAIL") {
             alert("操作失败!");
         }else{
@@ -28,65 +28,75 @@ function dialog_confirm_no() {
     $("#dialog_confirm").modal("hide");
 }
 
-function mngcatalog_modify(event) {
+function mnggame_modify(event) {
     var id = $("#" + event.target.id).attr("data");
-    $("#dialog_catalog_title").html("修改分类");
-    $.get("/manage/catalog/" + id + ".json", function (data) {
-        $("#dialog_catalog_save").attr("role", "update");        
-        $("#dialog_catalog").modal();
+    $("#dialog_game_title").html("修改游戏");
+    $.get("/manage/game/" + id + ".json", function (data) {
+        $("#dialog_game_save").attr("role", "update");        
+        $("#dialog_game").modal();
         data = JSON.parse(data);
         var id = data.id;
         var name = data.name;
         var desc = data.desc;
-        var type = data.type;
-        $("#catalog_title").val(name);
-        $("#catalog_desc").val(desc);
-        var sel = "#catalog_opt_type option[value='" + type +"'";
+        var image = data.image;
+        var visable = data.visable;
+        var cat = data.catalog;
+        $("#game_title").val(name);
+        $("#game_desc").val(desc);
+        $("#game_image").val(image);
+        $("#game_visiable").attr("selected", true);
+        var sel = "#game_catalog option[value='" + cat.id +"'";
         $(sel).attr("selected", true);
-        $("#dialog_catalog_save").attr("data", id);  
+        $("#dialog_game_save").attr("data", id);  
     });
 }
 
-function mngcatalog_delete(event) {
+function mnggame_delete(event) {
     var id = $("#" + event.target.id).attr("data");
     $("#dialog_confirm").modal();
     $("#dialog_confirm_yes").attr("data", id);  
 
 }
 
-function mngcatalog_new_catalog() {
-    $("#dialog_catalog_title").html("增加分类");
-    $("#catalog_title").val("");
-    $("#catalog_desc").val("");
-    var sel = "#catalog_opt_type option[value='1'";
+function mnggame_new_game() {
+    $("#dialog_game_title").html("增加游戏");
+    $("#game_title").val("");
+    $("#game_desc").val("");
+    $("#game_image").val("");
+    $("#game_visiable").attr("selected", false);
+    var sel = "#game_opt_type option[value='1'";
     $(sel).attr("selected", true);
-    $("#dialog_catalog_save").attr("role", "new");
-    $("#dialog_catalog").modal();
+    $("#dialog_game_save").attr("role", "new");
+    $("#dialog_game").modal();
 }
 
-function dialog_catalog_save() {
-    var title = $("#catalog_title").val();
-    var desc = $("#catalog_desc").val();
-    var sel = $("#catalog_opt_type").val();
+function dialog_game_save() {
+    var title = $("#game_title").val();
+    var desc = $("#game_desc").val();
+    var image = $("#game_image").val();
+    var visiable = $("#game_visiable").is(":checked");
+    var cat = $("#game_catalog").val();
     
-    var role = $("#dialog_catalog_save").attr("role");
-    var id = $("#dialog_catalog_save").attr("data");
+    var role = $("#dialog_game_save").attr("role");
+    var id = $("#dialog_game_save").attr("data");
     
-    if(title == "" || desc == "") {
-        alert("名称或描述为空");
+    if(title == "" || desc == "" || image == "") {
+        alert("名称或描述或图片路径为空");
     }else{
         var jobj = "";
         var url = "";
         if(role == "new") {
-            var obj = {"title":title, "desc":desc, "sel":sel};
+            var obj = {"title":title, "desc":desc, "image":image,
+                    "visiable":visiable, "catalog":{"id":cat}};
             
             jobj = JSON.stringify(obj);
-            url = "/manage/catalog/new";
+            url = "/manage/game/new";
         }
         if(role == "update") {
-            var obj = {"id":id, "title":title, "desc":desc, "sel":sel};
+            var obj = {"id":id, "title":title, "desc":desc, "image":image,
+                    "visiable":visiable, "catalog":{"id":cat}};
             jobj = JSON.stringify(obj);
-            url = "/manage/catalog/update";
+            url = "/manage/game/update";
         }
         
         $.post(url, jobj, function(data) {

@@ -129,9 +129,6 @@ class Game(models.Model):
     update_time = models.DateTimeField()
     
     catalog = models.ForeignKey(Catalog)
-    
-
-    
 
     def __unicode__(self):
         return name
