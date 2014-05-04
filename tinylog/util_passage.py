@@ -15,14 +15,15 @@ def get_mngpassage_extral_block():
 def get_mngpassage_block():
     
     settings = get_settings()
+    setting = settings['setting']
     
     passages = settings['passages']
-    
     l = []
     for passage in passages:
         d = {}
         d['passage'] = passage
         d['comment_count'] = passage.comment_set.count()
+        
         l = l + [d]
         
     d = {}        
@@ -143,4 +144,15 @@ def backup_passage(req):
     pass
     
 def save_passage(req):
+    pass
+    
+    
+    
+def cat_passage(req, ctx):
+    pass
+    
+def label_passage(req, ctx):
+    pass
+    
+def view_passage(req, ctx):
     pass

@@ -14,26 +14,26 @@
       <th class="text-center-align">基本操作</th>
     </tr>
     {% if passages %}
-    {% for passage in passages %}
+    {% for p in passages %}
     <tr>
-      <td class="text-center-align">{{ passage.passage.id }}</td>
-      <td>{{ passage.passage.title }}</td>
-      <td>{{ passage.catalog.name }}</td>
-      <td class="text-center-align">{{ passage.passage.hot }}</td>
-      <td class="text-center-align">{{ passage.comment_count }}</td>
+      <td class="text-center-align">{{ forloop.counter }}</td>
+      <td>{{ p.passage.title }}</td>
+      <td>{{ p.passage.catalog.name }}</td>
+      <td class="text-center-align">{{ p.passage.hot }}</td>
+      <td class="text-center-align">{{ p.comment_count }}</td>
       <td class="text-center-align">
-        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_view">查看</button>
-        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_modify">修改</button>
-        <button class="btn btn-xs btn-danger" data="{{ passage.passage.id }}" id="mngcomment_delete">删除</button>
-        {% if passage.passage.front_flag %}
-        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_cancel_front">取消置顶</button>
+        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngcomment_view">查看</button>
+        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngcomment_modify">修改</button>
+        <button class="btn btn-xs btn-danger" data="{{ p.passage.id }}" id="mngcomment_delete">删除</button>
+        {% if p.passage.front_flag %}
+        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngcomment_cancel_front">取消置顶</button>
         {% else %}
-        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_front">置顶</button>
+        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngcomment_front">置顶</button>
         {% endif %}
-        {% if passage.passage.visiable %}
-        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_hide">隐藏</button>
+        {% if p.passage.visiable %}
+        <button class="btn btn-xs btn-success" data="{{ p.passage.id }}" id="mngcomment_hide">隐藏</button>
         {% else %}
-        <button class="btn btn-xs btn-info" data="{{ passage.passage.id }}" id="mngcomment_show">显示</button>
+        <button class="btn btn-xs btn-warning" data="{{ p.passage.id }}" id="mngcomment_show">显示</button>
         {% endif %}
       </td>
     </tr>

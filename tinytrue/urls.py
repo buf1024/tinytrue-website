@@ -60,6 +60,10 @@ urlpatterns = patterns('',
     url(r'^manage/passage/delete$', 'tinylog.views.del_passage'),
     url(r'^manage/passage/backup$', 'tinylog.views.backup_passage'),
     url(r'^manage/passage/save$', 'tinylog.views.save_passage'),
+    
+    url(r'^cat/(\d+)$', 'tinylog.views.cat_passage'),
+    url(r'^label/(\d+)$', 'tinylog.views.label_passage'),
+    url(r'^passage/(\d+)$', 'tinylog.views.view_passage'),
     )
 
 if tinytrue.settings.DEBUG:

@@ -112,26 +112,25 @@ def get_passage_block():
     t = get_template('passage.html')
     if len(passages) > 0:
         for passage in passages:
+            d = {}
             d['has_passage'] = True
             d['passage_id'] = passage.id
             d['passage_title'] = passage.title
             content = passage.content
             if setting.blog_overview:
-                content = content[:setting.blog_overview_count]
+                content = passage.summary
             d['passage_content'] = content
 
             comments = passage.comment_set.all()
             count = len(comments)
             for comment in comments:
                 count += comment.comment_set.count()
+            
             d['passage_comment_count'] = count
-
-            cats = passage.catalog_set.all()
-            if len(cats) > 0:
-                d['passage_catolog'] = cats[0].name
+            d['passage_catolog'] = passage.catalog
                     
         
-            labels = passage.label_set.all()
+            labels = passage.labels.all()
             d['passage_label_list'] = labels
             
             c = Context(d)        
