@@ -94,6 +94,7 @@ def req_catalog(req, ctx):
     
 @csrf_exempt 
 def del_catalog(req):
+    try_redirect()
     try:
         jobj = json.loads(req.body)
         cat = Catalog.objects.get(id=jobj['id'])
@@ -106,6 +107,7 @@ def del_catalog(req):
 
 @csrf_exempt    
 def update_catalog(req):
+    try_redirect()
     try:
         jobj = json.loads(req.body)
         t = datetime.today()    
@@ -123,6 +125,7 @@ def update_catalog(req):
     
 @csrf_exempt    
 def new_catalog(req):
+    try_redirect()
     try:
         jobj = json.loads(req.body)
         

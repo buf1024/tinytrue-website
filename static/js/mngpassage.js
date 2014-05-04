@@ -1,16 +1,14 @@
 $(function () {
-	passage_setup();
+	mngpassage_setup();
 });
 
-function passage_setup() {
-    tinymce.init({selector:"#tinymce_editor"});
-/*
-    $("button[id^='passage_modify']").bind("click", passage_modify);
-    $("button[id^='passage_delete']").bind("click", passage_delete);
-    $("#passage_new_catalog").bind("click", passage_new_catalog);
-    $("#dialog_catalog_save").bind("click", dialog_catalog_save);
-    $("#dialog_confirm_no").bind("click", dialog_confirm_no);
-    $("#dialog_confirm_yes").bind("click", dialog_confirm_yes);*/
+function mngpassage_setup() {
+    //$("button[id^='mngpassage_modify']").bind("click", mngpassage_modify);
+    //$("button[id^='mngpassage_delete']").bind("click", mngpassage_delete);
+    $("#mngpassage_new_passage").bind("click", mngpassage_new_passage);
+    $("#mngpassage_backup_passage").bind("click", mngpassage_backup_passage);
+    //$("#dialog_confirm_no").bind("click", dialog_confirm_no);
+    //$("#dialog_confirm_yes").bind("click", dialog_confirm_yes);
 }
 
 function dialog_confirm_yes() {
@@ -30,7 +28,15 @@ function dialog_confirm_no() {
     $("#dialog_confirm").modal("hide");
 }
 
-function passage_modify(event) {
+function mngpassage_new_passage() {
+    location.href = "/manage/passage/new";
+}
+
+function mngpassage_backup_passage() {
+    alert("not implement yet");
+}
+/*
+function mngpassage_modify(event) {
     var id = $("#" + event.target.id).attr("data");
     $("#dialog_catalog_title").html("修改分类");
     $.get("/manage/catalog/" + id + ".json", function (data) {
@@ -49,14 +55,14 @@ function passage_modify(event) {
     });
 }
 
-function passage_delete(event) {
+function mngpassage_delete(event) {
     var id = $("#" + event.target.id).attr("data");
     $("#dialog_confirm").modal();
     $("#dialog_confirm_yes").attr("data", id);  
 
 }
 
-function passage_new_catalog() {
+function mngpassage_new_catalog() {
     $("#dialog_catalog_title").html("增加分类");
     $("#catalog_title").val("");
     $("#catalog_desc").val("");
@@ -100,3 +106,4 @@ function dialog_catalog_save() {
         });
     }
 }
+*/

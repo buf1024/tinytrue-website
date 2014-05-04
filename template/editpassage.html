@@ -1,4 +1,4 @@
-<div class="col-md-9">
+<div class="col-md-11">
     <form class="form-horizontal" role="form">
       <fieldset>
         <div class="form-group">
@@ -19,10 +19,18 @@
           <div class="col-sm-5">
             <select class="form-control" id="passage_catalog">
               {% for catalog in catalogs %}
+              {% ifequal catalog.id catalog_selected %}
+              <option selected="selected" value="{{ catalog.id }}">{{ catalog.name }}</option>
+              {% else %}
               <option value="{{ catalog.id }}">{{ catalog.name }}</option>
+              {% endifequal %}
               {% endfor %}
-              <option id="passage_catalog_hr">-------------</option>
-              <option id="passage_catalog_more">新建分类</option>
+              {% ifequal passage_role "new" %}
+              <option selected="selected" id="passage_catalog_hr" value="-1">-------------</option>
+              {% else %}
+              <option id="passage_catalog_hr" value="-1">-------------</option>
+              {% endifequal %}
+              <option id="passage_catalog_more"  value="-1">新建分类</option>
             </select>
           </div>
           <div class="col-sm-5"></div>              
@@ -79,9 +87,9 @@
     </form>
     <hr>
     <div class="pull-right">
-      <button class=" btn btn-success" id="passage_save">保存</button>
-      <button class="btn btn-success" id="passage_save_draft">保存为草稿</button>
+      <button class="btn btn-success" id="passage_save" role="{{passage_role}}" data="{{passage_id}}">保存</button>
+      <button class="btn btn-success" id="passage_save_draft" role="{{passage_role}}" data="{{passage_id}}">保存为草稿</button>
     </div>
   </div>
-  <div class="col-md-3"></div>
+  <div class="col-md-1"></div>
 </div>

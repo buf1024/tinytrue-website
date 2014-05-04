@@ -89,7 +89,7 @@ def mngpassage_newpassage(req):
     d['extral_block'] = get_mngpassage_newpassage_extral_block()
     d['header_block'] = get_header_block(setting.title + u' : 新增文章',
                                               extjs = ['/tinymce/tinymce.min.js',
-                                                '/js/newpassage.js'])    
+                                                '/js/editpassage.js'])    
     d['nav_block'] = get_nav_block()
     d['content_block'] = get_mngpassage_newpassage_block()
     d['footer_block'] = get_footer_block()
