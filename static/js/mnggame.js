@@ -5,6 +5,7 @@ $(function () {
 function mnggame_setup() {
     $("button[id^='mnggame_modify']").bind("click", mnggame_modify);
     $("button[id^='mnggame_delete']").bind("click", mnggame_delete);
+    $("button[id^='mnggame_visiable']").bind("click", mnggame_visiable);
     $("#mnggame_new_game").bind("click", mnggame_new_game);
     $("#dialog_game_save").bind("click", dialog_game_save);
     $("#dialog_confirm_no").bind("click", dialog_confirm_no);
@@ -55,7 +56,35 @@ function mnggame_delete(event) {
     var id = $("#" + event.target.id).attr("data");
     $("#dialog_confirm").modal();
     $("#dialog_confirm_yes").attr("data", id);  
+}
 
+function mnggame_visiable(event) {
+    
+    var btn$ = $("#" + event.target.id);
+    var id = btn$.attr("data");
+    var visiable = btn$.attr("visiable");
+    var jobj = ""
+    if(visiable == "True") {
+        btn$.html("发布");
+        btn$.attr("visiable", "False");
+        btn$.attr("class", "btn btn-xs btn-waring");
+        visiable = 0;
+    }else{
+        btn$.html("隐藏");
+        btn$.attr("visiable", "True");
+        btn$.attr("class", "btn btn-xs btn-success");
+        visiable = 1;
+    }
+    
+    var obj = {"id":id, "visiable":visiable};            
+    var jobj = JSON.stringify(obj);
+    var url = "/manage/game/show";
+    $.post(url, jobj, function(data) {
+        if(data == "FAIL") {
+            alert("操作失败!");
+        }
+        location.reload();
+    });
 }
 
 function mnggame_new_game() {

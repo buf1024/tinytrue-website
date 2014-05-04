@@ -12,8 +12,8 @@ from tinylog.models import *
 from tinylog.util import *
 
 def get_mnggame_block():
-    settings = get_settings()
-    games = settings['games']
+    
+    games = Game.objects.all()
        
     d = {}
     d['games'] = games
@@ -63,15 +63,7 @@ def get_mnggame_extral_block():
     return h
     
 def req_game(req, ctx):
-    settings = get_settings();
-
-    #第一次启动初始化数据
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
-        
+    try_redirect()        
     obj = Game.objects.get(id=ctx)
     d = {}
     if obj != None:
@@ -96,10 +88,11 @@ def req_game(req, ctx):
     
 @csrf_exempt 
 def del_game(req):
+    try_redirect()
     try:
         jobj = json.loads(req.body)
-        cat = Game.objects.get(id=jobj['id'])
-        cat.delete()
+        game = Game.objects.get(id=jobj['id'])
+        game.delete()
         
     except:
         return HttpResponse('FAIL')
@@ -108,11 +101,11 @@ def del_game(req):
 
 @csrf_exempt    
 def update_game(req):
+    try_redirect()
     try:
         jobj = json.loads(req.body)
-        print jobj
-        t = datetime.today()    
         
+        t = datetime.today()        
         game = Game.objects.get(id=jobj['id'])
         game.name = jobj['title']
         game.desc = jobj['desc']
@@ -131,15 +124,38 @@ def update_game(req):
     
 @csrf_exempt    
 def new_game(req):
+    try_redirect()
+    try:
+        jobj = json.loads(req.body)        
+        cat = Catalog.objects.get(id=jobj['catalog']['id'])        
+        t = datetime.today()    
+        game = Game(name=jobj['title'], desc=jobj['desc'],
+                image=jobj['image'], visiable=jobj['visiable'],
+                hot=0,
+                create_time=t, update_time=t,
+                catalog = cat)
+        game.save()
+        
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+
+    return HttpResponse('SUCCESS')
+    
+@csrf_exempt    
+def show_game(req):
+    try_redirect()
     try:
         jobj = json.loads(req.body)
         
-        t = datetime.today()    
-        cat = Catalog(name=jobj['title'], desc=jobj['desc'],
-                type=jobj['sel'], create_time=t, update_time=t)
-        cat.save()
+        t = datetime.today()        
+        game = Game.objects.get(id=jobj['id'])
+        game.visiable = jobj['visiable']
+        game.update_time = t
+        game.save()
         
-    except:
+    except Exception, e:
+        print e
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS')

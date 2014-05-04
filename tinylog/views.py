@@ -17,16 +17,12 @@ from tinylog.util_setting import *
 from tinylog.util_passage import *
 
 def home(req):
-    settings = get_settings()
-
+    try_redirect()
     
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    d = {}
-
+    settings = get_settings()
     setting = settings['setting']
     
+    d = {}    
     d['header_block'] = get_header_block(setting.title)    
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block()    
@@ -45,16 +41,12 @@ def install(req):
     return HttpResponse('not implement')
     
 def admin(req):
+    try_redirect()
+    
     settings = get_settings()
-
-    
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    d = {}
-
     setting = settings['setting']
-    
+
+    d = {}    
     d['header_block'] = get_header_block(setting.title + u' : 登录')    
     d['extral_block'] = get_login_extral_block()    
     d['nav_block'] = get_nav_block()
@@ -68,20 +60,15 @@ def admin(req):
     return HttpResponse(h)
     
 def mngpassage(req):
-    settings = get_settings(True)
-
+    try_redirect()
     
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
-    
-    d = {}
-
+    settings = get_settings()
     setting = settings['setting']
-    
-    d['header_block'] = get_header_block(setting.title + u' : 文章管理')    
+
+    d = {}
+    d['extral_block'] = get_mngpassage_extral_block()
+    d['header_block'] = get_header_block(setting.title + u' : 文章管理',
+                                              extjs = ['/js/mngpassage.js'])    
     d['nav_block'] = get_nav_block()
     d['content_block'] = get_mngpassage_block()
     d['footer_block'] = get_footer_block()
@@ -92,19 +79,34 @@ def mngpassage(req):
 
     return HttpResponse(h)
     
-def mngcomment(req):
-    settings = get_settings(True)
-
-    
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-    
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
+def mngpassage_newpassage(req):
+    try_redirect()
         
-    d = {}
+    settings = get_settings()
+    setting = settings['setting']
 
-    setting = settings['setting']    
+    d = {}
+    d['extral_block'] = get_mngpassage_newpassage_extral_block()
+    d['header_block'] = get_header_block(setting.title + u' : 新增文章',
+                                              extjs = ['/tinymce/tinymce.min.js',
+                                                '/js/newpassage.js'])    
+    d['nav_block'] = get_nav_block()
+    d['content_block'] = get_mngpassage_newpassage_block()
+    d['footer_block'] = get_footer_block()
+    
+    t = get_template('general.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
+    
+def mngcomment(req):
+    try_redirect()
+    
+    settings = get_settings()
+    setting = settings['setting']
+
+    d = {}   
     d['header_block'] = get_header_block(setting.title + u' : 评论管理')    
     d['nav_block'] = get_nav_block()
     d['content_block'] = get_mngcomment_block()    
@@ -118,17 +120,11 @@ def mngcomment(req):
     
     
 def mngcatalog(req):
-    settings = get_settings(True)
-
+    try_redirect()
     
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
-    
+    settings = get_settings()
     setting = settings['setting']
-    
+
     d = {}
     d['extral_block'] = get_mngcatalog_extral_block()
     d['header_block'] = get_header_block(setting.title + u' : 分类管理',
@@ -145,19 +141,12 @@ def mngcatalog(req):
     return HttpResponse(h)
     
 def mnglabel(req):
-    settings = get_settings(True)
-
+    try_redirect()
     
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
-      
-    d = {}
-
+    settings = get_settings()
     setting = settings['setting']
-    
+
+    d = {}    
     d['extral_block'] = get_mnglabel_extral_block()
     d['header_block'] = get_header_block(setting.title + u' : 标签管理',
                                               extjs = ['/js/mnglabel.js'])    
@@ -173,19 +162,12 @@ def mnglabel(req):
     return HttpResponse(h)
     
 def mngsetting(req):
-    settings = get_settings(True)
-
+    try_redirect()
     
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
-        
-    d = {}
-
+    settings = get_settings()
     setting = settings['setting']
-        
+
+    d = {}        
     d['extral_block'] = get_mngsetting_extral_block()
     d['header_block'] = get_header_block(setting.title + u' : 博客设置',
                                              extjs = ['/js/mngsetting.js'])    
@@ -200,19 +182,12 @@ def mngsetting(req):
     return HttpResponse(h)
    
 def mnggame(req):
-    settings = get_settings(True)
-
+    try_redirect()
     
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
-        
-    d = {}
-
+    settings = get_settings()
     setting = settings['setting']
-    
+
+    d = {}    
     d['extral_block'] = get_mnggame_extral_block()
     d['header_block'] = get_header_block(setting.title + u' : 游戏管理',
                                              extjs = ['/js/mnggame.js'])    

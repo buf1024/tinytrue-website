@@ -240,3 +240,10 @@ def get_confirm_dialog():
     
 def is_admin():
     return True
+    
+def try_redirect():    
+    settings = get_settings(True);
+    if len(settings) == 0:
+        return HttpResponseRedirect('/install')
+    if is_admin() == False:
+        return HttpResponseRedirect('/manage/admin')

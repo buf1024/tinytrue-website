@@ -37,7 +37,7 @@ def get_mngcatalog_block():
 
     return h
     
-def get_calalog_form(id = None):
+def get_catalog_form(id = None):
     cat = None
     if id != None:
         cat = Catalog.objects.get(id=id)
@@ -53,7 +53,7 @@ def get_calalog_form(id = None):
     
 def get_mngcatalog_extral_block():
     
-    cnt = get_calalog_form()
+    cnt = get_catalog_form()
     
     d = {}
     d['dialog_body'] = cnt
@@ -77,17 +77,8 @@ def get_mngcatalog_extral_block():
     
     return h
     
-##################################################################################
-#catalog
 def req_catalog(req, ctx):
-    settings = get_settings();
-
-    #第一次启动初始化数据
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
+    try_redirect()
         
     obj = Catalog.objects.get(id=ctx)
     d = {}

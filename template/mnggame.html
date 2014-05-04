@@ -24,9 +24,9 @@
       <button class="btn btn-xs btn-info" id="mnggame_modify_{{ game.id }}" data="{{ game.id }}">修改</button>
       <button class="btn btn-xs btn-danger" id="mnggame_delete_{{ game.id }}" data="{{ game.id }}">删除</button>
       {% if game.visiable %}
-      <button class="btn btn-xs btn-success" id="mnggame_hide_{{ game.id }}" data="{{ game.id }}">隐藏</button>
+      <button class="btn btn-xs btn-success" id="mnggame_visiable_{{ game.id }}" data="{{ game.id }}" visiable="{{game.visiable}}">隐藏</button>
       {% else %}
-      <button class="btn btn-xs btn-success" id="mnggame_show_{{ game.id }}" data="{{ game.id }}">发布</button>
+      <button class="btn btn-xs btn-warning" id="mnggame_visiable_{{ game.id }}" data="{{ game.id }}" visiable="{{game.visiable}}">发布</button>
       {% endif %}
     </td>
   </tr>

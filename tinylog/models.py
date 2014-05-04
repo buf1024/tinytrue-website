@@ -44,6 +44,9 @@ class Passage(models.Model):
     enable_comment = models.BooleanField()    
     front_flag = models.BooleanField()
     
+    draft_flag = models.BooleanField()
+    delete_flag = models.BooleanField()
+    
     create_time = models.DateTimeField()
     update_time = models.DateTimeField()
 

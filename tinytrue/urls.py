@@ -47,11 +47,19 @@ urlpatterns = patterns('',
     url(r'^manage/label/update$', 'tinylog.views.update_label'),
     url(r'^manage/label/delete$', 'tinylog.views.del_label'),
     
-    #catalog
+    #game
     url(r'^manage/game/(\d+)\.json$', 'tinylog.views.req_game'),
     url(r'^manage/game/new$', 'tinylog.views.new_game'),
     url(r'^manage/game/update$', 'tinylog.views.update_game'),
     url(r'^manage/game/delete$', 'tinylog.views.del_game'),
+    url(r'^manage/game/show$', 'tinylog.views.show_game'),
+    
+    #passage
+    url(r'^manage/passage/new$', 'tinylog.views.mngpassage_newpassage'),
+    url(r'^manage/passage/edit$', 'tinylog.views.edit_passage'),
+    url(r'^manage/passage/delete$', 'tinylog.views.del_passage'),
+    url(r'^manage/passage/backup$', 'tinylog.views.backup_passage'),
+    url(r'^manage/passage/save$', 'tinylog.views.save_passage'),
     )
 
 if tinytrue.settings.DEBUG:
