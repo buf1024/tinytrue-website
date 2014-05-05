@@ -142,7 +142,7 @@ def edit_passage(req):
         else:
             p = Passage(title = title, content = content, summary=sumary,
                     hot = 0, visiable = visiable, enable_comment = commentable,
-                    front_flag = front, draft_flag = isdraft, delete_flag = False,
+                    front_flag = front, draft_flag = isdraft,
                     create_time = t, update_time = t)
             p.catalog = cat
             
@@ -200,4 +200,75 @@ def backup_passage(req):
     pass
     
 
+def get_cat_passage_block(ctx):
+    h = ''
+    try:
+        cat = Catalog.objects.get(id=ctx)
+        passages = cat.passage_set.filter(visiable=True, draft_flag=False)
+        print passages
+        d = {}
+        d['collect_title'] = u'分类: ' + cat.name
+        d['collet_type'] = u'分类'
+        dl = []
+        for p in passages:
+            di = {}
+            di['id'] = p.id
+            di['cat'] = cat.name
+            di['name'] = p.title
+            di['hot'] = p.hot
+            c = p.comment_set.count()
+            for ci in p.comment_set.all():
+                c = c + ci.comment_set.count()             
+            di['comment_count'] = c
+            dl.append(di)
+        d['items'] = dl
+        
+        t = get_template('collect.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    except Exception, e:
+        print e
+        d = {}
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h
     
+def get_label_passage_block(ctx):
+    h = ''
+    try:
+        label = Label.objects.get(id=ctx)
+        print label
+        passages = label.passage_set.filter(visiable=True, draft_flag=False)
+        print passages
+        d = {}
+        d['collect_title'] = u'标签: ' + label.name
+        d['collet_type'] = u'标签'
+        dl = []
+        for p in passages:
+            di = {}
+            di['id'] = p.id
+            di['cat'] = label.name
+            di['name'] = p.title
+            di['hot'] = p.hot
+            c = p.comment_set.count()
+            for ci in p.comment_set.all():
+                c = c + ci.comment_set.count()             
+            di['comment_count'] = c
+            dl.append(di)
+        d['items'] = dl
+        
+        t = get_template('collect.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    except Exception, e:
+        print e
+        d = {}
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h

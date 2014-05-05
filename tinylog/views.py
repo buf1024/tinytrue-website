@@ -226,10 +226,44 @@ def mnggame(req):
        
    
 def cat_passage(req, ctx):
-    pass
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 分类汇总',
+                                             extjs = ['/js/collect.js'])    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block()    
+    d['passages_block'] = get_cat_passage_block(ctx)    
+    d['passage_count_block'] = ''   
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
     
 def label_passage(req, ctx):
-    pass
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 标签汇总',
+                                             extjs = ['/js/collect.js'])    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block()    
+    d['passages_block'] = get_label_passage_block(ctx)    
+    d['passage_count_block'] = ''   
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
     
 def view_passage(req, ctx):
     try_redirect()

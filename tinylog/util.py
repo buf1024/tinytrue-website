@@ -108,7 +108,7 @@ def get_passage_block():
     settings = get_settings()
     setting = settings['setting']
     
-    passages = Passage.objects.filter(visiable=True, draft_flag=False, delete_flag=False).order_by('-front_flag', '-update_time')[:setting.blog_display_count]
+    passages = Passage.objects.filter(visiable=True, draft_flag=False).order_by('-front_flag', '-update_time')[:setting.blog_display_count]
             
 
     h = ''
@@ -276,6 +276,7 @@ def get_comment(t, m):
             continue
         di = {}
         di['link']  = '/passage/' + str(c.passage.id)
+        di['title']  = ''
         di['content'] = c.content
         cl.append(di)
     if len(comments) == m.display_count:        
@@ -298,6 +299,7 @@ def get_hot(t, m):
     for p in passages:
         di = {}
         di['link']  = '/passage/' + str(p.id)
+        di['title']  = ''
         di['content'] = p.title + '(' + str(p.hot) + ')'        
         pl.append(di)
     
@@ -321,6 +323,7 @@ def get_comment_hot(t, m):
     for p in passages:
         di = {}
         di['link']  = '/passage/' + str(p.id)
+        di['title']  = ''
         c = p.comment_set.count()
         for sc in p.comment_set.all():
             c = c + sc.comment_set.count()
@@ -343,8 +346,9 @@ def get_catalog(t, m):
     cl = []
     for c in catalogs:
         di = {}
-        di['link']  = '/cat/' + str(c.id)
-        di['content'] = c.name     
+        di['link']  = '/cat/' + str(c.id)        
+        di['content'] = c.name+'(' + str(c.passage_set.count()) + ')'
+        di['title']  = c.desc
         cl.append(di)
     if len(catalogs) == m.display_count:        
         d['module_more_link'] = '/cat/more' 
@@ -356,7 +360,26 @@ def get_catalog(t, m):
     
     return h 
 def get_tag(t, m):
-    return ''      
+    lables = Label.objects.all()[:m.display_count]
+    
+    d = {}
+    d['module'] = m
+    ll = []
+    for l in lables:
+        di = {}
+        di['link']  = '/label/' + str(l.id)
+        di['content'] = l.name + '(' + str(l.passage_set.count()) + ')'
+        di['title']  = l.desc   
+        ll.append(di)
+    if len(lables) == m.display_count:        
+        d['module_more_link'] = '/label/more' 
+    d['module_list'] = ll
+    d['nocontent'] = u'暂无标签'
+
+    c = Context(d)
+    h = t.render(c)
+    
+    return h     
 def get_archive(t, m):
     archives = Archive.objects.all().order_by('-year').order_by('-month')[:m.display_count]
     
@@ -364,9 +387,13 @@ def get_archive(t, m):
     d['module'] = m 
     al = []
     for a in archives:
+        count = a.passage_set.count()
+        if count <= 0:
+            continue
         di = {}
-        di['link']  = '/ar/' + a.year + a.month
-        di['content'] = a.year + '-' + a.month     
+        di['link']  = '/ar/' + a.year + a.month        
+        di['title']  = ''  
+        di['content'] = a.year + a.month + '(' + str(count) + ')'  
         al.append(di)
     if len(archives) == m.display_count:        
         d['module_more_link'] = '/ar/more' 

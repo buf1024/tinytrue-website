@@ -6,7 +6,7 @@ from django.db import models
 
 class Catalog(models.Model):
     name = models.CharField(max_length = 64)
-    desc = models.CharField(max_length = 512)
+    desc = models.CharField(max_length = 512, null=True)
     
     #1 ²©¿Í 2 ÓÎÏ·
     type = models.IntegerField()
@@ -15,29 +15,29 @@ class Catalog(models.Model):
     update_time = models.DateTimeField()
 
     def __unicode__(self):
-        return self.name
+        return '<cat:' + self.name + '>'
 
 class Label(models.Model):
     name = models.CharField(max_length = 32)
-    desc = models.CharField(max_length = 512)
+    desc = models.CharField(max_length = 512, null=True)
     
     create_time = models.DateTimeField()
     update_time = models.DateTimeField()
     
     def __unicode__(self):
-        return self.name
+        return '<label:' + self.name + '>'
 
 class Archive(models.Model):
     year = models.CharField(max_length = 8)
     month = models.CharField(max_length = 4)
 
     def __unicode__(self):
-        return self.year + '-' + self.month
+        return '<' + self.year + '-' + self.month + '>'
 
 class Passage(models.Model):
     title = models.CharField(max_length = 128)
     content = models.TextField()
-    summary = models.TextField()    
+    summary = models.TextField(null=True)    
     hot = models.IntegerField()
     
     visiable = models.BooleanField()
@@ -45,7 +45,6 @@ class Passage(models.Model):
     front_flag = models.BooleanField()
     
     draft_flag = models.BooleanField()
-    delete_flag = models.BooleanField()
     
     create_time = models.DateTimeField()
     update_time = models.DateTimeField()
@@ -55,15 +54,15 @@ class Passage(models.Model):
     archive = models.ForeignKey(Archive)
 
     def __unicode__(self):
-        return self.title
+        return '<passage:' + self.title + '>'
         
 class Comment(models.Model):
-    content = models.TextField()
     author = models.CharField(max_length = 64)
+    email = models.EmailField()  
     image = models.CharField(max_length = 64)
-    email = models.EmailField()
+    content = models.TextField()
+    
     ip_address = models.IPAddressField()
-    visiable = models.IPAddressField()
     
     create_time = models.DateTimeField()
     
@@ -71,7 +70,7 @@ class Comment(models.Model):
     parent = models.ForeignKey('self')
 
     def __unicode__(self):
-        return self.author
+        return '<comment:' + self.author + '>'
 
 class Settings(models.Model):
     title = models.CharField(max_length = 128)
@@ -91,11 +90,11 @@ class Settings(models.Model):
 
 
     def __unicode__(self):
-        return self.title
+        return '<settings:' + self.title + '>'
         
 class Module(models.Model):
     name = models.CharField(max_length = 64)
-    desc = models.CharField(max_length = 512)
+    desc = models.CharField(max_length = 512, null=True)
     
     #setting
     visiable = models.BooleanField()
@@ -105,7 +104,7 @@ class Module(models.Model):
     update_time = models.DateTimeField()
 
     def __unicode__(self):
-        return self.name
+        return '<module:' + self.name + '>'
 
 class User(models.Model):
     name = models.CharField(max_length = 64)
@@ -116,12 +115,11 @@ class User(models.Model):
     update_time = models.DateTimeField()
     
     def __unicode__(self):
-        return self.name
-
+        return '<user:' + self.name + '>'
 
 class Game(models.Model):
     name = models.CharField(max_length = 64)
-    desc = models.CharField(max_length = 512)
+    desc = models.CharField(max_length = 512, null=True)
     image = models.CharField(max_length = 128)
     visiable = models.BooleanField()
     
@@ -134,6 +132,6 @@ class Game(models.Model):
     catalog = models.ForeignKey(Catalog)
 
     def __unicode__(self):
-        return name
+        return '<game:' + self.name + '>'
         
         
