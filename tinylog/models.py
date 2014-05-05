@@ -60,6 +60,7 @@ class Passage(models.Model):
 class Comment(models.Model):
     content = models.TextField()
     author = models.CharField(max_length = 64)
+    image = models.CharField(max_length = 64)
     email = models.EmailField()
     ip_address = models.IPAddressField()
     visiable = models.IPAddressField()
@@ -94,7 +95,6 @@ class Settings(models.Model):
         
 class Module(models.Model):
     name = models.CharField(max_length = 64)
-    title = models.CharField(max_length = 64)
     desc = models.CharField(max_length = 512)
     
     #setting

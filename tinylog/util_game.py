@@ -93,7 +93,7 @@ def del_game(req):
         jobj = json.loads(req.body)
         game = Game.objects.get(id=jobj['id'])
         game.delete()
-        
+        get_settings(True)
     except:
         return HttpResponse('FAIL')
 
@@ -115,7 +115,7 @@ def update_game(req):
         game.catalog = cat
         game.update_time = t
         game.save()
-        
+        get_settings(True)
     except Exception, e:
         print e
         return HttpResponse('FAIL')
@@ -135,7 +135,7 @@ def new_game(req):
                 create_time=t, update_time=t,
                 catalog = cat)
         game.save()
-        
+        get_settings(True)
     except Exception, e:
         print e
         return HttpResponse('FAIL')
@@ -153,7 +153,7 @@ def show_game(req):
         game.visiable = jobj['visiable']
         game.update_time = t
         game.save()
-        
+        get_settings(True)
     except Exception, e:
         print e
         return HttpResponse('FAIL')

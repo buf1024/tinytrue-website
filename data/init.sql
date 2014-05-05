@@ -11,10 +11,25 @@ buf1024@gmail.com, Power by<a href="http://nginx.org/" target="_blank">nginx</a>
  1, 0, 5, '2014-01-01 00:00:00', '2014-01-01 00:00:00');
  
  -- modules
- delete from tinylog_module;
- insert into tinylog_module(id, name, title, "desc", visiable, display_count, 
+delete from tinylog_module;
+insert into tinylog_module(id, name, "desc", visiable, display_count, 
     create_time, update_time)
- values(1, 'comment', '评论列表', '评论列表', 1, 5, '2014-01-01 00:00:00', '2014-01-01 00:00:00');
+ values(1, '最新评论', '最新评论', 1, 5, '2014-01-01 00:00:00', '2014-01-01 00:00:00');
+insert into tinylog_module(id, name, "desc", visiable, display_count, 
+    create_time, update_time)
+ values(2, '阅读排行', '阅读排行', 1, 5, '2014-01-01 00:00:00', '2014-01-01 00:00:00');
+ insert into tinylog_module(id, name, "desc", visiable, display_count, 
+    create_time, update_time)
+ values(3, '评论排行', '评论排行', 1, 5, '2014-01-01 00:00:00', '2014-01-01 00:00:00');
+ insert into tinylog_module(id, name, "desc", visiable, display_count, 
+    create_time, update_time)
+ values(4, '分类', '分类', 1, 5, '2014-01-01 00:00:00', '2014-01-01 00:00:00');
+insert into tinylog_module(id, name, "desc", visiable, display_count, 
+    create_time, update_time)
+ values(5, '标签', '标签', 1, 5, '2014-01-01 00:00:00', '2014-01-01 00:00:00');
+ insert into tinylog_module(id, name, "desc", visiable, display_count, 
+    create_time, update_time)
+ values(6, '归档', '归档', 1, 5, '2014-01-01 00:00:00', '2014-01-01 00:00:00');
  
  -- admin user
  delete from tinylog_user;

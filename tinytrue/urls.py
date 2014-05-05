@@ -56,10 +56,10 @@ urlpatterns = patterns('',
     
     #passage
     url(r'^manage/passage/new$', 'tinylog.views.mngpassage_newpassage'),
+    url(r'^manage/passage/modify/(\d+)$', 'tinylog.views.mngpassage_modifypassage'),
     url(r'^manage/passage/edit$', 'tinylog.views.edit_passage'),
     url(r'^manage/passage/delete$', 'tinylog.views.del_passage'),
     url(r'^manage/passage/backup$', 'tinylog.views.backup_passage'),
-    url(r'^manage/passage/save$', 'tinylog.views.save_passage'),
     
     url(r'^cat/(\d+)$', 'tinylog.views.cat_passage'),
     url(r'^label/(\d+)$', 'tinylog.views.label_passage'),

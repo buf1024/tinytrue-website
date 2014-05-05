@@ -1,10 +1,11 @@
 <div class="passage">
   {% if has_passage %}
-  <h2><a href="/passage/{{ passage_id }}">{{ passage_title }}</a></h2>
+  <h3><a href="/passage/{{ passage_id }}">{{ passage_title }}</a></h3>
   <hr>
   <p>{{ passage_content|safe }}</p>
-  <p>
-    <br>
+  <hr>
+  <p class="post-font">提交时间:{{passage_create_time|date:"Y-m-d H:i:s" }}   更新时间:{{passage_update_time|date:"Y-m-d H:i:s" }}</p>
+  <p>    
     <div>
       <a href="/passage/{{ passage_id }}#comment"><span class="label label-success">评论({{ passage_comment_count }})</span></a>
       {% if passage_catolog %}

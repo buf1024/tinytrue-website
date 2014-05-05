@@ -67,7 +67,7 @@ function mnggame_visiable(event) {
     if(visiable == "True") {
         btn$.html("发布");
         btn$.attr("visiable", "False");
-        btn$.attr("class", "btn btn-xs btn-waring");
+        btn$.attr("class", "btn btn-xs btn-warning");
         visiable = 0;
     }else{
         btn$.html("隐藏");

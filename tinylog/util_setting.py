@@ -19,7 +19,7 @@ def get_mngsetting_block():
     
     d = {}        
     d['setting'] = setting
-    modules = Module.objects.all()
+    modules = Module.objects.all().order_by('id')
         
     l = len(modules)
     
@@ -28,10 +28,10 @@ def get_mngsetting_block():
         lst_tmp = []
         for i in range(l):
             module = modules[i]
+            lst_tmp.append(module)
             if (i + 1) % 3 == 0:
                 lst.append(lst_tmp)
                 lst_tmp = []
-            lst_tmp.append(module)
         if len(lst_tmp) > 0:
             lst.append(lst_tmp)
     d['modules'] = lst
@@ -59,14 +59,14 @@ def update_setting(req):
         setting.blog_notify = jobj['notify']
         setting.blog_overview = jobj['overview']
         setting.game_menu_count = jobj['game_count']
-        setting.update_time = datetime.today()
+        setting.update_time = datetime.datetime.today()
         setting.save()
         
         for m in jobj['module']:
             module = Module.objects.get(id=m['id'])
             module.visiable = m['visiable']
             module.save()
-        
+        get_settings(True)
     except Exception, e:
         print e
         return HttpResponse('FAIL')

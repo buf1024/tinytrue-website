@@ -10,14 +10,13 @@ from datetime import *
 from tinylog.models import *
 from tinylog.util import *
 
-def get_mngpassage_extral_block():
-    pass
+def get_mngpassage_extral_block():    
+    h = get_confirm_dialog()    
+    return h
 def get_mngpassage_block():
-    
     settings = get_settings()
     setting = settings['setting']
-    
-    passages = settings['passages']
+    passages = Passage.objects.all()
     l = []
     for passage in passages:
         d = {}
@@ -33,12 +32,14 @@ def get_mngpassage_block():
     t = get_template('mngpassage.html')
     c = Context(d)
     h = t.render(c)
+    
 
     return h
     
 def get_mngpassage_newpassage_extral_block():
     pass
-    
+def get_mngpassage_modifypassage_extral_block():
+    pass
 def get_mngpassage_newpassage_block():
     settings = get_settings()
     
@@ -56,6 +57,43 @@ def get_mngpassage_newpassage_block():
 
     return h
     
+def get_mngpassage_modifypassage_block(p):
+    h = ''
+    try:
+        settings = get_settings()    
+        pcatalogs = settings['pcatalogs']
+        
+        d = {}
+        d['passage_title'] = p.title
+        d['passage_content'] = p.content
+        d['catalogs'] = pcatalogs
+        d['catalog_selected'] = p.catalog.id
+        d['passage_visiable'] = p.visiable
+        d['passage_commentable'] = p.enable_comment
+        d['passage_front'] = p.front_flag
+        d['passage_summary'] = p.summary
+        tags = ''
+        for tag in p.labels.all():
+            if tags == '':
+                tags = tag.name
+            else:
+                tags = tags + ';' + tag.name
+        d['passage_tags'] = tags
+        d['passage_id'] = p.id
+        d['passage_role'] = 'update'
+        
+        t = get_template('editpassage.html')
+        c = Context(d)
+        h = t.render(c)
+
+    except Exception, e:
+        print e
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h
+    
 @csrf_exempt 
 def edit_passage(req):
     try_redirect()
@@ -64,21 +102,20 @@ def edit_passage(req):
         
         title = jobj['title']
         content = jobj['content']
-        sumary = jobj['sumary']
+        sumary = jobj['sumary']        
         cat = Catalog.objects.filter(id=jobj['catalog'])[0]
         visiable = jobj['visiable']
         front = jobj['front']
         commentable = jobj['commentable']
         isdraft = jobj['isdraft']
-        tags = jobj['tags'].split(';')
-        
+        tags = jobj['tags'].split(';')        
         role = jobj['role']
         
-        t = datetime.today()
+        t = datetime.datetime.today()
         
         if role == "update":
             id = jobj['id']            
-            p = Passage.objects.filter(id=id)
+            p = Passage.objects.get(id=id)
             p.title = title
             p.content = content
             p.summary = sumary
@@ -95,7 +132,7 @@ def edit_passage(req):
                 if len(tag) > 0:
                     l = Label.objects.filter(name=tag)
                     if len(l) == 0:
-                        l = Label(name=tag, desc=tag)
+                        l = Label(name=tag, desc=tag, create_time=t, update_time=t)
                         l.save()
                     else:
                         l = l[0]
@@ -112,7 +149,10 @@ def edit_passage(req):
             y = t.year
             m = t.month
             
-            ar = Archive.objects.filter(id=y).filter(month=m)
+            if m <= 9:
+               m = '0' + str(m)
+            
+            ar = Archive.objects.filter(year=y).filter(month=m)
             if len(ar) == 0:
                 ar = Archive(year=y, month=m)
                 ar.save()
@@ -132,27 +172,32 @@ def edit_passage(req):
                     p.labels.add(l)
             
             p.save()
+            
+        get_settings(True)
     except Exception, e:
+        print e
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS')
     
+@csrf_exempt
 def del_passage(req):
-    pass
+    try_redirect()
+    try:
+        jobj = json.loads(req.body)        
+        id = jobj['id']
+        p = Passage.objects.get(id=id)
+        p.delete()
+        get_settings(True)
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+
+    return HttpResponse('SUCCESS')
+
     
 def backup_passage(req):
     pass
     
-def save_passage(req):
-    pass
+
     
-    
-    
-def cat_passage(req, ctx):
-    pass
-    
-def label_passage(req, ctx):
-    pass
-    
-def view_passage(req, ctx):
-    pass

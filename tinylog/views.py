@@ -99,7 +99,28 @@ def mngpassage_newpassage(req):
     h = t.render(c)
 
     return HttpResponse(h)
+def mngpassage_modifypassage(req, ctx):
+    try_redirect()
     
+    settings = get_settings()
+    setting = settings['setting']
+    
+    p = Passage.objects.get(id=ctx)
+    
+    d = {}
+    d['extral_block'] = get_mngpassage_modifypassage_extral_block()
+    d['header_block'] = get_header_block(setting.title + u' : 修改文章',
+                                              extjs = ['/tinymce/tinymce.min.js',
+                                                '/js/editpassage.js'])    
+    d['nav_block'] = get_nav_block()
+    d['content_block'] = get_mngpassage_modifypassage_block(p)
+    d['footer_block'] = get_footer_block()
+    
+    t = get_template('general.html')
+    c = Context(d)
+    h = t.render(c)        
+    
+    return HttpResponse(h)
 def mngcomment(req):
     try_redirect()
     
@@ -202,3 +223,31 @@ def mnggame(req):
 
     return HttpResponse(h)
        
+       
+   
+def cat_passage(req, ctx):
+    pass
+    
+def label_passage(req, ctx):
+    pass
+    
+def view_passage(req, ctx):
+    try_redirect()
+    
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title)    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block()    
+    d['passages_block'] = get_view_passage_block(ctx)    
+    d['passage_count_block'] = ''   
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)

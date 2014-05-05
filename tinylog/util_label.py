@@ -71,8 +71,7 @@ def get_mnglabel_extral_block():
     
     return h
     
-##################################################################################
-#label
+
 def req_label(req, ctx):
     settings = get_settings();
 
@@ -98,9 +97,9 @@ def req_label(req, ctx):
 def del_label(req):
     try:
         jobj = json.loads(req.body)
-        cat = Label.objects.get(id=jobj['id'])
-        cat.delete()
-        
+        label = Label.objects.get(id=jobj['id'])
+        label.delete()
+        get_settings(True)
     except:
         return HttpResponse('FAIL')
 
@@ -111,12 +110,12 @@ def update_label(req):
     try:
         jobj = json.loads(req.body)
         t = datetime.today()    
-        cat = Label.objects.get(id=jobj['id'])
-        cat.name = jobj['title']
-        cat.desc = jobj['desc']
-        cat.update_time = t
-        cat.save()
-        
+        label = Label.objects.get(id=jobj['id'])
+        label.name = jobj['title']
+        label.desc = jobj['desc']
+        label.update_time = t
+        label.save()
+        get_settings(True)
     except:
         return HttpResponse('FAIL')
 
@@ -128,10 +127,10 @@ def new_label(req):
         jobj = json.loads(req.body)
         
         t = datetime.today()    
-        cat = Label(name=jobj['title'], desc=jobj['desc'],
+        label = Label(name=jobj['title'], desc=jobj['desc'],
                 create_time=t, update_time=t)
-        cat.save()
-        
+        label.save()
+        get_settings(True)
     except:
         return HttpResponse('FAIL')
 

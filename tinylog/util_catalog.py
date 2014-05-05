@@ -99,7 +99,7 @@ def del_catalog(req):
         jobj = json.loads(req.body)
         cat = Catalog.objects.get(id=jobj['id'])
         cat.delete()
-        
+        get_settings(True)
     except:
         return HttpResponse('FAIL')
 
@@ -117,7 +117,7 @@ def update_catalog(req):
         cat.type = jobj['sel']
         cat.update_time = t
         cat.save()
-        
+        get_settings(True)
     except:
         return HttpResponse('FAIL')
 
@@ -133,7 +133,7 @@ def new_catalog(req):
         cat = Catalog(name=jobj['title'], desc=jobj['desc'],
                 type=jobj['sel'], create_time=t, update_time=t)
         cat.save()
-        
+        get_settings(True)
     except:
         return HttpResponse('FAIL')
 

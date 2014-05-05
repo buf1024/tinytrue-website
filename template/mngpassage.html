@@ -22,19 +22,9 @@
       <td class="text-center-align">{{ p.passage.hot }}</td>
       <td class="text-center-align">{{ p.comment_count }}</td>
       <td class="text-center-align">
-        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngcomment_view">查看</button>
-        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngcomment_modify">修改</button>
-        <button class="btn btn-xs btn-danger" data="{{ p.passage.id }}" id="mngcomment_delete">删除</button>
-        {% if p.passage.front_flag %}
-        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngcomment_cancel_front">取消置顶</button>
-        {% else %}
-        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngcomment_front">置顶</button>
-        {% endif %}
-        {% if p.passage.visiable %}
-        <button class="btn btn-xs btn-success" data="{{ p.passage.id }}" id="mngcomment_hide">隐藏</button>
-        {% else %}
-        <button class="btn btn-xs btn-warning" data="{{ p.passage.id }}" id="mngcomment_show">显示</button>
-        {% endif %}
+        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngpassage_view_{{ p.passage.id }}">查看</button>
+        <button class="btn btn-xs btn-info" data="{{ p.passage.id }}" id="mngpassage_modify_{{ p.passage.id }}">修改</button>
+        <button class="btn btn-xs btn-danger" data="{{ p.passage.id }}" id="mngpassage_delete_{{ p.passage.id }}">删除</button>
       </td>
     </tr>
     {% endfor %}

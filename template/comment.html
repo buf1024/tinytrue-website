@@ -1,0 +1,89 @@
+<div class="comment-list" id="comment">
+  <div class="comment">
+    <button class="btn btn-info btn-xs"> RSS订阅</button>
+    <div class="btn-group">
+      <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
+        分享 <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">分享到新浪微博</a></li>
+        <li><a href="#">分享到QQ空间</a></li>
+      </ul>
+    </div>
+  </div>
+  {% for comment in comments %}
+  <div class="comment" id = "{{ comment.id }}">
+    <div>
+      <a href="{{ comment.image }}"><img src="{{ comment.image }}" with="48" height="48"></a>
+      <div class="comment-header">
+        <a href="{{ comment.id }}">{{ comment.author }}</a>
+        <br>
+        <a href="{{ comment.id }}">{{ comment.create_time }}</a>
+      </div>
+    </div>
+    <hr class="fixed-hr">
+    <p>{{comment.content}}</p>
+    <p><button type="button" class="btn btn-info btn-xs" id="comment_reply_{{comment.id}}" data="{{comment.id}}">回复</button></p>
+    {% for scomment in comment.comment_set %}
+    <div class="comment-inner">
+      <div>
+        <a href="{{ scomment.id }}"><img src="{{ scomment.image }}" with="48" height="48"></a>
+        <div class="comment-header">
+        <a href="{{ scomment.id }}">{{ scomment.author }}</a>
+        <br>
+        <a href="{{ scomment.id }}">{{ scomment.create_time }}</a>
+      </div>
+    </div>
+    <hr class="fixed-hr">
+    <p>{{scomment.content}}</p>
+    <p><button type="button" class="btn btn-info btn-xs" id="scomment_reply_{{comment.id}}" data="{{scomment.id}}">回复</button></p>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  {%if enable_comment %}
+  <div class="comment">
+    <p>请留言</p>
+    <hr class="fixed-hr">
+    <form class="form-horizontal" role="form">
+      
+      <div class="form-group">
+        <div class="col-xs-4">
+          <input type="text" class="form-control" id="inputName" placeholder="昵称">
+        </div>
+        <label class="col-xs-2 form-label-left" for="inputName">昵称(*)</label>
+      </div>
+      <div  class="form-group">
+        <div class="col-xs-4">
+          <input type="text" class="form-control" id="inputEmail" placeholder="电子邮箱">
+        </div>
+        <label class="col-xs-2 form-label-left" for="inputEmail">电子邮箱(*)</label>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-4">
+          <input type="text" class="form-control" id="inputSite" placeholder="站点">
+        </div>
+        <label class="col-xs-2 form-label-left" for="inputSite">站点</label>
+      </div>
+      <textarea class="form-control" rows="8"></textarea>
+      <div class="form-btn-left">
+        <button id="submit_comment" class="btn btn-info">提交</button>
+      </div>
+    </form>
+  </div>
+  {% endif %}
+</div>
+{% if has_passage %}
+<div class="comment">
+  {% if pre_passage %}
+  <a href="/passage/{{ pre_passage.id }}"><span class="label label-info">&lt;&lt; {{ pre_passage.title }}</span></a>
+  {% else %}
+  <span class="label label-info">已是最前一篇</span> 
+  {% endif %}
+  {% if nxt_passage %}
+  <a class="text-align-right" href="/passage/{{ nxt_passage.id }}"><span class="label label-info">{{ nxt_passage.title }} &gt;&gt;</span></a>
+  {% else %}
+  <span class="label label-info text-align-right">已是最后一篇</span> 
+  {% endif %}
+</div>
+{% endif %}

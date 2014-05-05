@@ -4,7 +4,6 @@ $(function () {
 
 function passage_setup() {
     tinymce.init({selector:"#tinymce_editor"});
-
     $("#passage_save").bind("click", passage_save);
     $("#passage_save_draft").bind("click", passage_save_draft);
 /*    $("#dialog_confirm_no").bind("click", dialog_confirm_no);
