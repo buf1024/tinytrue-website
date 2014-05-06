@@ -110,7 +110,7 @@ def update_catalog(req):
     try_redirect()
     try:
         jobj = json.loads(req.body)
-        t = datetime.today()    
+        t = datetime.datetime.today()    
         cat = Catalog.objects.get(id=jobj['id'])
         cat.name = jobj['title']
         cat.desc = jobj['desc']
@@ -126,15 +126,18 @@ def update_catalog(req):
 @csrf_exempt    
 def new_catalog(req):
     try_redirect()
+    id = -1
     try:
         jobj = json.loads(req.body)
         
-        t = datetime.today()    
+        t = datetime.datetime.today()    
         cat = Catalog(name=jobj['title'], desc=jobj['desc'],
                 type=jobj['sel'], create_time=t, update_time=t)
         cat.save()
+        id = cat.id
         get_settings(True)
-    except:
+    except Exception, e:
+        print e
         return HttpResponse('FAIL')
 
-    return HttpResponse('SUCCESS')
+    return HttpResponse('SUCCESS|' + str(id))

@@ -59,6 +59,7 @@ class Passage(models.Model):
 class Comment(models.Model):
     author = models.CharField(max_length = 64)
     email = models.EmailField()  
+    site = models.CharField(max_length = 256, null=True)
     image = models.CharField(max_length = 64)
     content = models.TextField()
     
@@ -67,7 +68,7 @@ class Comment(models.Model):
     create_time = models.DateTimeField()
     
     passage = models.ForeignKey(Passage)
-    parent = models.ForeignKey('self')
+    parent = models.ForeignKey('self', null=True)
 
     def __unicode__(self):
         return '<comment:' + self.author + '>'

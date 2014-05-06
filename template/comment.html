@@ -1,13 +1,13 @@
 <div class="comment-list" id="comment">
   <div class="comment">
-    <button class="btn btn-info btn-xs"> RSS订阅</button>
+    <button class="btn btn-info btn-xs" id="rss_subscribe"> RSS订阅</button>
     <div class="btn-group">
       <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown">
         分享 <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li><a href="#">分享到新浪微博</a></li>
-        <li><a href="#">分享到QQ空间</a></li>
+        <li><a href="/share/weibo/passage/{{passage_id}}">分享到新浪微博</a></li>
+        <li><a href="/share/qq/passage/{{passage_id}}">分享到QQ空间</a></li>
       </ul>
     </div>
   </div>
@@ -18,12 +18,12 @@
       <div class="comment-header">
         <a href="{{ comment.id }}">{{ comment.author }}</a>
         <br>
-        <a href="{{ comment.id }}">{{ comment.create_time }}</a>
+        <a href="{{ comment.id }}">{{ comment.create_time | date:"Y-m-d H:i:s" }}</a>
       </div>
     </div>
     <hr class="fixed-hr">
     <p>{{comment.content}}</p>
-    <p><button type="button" class="btn btn-info btn-xs" id="comment_reply_{{comment.id}}" data="{{comment.id}}">回复</button></p>
+    <p><button class="btn btn-info btn-xs" id="comment_reply_{{comment.id}}" data="{{comment.id}}">回复</button></p>
     {% for scomment in comment.comment_set %}
     <div class="comment-inner">
       <div>
@@ -31,12 +31,12 @@
         <div class="comment-header">
         <a href="{{ scomment.id }}">{{ scomment.author }}</a>
         <br>
-        <a href="{{ scomment.id }}">{{ scomment.create_time }}</a>
+        <a href="{{ scomment.id }}">{{ scomment.create_time | date:"Y-m-d H:i:s" }}</a>
       </div>
     </div>
     <hr class="fixed-hr">
     <p>{{scomment.content}}</p>
-    <p><button type="button" class="btn btn-info btn-xs" id="scomment_reply_{{comment.id}}" data="{{scomment.id}}">回复</button></p>
+    <p><button class="btn btn-info btn-xs" id="comment_reply_{{comment.id}}" data="{{comment.id}}">回复</button></p>
     </div>
     {% endfor %}
   </div>
@@ -45,31 +45,30 @@
   <div class="comment">
     <p>请留言</p>
     <hr class="fixed-hr">
-    <form class="form-horizontal" role="form">
-      
+    <form class="form-horizontal" role="form">      
       <div class="form-group">
         <div class="col-xs-4">
-          <input type="text" class="form-control" id="inputName" placeholder="昵称">
+          <input type="text" class="form-control" id="input_name" placeholder="昵称">
         </div>
-        <label class="col-xs-2 form-label-left" for="inputName">昵称(*)</label>
+        <label class="col-xs-2 form-label-left" for="input_name">昵称(*)</label>
       </div>
       <div  class="form-group">
         <div class="col-xs-4">
-          <input type="text" class="form-control" id="inputEmail" placeholder="电子邮箱">
+          <input type="text" class="form-control" id="input_email" placeholder="电子邮箱">
         </div>
-        <label class="col-xs-2 form-label-left" for="inputEmail">电子邮箱(*)</label>
+        <label class="col-xs-2 form-label-left" for="input_email">电子邮箱(*)</label>
       </div>
       <div class="form-group">
         <div class="col-xs-4">
-          <input type="text" class="form-control" id="inputSite" placeholder="站点">
+          <input type="text" class="form-control" id="input_site" placeholder="站点">
         </div>
-        <label class="col-xs-2 form-label-left" for="inputSite">站点</label>
+        <label class="col-xs-2 form-label-left" for="input_site">站点</label>
       </div>
-      <textarea class="form-control" rows="8"></textarea>
-      <div class="form-btn-left">
-        <button id="submit_comment" class="btn btn-info">提交</button>
-      </div>
+      <textarea class="form-control" id="input_comment" rows="8"></textarea>      
     </form>
+    <div class="form-btn-left">
+      <button type="button" id="submit_comment" class="btn btn-info" data="{{ passage_id }}">提交</button>
+    </div>
   </div>
   {% endif %}
 </div>

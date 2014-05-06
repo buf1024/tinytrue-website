@@ -86,7 +86,7 @@ def mngpassage_newpassage(req):
     setting = settings['setting']
 
     d = {}
-    d['extral_block'] = get_mngpassage_newpassage_extral_block()
+    d['extral_block'] = get_editpassage_extral_block()
     d['header_block'] = get_header_block(setting.title + u' : 新增文章',
                                               extjs = ['/tinymce/tinymce.min.js',
                                                 '/js/editpassage.js'])    
@@ -108,7 +108,7 @@ def mngpassage_modifypassage(req, ctx):
     p = Passage.objects.get(id=ctx)
     
     d = {}
-    d['extral_block'] = get_mngpassage_modifypassage_extral_block()
+    d['extral_block'] = get_editpassage_extral_block()
     d['header_block'] = get_header_block(setting.title + u' : 修改文章',
                                               extjs = ['/tinymce/tinymce.min.js',
                                                 '/js/editpassage.js'])    
@@ -264,15 +264,94 @@ def label_passage(req, ctx):
     h = t.render(c)
 
     return HttpResponse(h)
+def ar_passage(req, ctx):
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 归档汇总',
+                                             extjs = ['/js/collect.js'])    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block()    
+    d['passages_block'] = get_ar_passage_block(ctx)    
+    d['passage_count_block'] = ''   
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
+    
+def cat_more(req):
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 分类汇总',
+                                             extjs = ['/js/collectmore.js'])    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block()    
+    d['passages_block'] = get_cat_more_block()    
+    d['passage_count_block'] = ''   
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
+    
+def label_more(req):
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 分类汇总',
+                                             extjs = ['/js/collectmore.js'])    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block()    
+    d['passages_block'] = get_label_more_block()    
+    d['passage_count_block'] = ''   
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
+    
+def ar_more(req):
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 分类汇总',
+                                             extjs = ['/js/collectmore.js'])    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block()    
+    d['passages_block'] = get_ar_more_block()    
+    d['passage_count_block'] = ''   
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
     
 def view_passage(req, ctx):
-    try_redirect()
     
     settings = get_settings()
     setting = settings['setting']
     
     d = {}    
-    d['header_block'] = get_header_block(setting.title)    
+    d['header_block'] = get_header_block(setting.title,
+                                            extjs = ['/js/viewpassage.js'])    
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block()    
     d['passages_block'] = get_view_passage_block(ctx)    

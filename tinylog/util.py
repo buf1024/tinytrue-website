@@ -160,20 +160,20 @@ def get_view_passage_block(ctx):
         d['passage_content'] = p.content
         d['passage_create_time'] = p.create_time
         d['passage_update_time'] = p.update_time
-
+        
         cc = []
-        comments = p.comment_set.all().order_by('-create_time')
+        comments = p.comment_set.all().order_by('create_time')
         count = len(comments)
         for comment in comments:
             count += comment.comment_set.count()
-            d = {}
-            d['id'] = comment.id
-            d['image'] = comment.image
-            d['author'] = comment.author
-            d['create_time'] = comment.create_time
-            d['content'] = comment.content
+            di = {}
+            di['id'] = comment.id
+            di['image'] = comment.image
+            di['author'] = comment.author
+            di['create_time'] = comment.create_time
+            di['content'] = comment.content
             
-            scomments = comment.comment_set.objects.all().order_by('create_time')
+            scomments = comment.comment_set.all().order_by('create_time')
             ccs = []
             for c in scomments:
                 sd = {}
@@ -183,8 +183,9 @@ def get_view_passage_block(ctx):
                 sd['create_time'] = c.create_time
                 sd['content'] = c.content
                 ccs.append(sd)
-            d['comment_set'] = ccs
-            cc.append(d)
+            di['comment_set'] = ccs
+            print ccs
+            cc.append(di)
         
         d['passage_comment_count'] = count
         d['passage_catolog'] = p.catalog
@@ -192,13 +193,17 @@ def get_view_passage_block(ctx):
         labels = p.labels.all()
         d['passage_label_list'] = labels
         
+        
         t = get_template('passage.html')
         c = Context(d)        
         h = t.render(c)
         
+        print cc
+        
         d = {}
         d['comments'] = cc
         d['enable_comment'] = p.enable_comment
+        d['passage_id'] = p.id
         pre  = Passage.objects.filter(id = (int(ctx) - 1))
         nxt = Passage.objects.filter(id = (int(ctx) + 1))
         if len(pre) > 0:
@@ -207,7 +212,7 @@ def get_view_passage_block(ctx):
         if len(nxt) > 0:
             d['nxt_passage'] = nxt[0]
             d['has_passage'] = True
-            
+           
             
         h = h + '\n'
         t = get_template('comment.html')

@@ -36,10 +36,32 @@ def get_mngpassage_block():
 
     return h
     
-def get_mngpassage_newpassage_extral_block():
-    pass
-def get_mngpassage_modifypassage_extral_block():
-    pass
+def get_editpassage_extral_block():
+    d = {}
+    d['catalog'] = None
+    
+    t = get_template('catalogform.html')
+    c = Context(d)
+    h = t.render(c)
+    
+    d = {}
+    d['dialog_body'] = h
+    d['dialog_id'] = 'dialog_catalog'
+    d['dialog_title_id'] = 'dialog_catalog_title'
+    d['dialog_body_id'] = 'dialog_catalog_body'
+    
+    btn = {}
+    btn['id'] = 'dialog_catalog_save'
+    btn['title'] = u'保存'
+    
+    d['btns'] = [btn]
+       
+    t = get_template('dialog.html')
+    c = Context(d)
+    h = t.render(c)
+    
+    return h
+    
 def get_mngpassage_newpassage_block():
     settings = get_settings()
     
@@ -195,6 +217,31 @@ def del_passage(req):
 
     return HttpResponse('SUCCESS')
 
+@csrf_exempt
+def comment_passage(req):
+    try:
+        jobj = json.loads(req.body)   
+        ip = req.META['REMOTE_ADDR']
+        id = jobj['id']
+        p = Passage.objects.get(id=id)
+        
+        c = Comment()
+        c.author = jobj['name']
+        c.email = jobj['email']
+        c.site = jobj['site']
+        c.image = '/img/run.png'
+        c.content = jobj['comment']
+        c.ip_address = ip
+        c.create_time = datetime.datetime.today()
+        c.passage = p
+        c.parent = None
+        c.save()
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+
+    return HttpResponse('SUCCESS')
+
     
 def backup_passage(req):
     pass
@@ -205,7 +252,6 @@ def get_cat_passage_block(ctx):
     try:
         cat = Catalog.objects.get(id=ctx)
         passages = cat.passage_set.filter(visiable=True, draft_flag=False)
-        print passages
         d = {}
         d['collect_title'] = u'分类: ' + cat.name
         d['collet_type'] = u'分类'
@@ -220,7 +266,9 @@ def get_cat_passage_block(ctx):
             for ci in p.comment_set.all():
                 c = c + ci.comment_set.count()             
             di['comment_count'] = c
+            
             dl.append(di)
+                    
         d['items'] = dl
         
         t = get_template('collect.html')
@@ -240,9 +288,7 @@ def get_label_passage_block(ctx):
     h = ''
     try:
         label = Label.objects.get(id=ctx)
-        print label
         passages = label.passage_set.filter(visiable=True, draft_flag=False)
-        print passages
         d = {}
         d['collect_title'] = u'标签: ' + label.name
         d['collet_type'] = u'标签'
@@ -258,9 +304,146 @@ def get_label_passage_block(ctx):
                 c = c + ci.comment_set.count()             
             di['comment_count'] = c
             dl.append(di)
+                    
         d['items'] = dl
         
         t = get_template('collect.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    except Exception, e:
+        print e
+        d = {}
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h
+    
+def get_ar_passage_block(ctx):
+    h = ''
+    try:
+        y = ctx[:4]
+        m = ctx[4:]
+        
+        ar = Archive.objects.get(year=y, month=m)
+        passages = ar.passage_set.filter(visiable=True, draft_flag=False)
+        d = {}
+        d['collect_title'] = u'归档: ' + ctx
+        d['collet_type'] = u'归档日期'
+        dl = []
+        for p in passages:
+            di = {}
+            di['id'] = p.id
+            di['cat'] = ctx
+            di['name'] = p.title
+            di['hot'] = p.hot
+            c = p.comment_set.count()
+            for ci in p.comment_set.all():
+                c = c + ci.comment_set.count()             
+            di['comment_count'] = c
+            dl.append(di)
+                    
+        d['items'] = dl
+        
+        t = get_template('collect.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    except Exception, e:
+        print e
+        d = {}
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h
+    
+def get_cat_more_block(): 
+    h = ''
+    try:
+        cats = Catalog.objects.filter(type=1)
+        d = {}
+        d['collect_title'] = u'分类汇总'
+        dl = []
+        for cat in cats:
+            count = cat.passage_set.filter(visiable=True, draft_flag=False).count()            
+            di = {}
+            di['id'] = cat.id
+            di['name'] = cat.name
+            di['desc'] = cat.desc
+            di['passage_count'] = count
+            di['link'] = '/cat/' + str(cat.id)
+            dl.append(di)
+            
+        d['items'] = dl
+        
+        t = get_template('collectmore.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    except Exception, e:
+        print e
+        d = {}
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h
+    
+def get_label_more_block(): 
+    h = ''
+    try:
+        labels = Label.objects.all()
+        d = {}
+        d['collect_title'] = u'标签汇总'
+        dl = []
+        for label in labels:
+            count = label.passage_set.filter(visiable=True, draft_flag=False).count()            
+            di = {}
+            di['id'] = label.id
+            di['name'] = label.name
+            di['desc'] = label.desc
+            di['passage_count'] = count
+            di['link'] = '/label/' + str(label.id)
+            dl.append(di)
+            
+        d['items'] = dl
+        
+        t = get_template('collectmore.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    except Exception, e:
+        print e
+        d = {}
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h
+    
+def get_ar_more_block(): 
+    h = ''
+    try:
+        ars = Archive.objects.all()
+        d = {}
+        d['collect_title'] = u'归档汇总'
+        dl = []
+        for ar in ars:
+            count = ar.passage_set.filter(visiable=True, draft_flag=False).count()            
+            di = {}
+            name = ar.year + ar.month
+            di['id'] = ar.id
+            di['name'] = name
+            di['desc'] = name + u' 自动归档文章'
+            di['passage_count'] = count
+            di['link'] = '/ar/' + name
+            dl.append(di)
+            
+        d['items'] = dl
+        
+        t = get_template('collectmore.html')
         c = Context(d)
         h = t.render(c)
         

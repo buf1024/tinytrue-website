@@ -6,30 +6,63 @@ function passage_setup() {
     tinymce.init({selector:"#tinymce_editor"});
     $("#passage_save").bind("click", passage_save);
     $("#passage_save_draft").bind("click", passage_save_draft);
-/*    $("#dialog_confirm_no").bind("click", dialog_confirm_no);
-    $("#dialog_confirm_yes").bind("click", dialog_confirm_yes);*/
+    $("#passage_catalog").bind("change", passage_catalog);
+    $("#dialog_catalog_save").bind("click", dialog_catalog_save);
+    $('#dialog_catalog').on('hidden.bs.modal', dialog_hidden);
 }
 
-function dialog_confirm_yes() {
-    var id = $("#dialog_confirm_yes").attr("data");  
-    var obj = {"id":id};
-    var jobj = JSON.stringify(obj);
-    $.post("/manage/catalog/delete", jobj, function(data) {
-        if(data == "FAIL") {
-            alert("操作失败!");
-        }else{
-            location.reload();
-        }
-    });
+function dialog_hidden() {    
+    var sel$ =  $("#passage_catalog");
+    var val = sel$.find(':selected').val();
+    if(val == -1) {
+        var sel = "#passage_catalog option[value='-1000'";
+        $(sel).attr("selected", true);
+    }
 }
 
-function dialog_confirm_no() {
-    $("#dialog_confirm").modal("hide");
+function dialog_catalog_save() {
+    var title = $("#catalog_title").val();
+    var desc = $("#catalog_desc").val();
+    var sel = $("#catalog_opt_type").val();
+    
+    var role = $("#dialog_catalog_save").attr("role");
+    var id = $("#dialog_catalog_save").attr("data");
+    
+    if(title == "" || desc == "") {
+        alert("名称或描述为空");
+    }else{
+        var obj = {"title":title, "desc":desc, "sel":sel};
+            
+        jobj = JSON.stringify(obj);
+        url = "/manage/catalog/new";
+        
+        $.post(url, jobj, function(data) {
+            if(data == "FAIL") {
+                alert("操作失败!");
+                sel = "#passage_catalog option[value='-1000'";
+                $(sel).attr("selected", true);
+            }else{
+                d = data.split("|");
+                opt = "<option value='" + d[1] + "'>" + title +"</option>";
+                $("#passage_catalog").prepend(opt);
+                sel = "#passage_catalog option[value='" + d[1] + "'";
+                $(sel).attr("selected", true);
+                $("#dialog_catalog").modal("hide");
+            }
+        });
+    }
 }
 
+function passage_catalog() {
+    var sel$ =  $("#passage_catalog");
+    var val = sel$.find(':selected').val();
+    if(val == -1) {
+        $("#catalog_opt_type").attr("disabled", "disabled");
+        $("#dialog_catalog").modal();
+    }
+}
 function passage_save() {
     edit_passage(false);
-
 }
 
 function passage_save_draft() {

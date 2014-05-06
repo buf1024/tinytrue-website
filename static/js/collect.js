@@ -8,5 +8,5 @@ function passageview_setup() {
 
 function passage_view(event) {
     var id = $("#" + event.target.id).attr("data");
-    location.href = '/passage/' + id
+    location.href = "/passage/" + id
 }

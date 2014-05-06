@@ -63,7 +63,13 @@ urlpatterns = patterns('',
     
     url(r'^cat/(\d+)$', 'tinylog.views.cat_passage'),
     url(r'^label/(\d+)$', 'tinylog.views.label_passage'),
+    url(r'^ar/(\d+)$', 'tinylog.views.ar_passage'),
+    url(r'^cat/more$', 'tinylog.views.cat_more'),
+    url(r'^label/more$', 'tinylog.views.label_more'),
+    url(r'^ar/more$', 'tinylog.views.ar_more'),
+    
     url(r'^passage/(\d+)$', 'tinylog.views.view_passage'),
+    url(r'^comment/passage$', 'tinylog.views.comment_passage'),
     )
 
 if tinytrue.settings.DEBUG:
