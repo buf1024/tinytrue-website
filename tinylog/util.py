@@ -109,7 +109,8 @@ def get_passage_block():
     setting = settings['setting']
     
     passages = Passage.objects.filter(visiable=True, draft_flag=False).order_by('-front_flag', '-update_time')[:setting.blog_display_count]
-            
+    
+    print passages
 
     h = ''
     t = get_template('passage.html')
@@ -127,10 +128,7 @@ def get_passage_block():
             d['passage_content'] = content
             
 
-            comments = p.comment_set.all()
-            count = len(comments)
-            for comment in comments:
-                count += comment.comment_set.count()
+            count = p.comment_set.count()
             
             d['passage_comment_count'] = count
             d['passage_catolog'] = p.catalog
@@ -148,6 +146,29 @@ def get_passage_block():
         h = h + t.render(c) + '\n'
         
     return h
+    
+def get_leave_comment(title, id, exstyle, rid):
+    d = {}
+    d['comment_title'] = title
+    d['comment_id'] = id
+    d['exstyle'] = exstyle
+    d['relate_id'] = rid
+    
+    t = get_template('leavecomment.html')
+    c = Context(d)        
+    h = t.render(c)
+    
+    return h
+  
+def get_child_comments(c):
+    cc = []
+    comments = c.comment_set.all().order_by('create_time')
+    for comment in comments:
+        cc.append(comment)
+        scc = get_child_comments(comment)
+        if len(scc) > 0:
+            cc = cc + scc
+    return cc
 
 def get_view_passage_block(ctx):
     h = ''
@@ -163,28 +184,38 @@ def get_view_passage_block(ctx):
         
         cc = []
         comments = p.comment_set.all().order_by('create_time')
-        count = len(comments)
+        count = p.comment_set.count()
         for comment in comments:
-            count += comment.comment_set.count()
+            if comment.parent != None:
+                continue
             di = {}
             di['id'] = comment.id
             di['image'] = comment.image
+            site = comment.site
+            if len(site) > 0 and not site.startswith('http'):
+                site = 'http://' + site
+            di['site'] = site
             di['author'] = comment.author
             di['create_time'] = comment.create_time
             di['content'] = comment.content
-            
-            scomments = comment.comment_set.all().order_by('create_time')
+            di['leavecomment'] = get_leave_comment(None, comment.id, 'display-none', comment.id)
+            scomments = get_child_comments(comment)
             ccs = []
             for c in scomments:
                 sd = {}
                 sd['id'] = c.id
                 sd['image'] = c.image
+                site = comment.site
+                if len(site) > 0 and not site.startswith('http'):
+                    site = 'http://' + site
+                sd['site'] = site
                 sd['author'] = c.author
                 sd['create_time'] = c.create_time
                 sd['content'] = c.content
+                sd['leavecomment'] = get_leave_comment(None, c.id, 'display-none', c.id)
                 ccs.append(sd)
             di['comment_set'] = ccs
-            print ccs
+            
             cc.append(di)
         
         d['passage_comment_count'] = count
@@ -198,12 +229,11 @@ def get_view_passage_block(ctx):
         c = Context(d)        
         h = t.render(c)
         
-        print cc
         
         d = {}
         d['comments'] = cc
         d['enable_comment'] = p.enable_comment
-        d['passage_id'] = p.id
+        d['leavecomment'] = get_leave_comment(u'THANKS FOR COMMENT', 'z', '', p.id)
         pre  = Passage.objects.filter(id = (int(ctx) - 1))
         nxt = Passage.objects.filter(id = (int(ctx) + 1))
         if len(pre) > 0:
@@ -282,7 +312,10 @@ def get_comment(t, m):
         di = {}
         di['link']  = '/passage/' + str(c.passage.id)
         di['title']  = ''
-        di['content'] = c.content
+        c = c.content
+        if len(c) > 15:
+            c = c[:15] + ' ...... '
+        di['content'] = c
         cl.append(di)
     if len(comments) == m.display_count:        
         d['module_more_link'] = '/comment/more' 
@@ -330,8 +363,6 @@ def get_comment_hot(t, m):
         di['link']  = '/passage/' + str(p.id)
         di['title']  = ''
         c = p.comment_set.count()
-        for sc in p.comment_set.all():
-            c = c + sc.comment_set.count()
         di['content'] = p.title + '(' + str(c) + ')'        
         pl.append(di)
     if len(passages) == m.display_count:        

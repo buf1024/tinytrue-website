@@ -11,8 +11,7 @@ def get_mngcomment_block():
     settings = get_settings()
     setting = settings['setting']
     comments = Comment.objects.all()[:setting.blog_display_count]
-    
-        
+ 
     d = {}        
     d['comments'] = comments
     d['page_count_block'] = get_comment_count_block()

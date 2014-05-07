@@ -128,7 +128,8 @@ def mngcomment(req):
     setting = settings['setting']
 
     d = {}   
-    d['header_block'] = get_header_block(setting.title + u' : 评论管理')    
+    d['header_block'] = get_header_block(setting.title + u' : 评论管理',
+                                              extjs = ['/js/mngcomment.js'])    
     d['nav_block'] = get_nav_block()
     d['content_block'] = get_mngcomment_block()    
     d['footer_block'] = get_footer_block()        

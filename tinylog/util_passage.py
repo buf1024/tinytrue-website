@@ -223,7 +223,14 @@ def comment_passage(req):
         jobj = json.loads(req.body)   
         ip = req.META['REMOTE_ADDR']
         id = jobj['id']
-        p = Passage.objects.get(id=id)
+        role = jobj['role']
+        p = None
+        pc = None
+        if role == 'p':
+            p = Passage.objects.get(id=id)
+        else:
+            pc = Comment.objects.get(id=id)
+            p = pc.passage            
         
         c = Comment()
         c.author = jobj['name']
@@ -234,7 +241,7 @@ def comment_passage(req):
         c.ip_address = ip
         c.create_time = datetime.datetime.today()
         c.passage = p
-        c.parent = None
+        c.parent = pc
         c.save()
     except Exception, e:
         print e
@@ -262,9 +269,7 @@ def get_cat_passage_block(ctx):
             di['cat'] = cat.name
             di['name'] = p.title
             di['hot'] = p.hot
-            c = p.comment_set.count()
-            for ci in p.comment_set.all():
-                c = c + ci.comment_set.count()             
+            c = p.comment_set.count()            
             di['comment_count'] = c
             
             dl.append(di)
@@ -299,9 +304,7 @@ def get_label_passage_block(ctx):
             di['cat'] = label.name
             di['name'] = p.title
             di['hot'] = p.hot
-            c = p.comment_set.count()
-            for ci in p.comment_set.all():
-                c = c + ci.comment_set.count()             
+            c = p.comment_set.count()           
             di['comment_count'] = c
             dl.append(di)
                     
@@ -338,9 +341,7 @@ def get_ar_passage_block(ctx):
             di['cat'] = ctx
             di['name'] = p.title
             di['hot'] = p.hot
-            c = p.comment_set.count()
-            for ci in p.comment_set.all():
-                c = c + ci.comment_set.count()             
+            c = p.comment_set.count()            
             di['comment_count'] = c
             dl.append(di)
                     

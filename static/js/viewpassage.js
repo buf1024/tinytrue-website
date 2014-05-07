@@ -3,29 +3,40 @@ $(function () {
 });
 
 function passage_setup() {
-    $("#submit_comment").bind("click", submit_comment);
     $("button[id^='comment_reply']").bind("click", comment_reply);
+    $("button[id^='submit_comment']").bind("click", submit_comment);
 }
 
 function submit_comment() {
-    var name = $("#input_name").val();
-    var email = $("#input_email").val();
-    var comment = $("#input_comment").val();
+    var btn$ = $("#" + event.target.id);    
+    var bid = btn$.attr("id");
+    var sp = bid.split("_");
+    var suf = sp[sp.length - 1];
+    var rid = btn$.attr("data");
+    var role = btn$.attr("role");
+    
+    var name = $("#input_name_" + suf).val();
+    var email = $("#input_email_" + suf).val();
+    var comment = $("#input_comment_" + suf).val();
     if(name == "" || email == "") {
         alert("昵称或电子邮箱为空!");
         return;
     }
-    if(comment.length <= 20) {
-        alert("评论不能少于20个字符!");
+    if(comment.length <= 15) {
+        alert("评论不能少于15个字符!");
         return;
     }
-    var site = $("#input_site").val();
-    
-    var id = $("#submit_comment").attr("data");
-    var obj = {"id":id, "name":name, "email":email, "site":site, "comment":comment};
+    var site = $("#input_site_" + suf).val(); 
+    var obj = {
+        "role":role,
+        "id":rid,
+        "name":name,
+        "email":email,
+        "site":site,
+        "comment":comment
+    };
     var jobj = JSON.stringify(obj);
     var url = "/comment/passage";
-    
     $.post(url, jobj, function(data) {
         if(data == "FAIL") {
             alert("提交评论失败!");
@@ -37,6 +48,15 @@ function submit_comment() {
     return;
 }
 
-function comment_reply() {
-    var id = $("#" + event.target.id).attr("data");
+function comment_reply(event) {
+    var btn$ = $("#" + event.target.id);    
+    var id = btn$.attr("data");
+    var status = btn$.attr("status");
+    if(status == "hide"){
+        $("#leave_comment_" + id).slideDown();
+        btn$.attr("status", "show");
+    }else{
+        $("#leave_comment_" + id).slideUp();
+        btn$.attr("status", "hide");
+    }
 }

@@ -105,7 +105,7 @@ def update_game(req):
     try:
         jobj = json.loads(req.body)
         
-        t = datetime.today()        
+        t = datetime.datetime.today()        
         game = Game.objects.get(id=jobj['id'])
         game.name = jobj['title']
         game.desc = jobj['desc']
@@ -128,7 +128,7 @@ def new_game(req):
     try:
         jobj = json.loads(req.body)        
         cat = Catalog.objects.get(id=jobj['catalog']['id'])        
-        t = datetime.today()    
+        t = datetime.datetime.today()    
         game = Game(name=jobj['title'], desc=jobj['desc'],
                 image=jobj['image'], visiable=jobj['visiable'],
                 hot=0,
@@ -148,7 +148,7 @@ def show_game(req):
     try:
         jobj = json.loads(req.body)
         
-        t = datetime.today()        
+        t = datetime.datetime.today()        
         game = Game.objects.get(id=jobj['id'])
         game.visiable = jobj['visiable']
         game.update_time = t

@@ -49,7 +49,7 @@ class Passage(models.Model):
     create_time = models.DateTimeField()
     update_time = models.DateTimeField()
 
-    catalog = models.ForeignKey(Catalog)
+    catalog = models.ForeignKey(Catalog, null=True)
     labels = models.ManyToManyField(Label)
     archive = models.ForeignKey(Archive)
 
@@ -130,7 +130,7 @@ class Game(models.Model):
     create_time = models.DateTimeField()
     update_time = models.DateTimeField()
     
-    catalog = models.ForeignKey(Catalog)
+    catalog = models.ForeignKey(Catalog, null=True)
 
     def __unicode__(self):
         return '<game:' + self.name + '>'
