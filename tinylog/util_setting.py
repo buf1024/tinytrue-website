@@ -47,8 +47,12 @@ def get_mngsetting_extral_block():
     
     return h
     
+#management admin required
 @csrf_exempt 
 def update_setting(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
     try:
         jobj = json.loads(req.body)
         setting = Settings.objects.get(id=jobj['id'])

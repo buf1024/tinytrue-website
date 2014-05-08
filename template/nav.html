@@ -18,8 +18,6 @@
             <li role="presentation"><a role="menuitem" tabindex="-1" href="/game/more">更多……</a></li>
           </ul>
         </li>
-        {% else %}
-        <li><a href="#" id="nav-menu-nogame">游戏</a></li>
         {% endif %}
 
         {% if admin %}
@@ -34,8 +32,11 @@
             <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/label">标签管理</a></li>
             <li role="presentation" class="divider"></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/setting">博客设置</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/password">密码设置</a></li>
             <li role="presentation" class="divider"></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/game">游戏管理</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="/manage/logout">退出</a></li>
           </ul>
         </li>
         {% else %}

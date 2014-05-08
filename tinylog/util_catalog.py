@@ -77,8 +77,11 @@ def get_mngcatalog_extral_block():
     
     return h
     
+#management admin required
 def req_catalog(req, ctx):
-    try_redirect()
+    r = try_redirect(req)
+    if r != None:
+        return r
         
     obj = Catalog.objects.get(id=ctx)
     d = {}
@@ -91,44 +94,12 @@ def req_catalog(req, ctx):
     h = json.dumps(d)
     
     return HttpResponse(h)
-    
-@csrf_exempt 
-def del_catalog(req):
-    try_redirect()
-    try:
-        jobj = json.loads(req.body)
-        cat = Catalog.objects.get(id=jobj['id'])
-        p_count = cat.passage_set.count()
-        if p_count > 0:
-            return HttpResponse('FAIL')
-        cat.delete()
-        get_settings(True)
-    except:
-        return HttpResponse('FAIL')
 
-    return HttpResponse('SUCCESS')
-
-@csrf_exempt    
-def update_catalog(req):
-    try_redirect()
-    try:
-        jobj = json.loads(req.body)
-        t = datetime.datetime.today()    
-        cat = Catalog.objects.get(id=jobj['id'])
-        cat.name = jobj['title']
-        cat.desc = jobj['desc']
-        cat.type = jobj['sel']
-        cat.update_time = t
-        cat.save()
-        get_settings(True)
-    except:
-        return HttpResponse('FAIL')
-
-    return HttpResponse('SUCCESS')
-    
 @csrf_exempt    
 def new_catalog(req):
-    try_redirect()
+    r = try_redirect(req)
+    if r != None:
+        return r
     id = -1
     try:
         jobj = json.loads(req.body)
@@ -144,3 +115,41 @@ def new_catalog(req):
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS|' + str(id))
+
+@csrf_exempt    
+def update_catalog(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
+    try:
+        jobj = json.loads(req.body)
+        t = datetime.datetime.today()    
+        cat = Catalog.objects.get(id=jobj['id'])
+        cat.name = jobj['title']
+        cat.desc = jobj['desc']
+        cat.type = jobj['sel']
+        cat.update_time = t
+        cat.save()
+        get_settings(True)
+    except:
+        return HttpResponse('FAIL')
+
+    return HttpResponse('SUCCESS')
+        
+@csrf_exempt 
+def del_catalog(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
+    try:
+        jobj = json.loads(req.body)
+        cat = Catalog.objects.get(id=jobj['id'])
+        p_count = cat.passage_set.count()
+        if p_count > 0:
+            return HttpResponse('FAIL')
+        cat.delete()
+        get_settings(True)
+    except:
+        return HttpResponse('FAIL')
+
+    return HttpResponse('SUCCESS')

@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 import tinytrue
+import tinylog.views
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -26,46 +27,48 @@ urlpatterns = patterns('',
     url(r'^manage$', 'tinylog.views.admin'),
     url(r'^manage/admin$', 'tinylog.views.admin'),
     url(r'^manage/login$', 'tinylog.views.login'),
-    url(r'^manage/passage$', 'tinylog.views.mngpassage'),
-    url(r'^manage/comment$', 'tinylog.views.mngcomment'),
-    url(r'^manage/catalog$', 'tinylog.views.mngcatalog'),
-    url(r'^manage/label$', 'tinylog.views.mnglabel'),
-    url(r'^manage/setting$', 'tinylog.views.mngsetting'),
-    url(r'^manage/game$', 'tinylog.views.mnggame'),
     
-    #catalog
+    url(r'^manage/passage$', 'tinylog.views.mngpassage'),
+    url(r'^manage/passage/new$', 'tinylog.views.mngpassage_newpassage'),
+    url(r'^manage/passage/modify/(\d+)$', 'tinylog.views.mngpassage_modifypassage'),    
+    url(r'^manage/passage/edit$', 'tinylog.views.edit_passage'),
+    url(r'^manage/passage/delete$', 'tinylog.views.del_passage'),
+    url(r'^manage/passage/backup$', 'tinylog.views.backup_passage'),
+    
+    url(r'^manage/comment$', 'tinylog.views.mngcomment'),
+    
+    url(r'^manage/catalog$', 'tinylog.views.mngcatalog'),
     url(r'^manage/catalog/(\d+)\.json$', 'tinylog.views.req_catalog'),
     url(r'^manage/catalog/new$', 'tinylog.views.new_catalog'),
     url(r'^manage/catalog/update$', 'tinylog.views.update_catalog'),
     url(r'^manage/catalog/delete$', 'tinylog.views.del_catalog'),
     
-    #setting
-    url(r'^manage/setting/update$', 'tinylog.views.update_setting'),
-    
-    #label
+    url(r'^manage/label$', 'tinylog.views.mnglabel'),
     url(r'^manage/label/(\d+)\.json$', 'tinylog.views.req_label'),
     url(r'^manage/label/new$', 'tinylog.views.new_label'),
     url(r'^manage/label/update$', 'tinylog.views.update_label'),
     url(r'^manage/label/delete$', 'tinylog.views.del_label'),
     
-    #game
+    url(r'^manage/setting$', 'tinylog.views.mngsetting'),
+    url(r'^manage/setting/update$', 'tinylog.views.update_setting'),
+    
+    url(r'^manage/password$', 'tinylog.views.mngpassword'),
+    url(r'^manage/password/update$', 'tinylog.views.update_password'),
+    
+    url(r'^manage/game$', 'tinylog.views.mnggame'),
     url(r'^manage/game/(\d+)\.json$', 'tinylog.views.req_game'),
     url(r'^manage/game/new$', 'tinylog.views.new_game'),
     url(r'^manage/game/update$', 'tinylog.views.update_game'),
     url(r'^manage/game/delete$', 'tinylog.views.del_game'),
     url(r'^manage/game/show$', 'tinylog.views.show_game'),
     
-    #passage
-    url(r'^manage/passage/new$', 'tinylog.views.mngpassage_newpassage'),
-    url(r'^manage/passage/modify/(\d+)$', 'tinylog.views.mngpassage_modifypassage'),
-    url(r'^manage/passage/edit$', 'tinylog.views.edit_passage'),
-    url(r'^manage/passage/delete$', 'tinylog.views.del_passage'),
-    url(r'^manage/passage/backup$', 'tinylog.views.backup_passage'),
+    url(r'^manage/logout$', 'tinylog.views.mnglogout'),
+    
+    url(r'^search$', 'tinylog.views.search'),
     
     url(r'^cat/(\d+)$', 'tinylog.views.cat_passage'),
     url(r'^label/(\d+)$', 'tinylog.views.label_passage'),
-    url(r'^ar/(\d+)$', 'tinylog.views.ar_passage'),
-    
+    url(r'^ar/(\d+)$', 'tinylog.views.ar_passage'),    
     url(r'^cat/more$', 'tinylog.views.cat_more'),
     url(r'^label/more$', 'tinylog.views.label_more'),
     url(r'^ar/more$', 'tinylog.views.ar_more'),
@@ -74,6 +77,8 @@ urlpatterns = patterns('',
     url(r'^passage/(\d+)$', 'tinylog.views.view_passage'),
     url(r'^comment/passage$', 'tinylog.views.comment_passage'),
     )
+    
+handler404 = tinylog.views.error404
 
 if tinytrue.settings.DEBUG:
     urlpatterns += patterns('tinylog.views_debug',

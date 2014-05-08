@@ -30,24 +30,21 @@ function dialog_confirm_no() {
 
 function mngcomment_view(event) {
     var idpair = $("#" + event.target.id).attr("data");
-    var ids = idpaire.split('|');
+    var ids = idpair.split('|');
     
-    location = "/passage/" + ids[1] + "#" +ids[0]
+    window.open("/passage/" + ids[1] + "#" +ids[0]);
 }
 
 function mngcomment_delete(event) {
-    /*var id = $("#" + event.target.id).attr("data");
+    var id = $("#" + event.target.id).attr("data")
     $("#dialog_confirm").modal();
-    $("#dialog_confirm_yes").attr("data", id);  */
+    $("#dialog_confirm_yes").attr("data", id);
 
 }
 
 function mngcomment_reply(event) {
-  /*  $("#dialog_catalog_title").html("增加分类");
-    $("#catalog_title").val("");
-    $("#catalog_desc").val("");
-    var sel = "#catalog_opt_type option[value='1'";
-    $(sel).attr("selected", true);
-    $("#dialog_catalog_save").attr("role", "new");
-    $("#dialog_catalog").modal();*/
+    var idpair = $("#" + event.target.id).attr("data");
+    var ids = idpair.split('|');
+    
+    location.href = "/passage/" + ids[1] + "#" +ids[0]
 }

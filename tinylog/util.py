@@ -51,16 +51,12 @@ def get_settings(is_force = False):
 def get_header_block(webtitle, extjs = None, extcss = None):
     settings = get_settings()
             
-    d = {}
-    
-    d['webtitle'] = webtitle
-    
+    d = {}    
+    d['webtitle'] = webtitle    
     d['mstdjss'] = settings['stdjss']
-    d['mstdcss'] = settings['stdcss']
-    
+    d['mstdcss'] = settings['stdcss']    
     d['mextjs'] = extjs
-    d['mextcss'] = extcss
-       
+    d['mextcss'] = extcss       
     
     t = get_template('header.html')
     c = Context(d)
@@ -70,8 +66,7 @@ def get_header_block(webtitle, extjs = None, extcss = None):
     
 def get_home_extral_block():
     settings = get_settings()
-    games = settings['games']
-    
+    games = settings['games']    
     h = ''
     
     if len(games) <= 0:    
@@ -87,7 +82,7 @@ def get_home_extral_block():
 
     return h
    
-def get_nav_block():
+def get_nav_block(req):
     settings = get_settings()
     setting = settings['setting']
     
@@ -97,7 +92,7 @@ def get_nav_block():
     
     d['brand'] = setting.brand
     d['games'] = games
-    d['admin'] = is_admin()
+    d['admin'] = is_admin(req)
 
     t = get_template('nav.html')
     c = Context(d)
@@ -508,12 +503,16 @@ def get_confirm_dialog():
 
     return h
     
-def is_admin():
-    return True
+def is_admin(req):
+    return req.user.is_authenticated()
     
-def try_redirect():    
-    settings = get_settings(True);
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
+def try_redirect(req = None, is_install = False):
+    if is_install == True:
+        settings = get_settings(True);
+        if len(settings) == 0:
+            return HttpResponseRedirect('/install')
+    else:
+        if is_admin(req) == False:
+            return HttpResponseRedirect('/manage/admin')
+            
+    return None

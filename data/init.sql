@@ -44,9 +44,9 @@ insert into tinylog_catalog(id, name, "desc", "type", create_time, update_time)
 values(2, '杂项', '未归类杂项', 1, '2014-04-01 00:00:00', '2014-04-01 00:00:00');
  
  -- game
- delete from tinylog_game;
- insert into tinylog_game(id, name, "desc", image, visiable, hot, create_time, update_time, catalog_id)
- values(1, '2048', 'an 2048 game', '/game/2048/game.png', 1, 0, '2014-04-01 00:00:00', '2014-04-01 00:00:00', 1);
+ --delete from tinylog_game;
+ --insert into tinylog_game(id, name, "desc", image, visiable, hot, create_time, update_time, catalog_id)
+ --values(1, '2048', 'an 2048 game', '/game/2048/game.png', 1, 0, '2014-04-01 00:00:00', '2014-04-01 00:00:00', 1);
   
  commit;
  

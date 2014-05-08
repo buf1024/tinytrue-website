@@ -3,33 +3,42 @@ from django.template.loader import *
 from django.template import *
 from django.http import *
 
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import auth
+
+import json
+
 from tinylog.models import *
 from tinylog.util import *
 
-
-def get_login_extral_block():
+def get_mnglogin_block():
     d = {}
-    
-    d['dialog_title'] = r'错误'
-    d['dialog_body'] = r'<h3>邮件或密码为空，请重新输入!</h3>'
-    d['dialog_buttongs'] = False
-
-    t = get_template('dialog.html')
-    c = Context(d)
-    h = t.render(c)
-
-    return h
-
-def get_mnglogin_block(err=False):
-    d = {}
-    if err == True:
-        d['loggin_error'] = True
     t = get_template('login.html')
     c = Context(d)
     h = t.render(c)
 
     return h
     
+    
+@csrf_exempt    
+def login(req):
+    r = try_redirect(req, True)
+    if r != None:
+        return r
+    try:
+        jobj = json.loads(req.body)
+        
+        usr = jobj['name']
+        psw = jobj['password']
+        user = auth.authenticate(username=usr, password=psw)
+        if user is not None and user.is_active:
+            auth.login(req, user)
+            return HttpResponse('SUCCESS')
+        else:
+            return HttpResponse('FAIL|鐢ㄦ埛鍚嶆垨瀵嗙爜閿欒')
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL|鐢ㄦ埛鍚嶆垨瀵嗙爜閿欒')
 
     
     

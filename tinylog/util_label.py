@@ -71,16 +71,11 @@ def get_mnglabel_extral_block():
     
     return h
     
-
+#management admin required
 def req_label(req, ctx):
-    settings = get_settings();
-
-    #第一次启动初始化数据
-    if len(settings) == 0:
-        return HttpResponseRedirect('/install')
-
-    if is_admin() == False:
-        return HttpResponseRedirect('/manage/admin')
+    r = try_redirect(req)
+    if r != None:
+        return r
         
     obj = Label.objects.get(id=ctx)
     d = {}
@@ -93,20 +88,29 @@ def req_label(req, ctx):
     
     return HttpResponse(h)
     
-@csrf_exempt 
-def del_label(req):
+@csrf_exempt    
+def new_label(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
     try:
         jobj = json.loads(req.body)
-        label = Label.objects.get(id=jobj['id'])
-        label.delete()
+        
+        t = datetime.today()    
+        label = Label(name=jobj['title'], desc=jobj['desc'],
+                create_time=t, update_time=t)
+        label.save()
         get_settings(True)
     except:
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS')
-
+    
 @csrf_exempt    
 def update_label(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
     try:
         jobj = json.loads(req.body)
         t = datetime.today()    
@@ -120,16 +124,17 @@ def update_label(req):
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS')
+
     
-@csrf_exempt    
-def new_label(req):
+@csrf_exempt 
+def del_label(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
     try:
         jobj = json.loads(req.body)
-        
-        t = datetime.today()    
-        label = Label(name=jobj['title'], desc=jobj['desc'],
-                create_time=t, update_time=t)
-        label.save()
+        label = Label.objects.get(id=jobj['id'])
+        label.delete()
         get_settings(True)
     except:
         return HttpResponse('FAIL')

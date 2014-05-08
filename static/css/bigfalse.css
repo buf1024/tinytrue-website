@@ -17,12 +17,6 @@ a:hover {
 .form-btn-left {
 	margin: 12px 2px 2px 2px;
 }
-.form-login-submit-align {
-	margin: 0px 0px 2px 112px;
-}
-.form-login-check-align {
-	margin: -34px 0px 2px 182px;
-}
 .fixed-hr {
 	margin: 2px 2px 8px 2px;
 }
@@ -62,12 +56,9 @@ a:hover {
     color: #C0C0C0;
     text-align: right;
 }
-.loggin-err-font {
-    font-size: 16pt;
-    color: #FF0000;
-    text-align: center;
+.login-error {
+    margin-top: 55px;
 }
-
 .display-none {
     display: none;
 }

@@ -61,9 +61,13 @@ def get_mnggame_extral_block():
     h = h + confirm
     
     return h
-    
+   
+
+#management admin required   
 def req_game(req, ctx):
-    try_redirect()        
+    r = try_redirect(req)        
+    if r != None:
+        return r
     obj = Game.objects.get(id=ctx)
     d = {}
     if obj != None:
@@ -82,26 +86,35 @@ def req_game(req, ctx):
         
     h = json.dumps(d)
     
-    print h
-    
     return HttpResponse(h)
-    
-@csrf_exempt 
-def del_game(req):
-    try_redirect()
+ 
+@csrf_exempt    
+def new_game(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
     try:
-        jobj = json.loads(req.body)
-        game = Game.objects.get(id=jobj['id'])
-        game.delete()
+        jobj = json.loads(req.body)        
+        cat = Catalog.objects.get(id=jobj['catalog']['id'])        
+        t = datetime.datetime.today()    
+        game = Game(name=jobj['title'], desc=jobj['desc'],
+                image=jobj['image'], visiable=jobj['visiable'],
+                hot=0,
+                create_time=t, update_time=t,
+                catalog = cat)
+        game.save()
         get_settings(True)
-    except:
+    except Exception, e:
+        print e
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS')
-
+  
 @csrf_exempt    
 def update_game(req):
-    try_redirect()
+    r = try_redirect(req)
+    if r != None:
+        return r
     try:
         jobj = json.loads(req.body)
         
@@ -122,29 +135,26 @@ def update_game(req):
 
     return HttpResponse('SUCCESS')
     
-@csrf_exempt    
-def new_game(req):
-    try_redirect()
+@csrf_exempt 
+def del_game(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
     try:
-        jobj = json.loads(req.body)        
-        cat = Catalog.objects.get(id=jobj['catalog']['id'])        
-        t = datetime.datetime.today()    
-        game = Game(name=jobj['title'], desc=jobj['desc'],
-                image=jobj['image'], visiable=jobj['visiable'],
-                hot=0,
-                create_time=t, update_time=t,
-                catalog = cat)
-        game.save()
+        jobj = json.loads(req.body)
+        game = Game.objects.get(id=jobj['id'])
+        game.delete()
         get_settings(True)
-    except Exception, e:
-        print e
+    except:
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS')
-    
+
 @csrf_exempt    
 def show_game(req):
-    try_redirect()
+    r = try_redirect(req)
+    if r != None:
+        return r
     try:
         jobj = json.loads(req.body)
         

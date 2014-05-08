@@ -117,158 +117,6 @@ def get_mngpassage_modifypassage_block(p):
         h = t.render(c)
         
     return h
-    
-@csrf_exempt 
-def edit_passage(req):
-    try_redirect()
-    try:
-        jobj = json.loads(req.body)
-        
-        title = jobj['title']
-        content = jobj['content']
-        sumary = jobj['sumary']        
-        cat = Catalog.objects.filter(id=jobj['catalog'])[0]
-        visiable = jobj['visiable']
-        front = jobj['front']
-        commentable = jobj['commentable']
-        isdraft = jobj['isdraft']
-        tags = jobj['tags'].split(';')        
-        role = jobj['role']
-        
-        t = datetime.datetime.today()
-        
-        if role == "update":
-            id = jobj['id']            
-            p = Passage.objects.get(id=id)
-            p.title = title
-            p.content = content
-            p.summary = sumary
-            p.visiable = visiable
-            p.enable_comment = commentable
-            p.front_flag = front
-            p.draft_flag = isdraft
-            p.update_time = t
-            
-            p.catalog = cat
-            p.labels.clear()
-            
-            for tag in tags:
-                if len(tag) > 0:
-                    l = Label.objects.filter(name=tag)
-                    if len(l) == 0:
-                        l = Label(name=tag, desc=tag, create_time=t, update_time=t)
-                        l.save()
-                    else:
-                        l = l[0]
-                    p.labels.add(l)
-            p.save()
-            
-        else:
-            p = Passage(title = title, content = content, summary=sumary,
-                    hot = 0, visiable = visiable, enable_comment = commentable,
-                    front_flag = front, draft_flag = isdraft,
-                    create_time = t, update_time = t)
-            p.catalog = cat
-            
-            y = t.year
-            m = t.month
-            
-            if m <= 9:
-               m = '0' + str(m)
-            
-            ar = Archive.objects.filter(year=y).filter(month=m)
-            if len(ar) == 0:
-                ar = Archive(year=y, month=m)
-                ar.save()
-            else:
-                ar = ar[0]
-            p.archive = ar
-            
-            p.save()
-            for tag in tags:
-                if len(tag) > 0:
-                    l = Label.objects.filter(name=tag)
-                    if len(l) == 0:
-                        l = Label(name=tag, desc=tag, create_time=t, update_time = t)
-                        l.save()
-                    else:
-                        l = l[0]
-                    p.labels.add(l)
-            
-            p.save()
-            
-        get_settings(True)
-    except Exception, e:
-        print e
-        return HttpResponse('FAIL')
-
-    return HttpResponse('SUCCESS')
-    
-@csrf_exempt
-def del_passage(req):
-    try_redirect()
-    try:
-        jobj = json.loads(req.body)        
-        id = jobj['id']
-        p = Passage.objects.get(id=id)
-        p.delete()
-        get_settings(True)
-    except Exception, e:
-        print e
-        return HttpResponse('FAIL')
-
-    return HttpResponse('SUCCESS')
-
-@csrf_exempt
-def comment_passage(req):
-    try:
-        jobj = json.loads(req.body)   
-        ip = req.META['REMOTE_ADDR']
-        
-        recent = Comment.objects.filter(ip_address=ip).order_by('-create_time')
-        if len(recent) > 0:
-            r = recent[0]
-            t = r.create_time
-            
-            s = mktime(t.timetuple())
-            n = time()
-            
-            d = int(n - s)
-            if d <= 60:
-                return HttpResponse('FAIL|离上次评论时间过短')
-            
-        
-        id = jobj['id']
-        role = jobj['role']
-        p = None
-        pc = None
-        if role == 'p':
-            p = Passage.objects.get(id=id)
-        else:
-            pc = Comment.objects.get(id=id)
-            p = pc.passage            
-        
-        c = Comment()
-        c.author = jobj['name']
-        c.email = jobj['email']
-        c.site = jobj['site']
-        c.image = '/img/' + str(random.randint(0, 200)) + '.png'
-        c.content = jobj['comment']
-        c.ip_address = ip
-        c.create_time = datetime.datetime.today()
-        c.passage = p
-        c.parent = pc
-        c.save()
-    except Exception, e:
-        print e
-        return HttpResponse('FAIL')
-
-    return HttpResponse('SUCCESS')
-
-    
-def backup_passage(req):
-    pass
-    
 
 def get_cat_passage_block(ctx):
     h = ''
@@ -504,3 +352,159 @@ def get_comment_more_block():
         h = t.render(c)
         
     return h
+
+@csrf_exempt
+def comment_passage(req):
+    try:
+        jobj = json.loads(req.body)   
+        ip = req.META['REMOTE_ADDR']
+        
+        recent = Comment.objects.filter(ip_address=ip).order_by('-create_time')
+        if len(recent) > 0:
+            r = recent[0]
+            t = r.create_time
+            
+            s = mktime(t.timetuple())
+            n = time()
+            
+            d = int(n - s)
+            if d <= 60:
+                return HttpResponse('FAIL|离上次评论时间过短')
+            
+        
+        id = jobj['id']
+        role = jobj['role']
+        p = None
+        pc = None
+        if role == 'p':
+            p = Passage.objects.get(id=id)
+        else:
+            pc = Comment.objects.get(id=id)
+            p = pc.passage            
+        
+        c = Comment()
+        c.author = jobj['name']
+        c.email = jobj['email']
+        c.site = jobj['site']
+        c.image = '/img/' + str(random.randint(0, 200)) + '.png'
+        c.content = jobj['comment']
+        c.ip_address = ip
+        c.create_time = datetime.datetime.today()
+        c.passage = p
+        c.parent = pc
+        c.save()
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+
+    return HttpResponse('SUCCESS')    
+#management admin require
+@csrf_exempt 
+def edit_passage(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
+    try:
+        jobj = json.loads(req.body)
+        
+        title = jobj['title']
+        content = jobj['content']
+        sumary = jobj['sumary']        
+        cat = Catalog.objects.filter(id=jobj['catalog'])[0]
+        visiable = jobj['visiable']
+        front = jobj['front']
+        commentable = jobj['commentable']
+        isdraft = jobj['isdraft']
+        tags = jobj['tags'].split(';')        
+        role = jobj['role']
+        
+        t = datetime.datetime.today()
+        
+        if role == "update":
+            id = jobj['id']            
+            p = Passage.objects.get(id=id)
+            p.title = title
+            p.content = content
+            p.summary = sumary
+            p.visiable = visiable
+            p.enable_comment = commentable
+            p.front_flag = front
+            p.draft_flag = isdraft
+            p.update_time = t
+            
+            p.catalog = cat
+            p.labels.clear()
+            
+            for tag in tags:
+                if len(tag) > 0:
+                    l = Label.objects.filter(name=tag)
+                    if len(l) == 0:
+                        l = Label(name=tag, desc=tag, create_time=t, update_time=t)
+                        l.save()
+                    else:
+                        l = l[0]
+                    p.labels.add(l)
+            p.save()
+            
+        else:
+            p = Passage(title = title, content = content, summary=sumary,
+                    hot = 0, visiable = visiable, enable_comment = commentable,
+                    front_flag = front, draft_flag = isdraft,
+                    create_time = t, update_time = t)
+            p.catalog = cat
+            
+            y = t.year
+            m = t.month
+            
+            if m <= 9:
+               m = '0' + str(m)
+            
+            ar = Archive.objects.filter(year=y).filter(month=m)
+            if len(ar) == 0:
+                ar = Archive(year=y, month=m)
+                ar.save()
+            else:
+                ar = ar[0]
+            p.archive = ar
+            
+            p.save()
+            for tag in tags:
+                if len(tag) > 0:
+                    l = Label.objects.filter(name=tag)
+                    if len(l) == 0:
+                        l = Label(name=tag, desc=tag, create_time=t, update_time = t)
+                        l.save()
+                    else:
+                        l = l[0]
+                    p.labels.add(l)
+            
+            p.save()
+            
+        get_settings(True)
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+
+    return HttpResponse('SUCCESS')
+    
+@csrf_exempt
+def del_passage(req):
+    r = try_redirect(req)
+    if r != None:
+        return r
+    try:
+        jobj = json.loads(req.body)        
+        id = jobj['id']
+        p = Passage.objects.get(id=id)
+        p.delete()
+        get_settings(True)
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+
+    return HttpResponse('SUCCESS')
+    
+@csrf_exempt    
+def backup_passage(req):
+    pass
+    
