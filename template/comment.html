@@ -32,7 +32,11 @@
     {% for scomment in comment.comment_set %}
     <div class="comment-inner" id="{{ scomment.id }}">
       <div>
+        {% if scomment.site %}
+        <a href="{{ scomment.site }}"><img src="{{ scomment.image }}" with="48" height="48"></a>
+        {% else %}
         <a href="{{ scomment.id }}"><img src="{{ scomment.image }}" with="48" height="48"></a>
+        {% endif %}
         <div class="comment-header">
         <a href="#{{ scomment.id }}" id="comment_autor_{{scomment.id}}">{{ scomment.author }}</a>
         <br>

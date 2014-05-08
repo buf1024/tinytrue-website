@@ -20,8 +20,10 @@ def get_login_extral_block():
 
     return h
 
-def get_mnglogin_block():
+def get_mnglogin_block(err=False):
     d = {}
+    if err == True:
+        d['loggin_error'] = True
     t = get_template('login.html')
     c = Context(d)
     h = t.render(c)

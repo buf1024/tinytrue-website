@@ -98,6 +98,9 @@ def del_catalog(req):
     try:
         jobj = json.loads(req.body)
         cat = Catalog.objects.get(id=jobj['id'])
+        p_count = cat.passage_set.count()
+        if p_count > 0:
+            return HttpResponse('FAIL')
         cat.delete()
         get_settings(True)
     except:

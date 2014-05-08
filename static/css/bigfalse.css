@@ -62,6 +62,11 @@ a:hover {
     color: #C0C0C0;
     text-align: right;
 }
+.loggin-err-font {
+    font-size: 16pt;
+    color: #FF0000;
+    text-align: center;
+}
 
 .display-none {
     display: none;

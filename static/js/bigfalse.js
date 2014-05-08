@@ -3,8 +3,12 @@ $(function () {
 });
 
 function tiny_setup() {
+    $("#nav-menu-nogame").bind("click", nav_menu_nogame);
 }
 
+function nav_menu_nogame() {
+    $("#nogame_dialog").modal();
+}
 
 function admin_login_submit() {
     var email$ = $('#inputEmail')[0];

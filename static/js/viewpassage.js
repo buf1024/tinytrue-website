@@ -38,10 +38,10 @@ function submit_comment() {
     var jobj = JSON.stringify(obj);
     var url = "/comment/passage";
     $.post(url, jobj, function(data) {
-        if(data == "FAIL") {
-            alert("提交评论失败!");
-        }else{
+        if(data == "SUCCESS") {            
             location.reload();
+        }else{
+            alert(data);
         }
     });
     

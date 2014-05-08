@@ -49,9 +49,13 @@ function mngcatalog_modify(event) {
 
 function mngcatalog_delete(event) {
     var id = $("#" + event.target.id).attr("data");
-    $("#dialog_confirm").modal();
-    $("#dialog_confirm_yes").attr("data", id);  
-
+    var count = $("#" + event.target.id).attr("count");
+    if(count > 0) {
+        alert("归属文章或归属游戏大于0, 不允许删除该分类!");
+    }else{
+        $("#dialog_confirm").modal();
+        $("#dialog_confirm_yes").attr("data", id);  
+    }
 }
 
 function mngcatalog_new_catalog() {

@@ -76,6 +76,7 @@ def get_home_extral_block():
     
     if len(games) <= 0:    
         d = {}
+        d['dialog_id'] = 'nogame_dialog'
         d['dialog_title'] = r'游戏'
         d['dialog_body'] = r'<h2>SORRY，由于懒惰，游戏列表为空……</h2>'
         d['dialog_buttongs'] = False
@@ -109,8 +110,7 @@ def get_passage_block():
     setting = settings['setting']
     
     passages = Passage.objects.filter(visiable=True, draft_flag=False).order_by('-front_flag', '-update_time')[:setting.blog_display_count]
-    
-    print passages
+
 
     h = ''
     t = get_template('passage.html')

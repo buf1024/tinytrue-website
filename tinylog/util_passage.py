@@ -5,7 +5,9 @@ from django.http import *
 from django.views.decorators.csrf import csrf_exempt
 
 import json
-from datetime import *
+import datetime
+from time import mktime, time
+import random
 
 from tinylog.models import *
 from tinylog.util import *
@@ -222,6 +224,20 @@ def comment_passage(req):
     try:
         jobj = json.loads(req.body)   
         ip = req.META['REMOTE_ADDR']
+        
+        recent = Comment.objects.filter(ip_address=ip).order_by('-create_time')
+        if len(recent) > 0:
+            r = recent[0]
+            t = r.create_time
+            
+            s = mktime(t.timetuple())
+            n = time()
+            
+            d = int(n - s)
+            if d <= 60:
+                return HttpResponse('FAIL|离上次评论时间过短')
+            
+        
         id = jobj['id']
         role = jobj['role']
         p = None
@@ -236,7 +252,7 @@ def comment_passage(req):
         c.author = jobj['name']
         c.email = jobj['email']
         c.site = jobj['site']
-        c.image = '/img/run.png'
+        c.image = '/img/' + str(random.randint(0, 200)) + '.png'
         c.content = jobj['comment']
         c.ip_address = ip
         c.create_time = datetime.datetime.today()
@@ -440,6 +456,38 @@ def get_ar_more_block():
             di['desc'] = name + u' 自动归档文章'
             di['passage_count'] = count
             di['link'] = '/ar/' + name
+            dl.append(di)
+            
+        d['items'] = dl
+        
+        t = get_template('collectmore.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    except Exception, e:
+        print e
+        d = {}
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h
+    
+def get_comment_more_block(): 
+    h = ''
+    try:
+        comments = Comment.objects.all().order_by('-create_time')
+        d = {}
+        d['collect_title'] = u'评论汇总'
+        d['is_comment'] = True
+        dl = []
+        for comment in comments:           
+            di = {}
+            di['id'] = comment.passage.id
+            di['name'] = comment.passage.title
+            di['desc'] = comment.author
+            di['passage_count'] = comment.content
+            di['link'] = '/passage/' + str(comment.passage.id)
             dl.append(di)
             
         d['items'] = dl

@@ -3,7 +3,9 @@
 from django.template.loader import *
 from django.template import *
 from django.http import *
+from django.views.decorators.csrf import csrf_exempt
 
+from django.contrib import auth
 
 from tinylog.models import *
 from tinylog.util import *
@@ -51,6 +53,33 @@ def admin(req):
     d['extral_block'] = get_login_extral_block()    
     d['nav_block'] = get_nav_block()
     d['content_block'] = get_mnglogin_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('general.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
+    
+@csrf_exempt    
+def login(req):
+    if req.method != 'POST':
+        return HttpResponseRedirect('/manage/admin')
+    usr = req.POST['email']
+    psw = req.POST['password']
+    user = auth.authenticate(username=usr, password=psw)
+    if user is not None and user.is_active:
+        auth.login(request, user)
+        return HttpResponseRedirect("/manage/passage")
+        
+    settings = get_settings()
+    setting = settings['setting']
+
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 登录')    
+    d['extral_block'] = get_login_extral_block()    
+    d['nav_block'] = get_nav_block()
+    d['content_block'] = get_mnglogin_block(True)    
     d['footer_block'] = get_footer_block()        
 
     t = get_template('general.html')
@@ -310,7 +339,7 @@ def label_more(req):
     setting = settings['setting']
     
     d = {}    
-    d['header_block'] = get_header_block(setting.title + u' : 分类汇总',
+    d['header_block'] = get_header_block(setting.title + u' : 标签汇总',
                                              extjs = ['/js/collectmore.js'])    
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block()    
@@ -330,11 +359,31 @@ def ar_more(req):
     setting = settings['setting']
     
     d = {}    
-    d['header_block'] = get_header_block(setting.title + u' : 分类汇总',
+    d['header_block'] = get_header_block(setting.title + u' : 归档汇总',
                                              extjs = ['/js/collectmore.js'])    
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block()    
     d['passages_block'] = get_ar_more_block()    
+    d['passage_count_block'] = ''   
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
+    
+def comment_more(req):
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 评论汇总',
+                                             extjs = ['/js/collectmore.js'])    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block()    
+    d['passages_block'] = get_comment_more_block()    
     d['passage_count_block'] = ''   
     d['bulletins_block'] = get_bulletins_block()    
     d['footer_block'] = get_footer_block()        
