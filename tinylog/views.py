@@ -18,16 +18,12 @@ from tinylog.util_passage import *
 from tinylog.util_password import *
 
 def home(req):
-    
-    r = try_redirect(req, True)
-    if r != None:
-        return r
-    
     settings = get_settings()
     setting = settings['setting']
     
     d = {}    
-    d['header_block'] = get_header_block(setting.title)    
+    d['header_block'] = get_header_block(setting.title,
+                                            extjs=['/js/pagecount.js'])    
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block(req)    
     d['passages_block'] = get_passage_block()    
@@ -40,38 +36,31 @@ def home(req):
     h = t.render(c)
 
     return HttpResponse(h)
-
-def install(req):
-    return HttpResponse('not implement')
     
 def admin(req):
-    r = try_redirect(req, True)
-    if r != None:
-        return r
     
-    settings = get_settings()
-    setting = settings['setting']
+    if is_admin(req) == False:
+        settings = get_settings()
+        setting = settings['setting']
 
-    d = {}    
-    d['header_block'] = get_header_block(setting.title + u' : 登录',
-                                            extjs=['/js/login.js'])    
-    d['extral_block'] = ''  
-    d['nav_block'] = get_nav_block(req)
-    d['content_block'] = get_mnglogin_block()    
-    d['footer_block'] = get_footer_block()        
+        d = {}    
+        d['header_block'] = get_header_block(setting.title + u' : 登录',
+                                                extjs=['/js/login.js'])    
+        d['extral_block'] = ''  
+        d['nav_block'] = get_nav_block(req)
+        d['content_block'] = get_mnglogin_block()    
+        d['footer_block'] = get_footer_block()        
 
-    t = get_template('general.html')
-    c = Context(d)
-    h = t.render(c)
+        t = get_template('general.html')
+        c = Context(d)
+        h = t.render(c)
 
-    return HttpResponse(h)
+        return HttpResponse(h)
+    
+    return HttpResponseRedirect('/manage/passage')
 
 
 def cat_passage(req, ctx):
-    r = try_redirect(req, True)
-    if r != None:
-        return r
-    
     settings = get_settings()
     setting = settings['setting']
     
@@ -81,7 +70,7 @@ def cat_passage(req, ctx):
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block(req)    
     d['passages_block'] = get_cat_passage_block(ctx)    
-    d['passage_count_block'] = ''   
+    d['passage_count_block'] = ''
     d['bulletins_block'] = get_bulletins_block()    
     d['footer_block'] = get_footer_block()        
 
@@ -92,9 +81,6 @@ def cat_passage(req, ctx):
     return HttpResponse(h)
     
 def label_passage(req, ctx):
-    r = try_redirect(req, True)
-    if r != None:
-        return r
     
     settings = get_settings()
     setting = settings['setting']
@@ -115,9 +101,6 @@ def label_passage(req, ctx):
 
     return HttpResponse(h)
 def ar_passage(req, ctx):
-    r = try_redirect(req, True)
-    if r != None:
-        return r
         
     settings = get_settings()
     setting = settings['setting']
@@ -139,9 +122,6 @@ def ar_passage(req, ctx):
     return HttpResponse(h)
     
 def cat_more(req):
-    r = try_redirect(req, True)    
-    if r != None:
-        return r
     settings = get_settings()
     setting = settings['setting']
     
@@ -162,9 +142,6 @@ def cat_more(req):
     return HttpResponse(h)
     
 def label_more(req):
-    r = try_redirect(req, True)
-    if r != None:
-        return r
     settings = get_settings()
     setting = settings['setting']
     
@@ -185,9 +162,6 @@ def label_more(req):
     return HttpResponse(h)
     
 def ar_more(req):
-    r = try_redirect(req, True)
-    if r != None:
-        return r
     settings = get_settings()
     setting = settings['setting']
     
@@ -208,19 +182,36 @@ def ar_more(req):
     return HttpResponse(h)
     
 def comment_more(req):
-    r = try_redirect(req, True)
-    if r != None:
-        return r
     settings = get_settings()
     setting = settings['setting']
     
     d = {}    
     d['header_block'] = get_header_block(setting.title + u' : 评论汇总',
-                                             extjs = ['/js/collectmore.js'])    
+                                             extjs = ['/js/collectmore.js', '/js/pagecount.js'])    
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block(req)    
     d['passages_block'] = get_comment_more_block()    
-    d['passage_count_block'] = ''   
+    d['passage_count_block'] = get_comment_count_block()
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
+    
+def hot_more(req):
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 热门汇总',
+                                             extjs = ['/js/collectmore.js', '/js/pagecount.js'])    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block(req)    
+    d['passages_block'] = get_hot_more_block()    
+    d['passage_count_block'] = get_hot_count_block()
     d['bulletins_block'] = get_bulletins_block()    
     d['footer_block'] = get_footer_block()        
 
@@ -231,17 +222,15 @@ def comment_more(req):
     return HttpResponse(h)
     
 def view_passage(req, ctx):
-    r = try_redirect(req, True)
-    if r != None:
-        return r
     settings = get_settings()
     setting = settings['setting']
-    
     d = {}    
     d['header_block'] = get_header_block(setting.title,
                                             extjs = ['/js/viewpassage.js'])    
+    
+    
     d['extral_block'] = get_home_extral_block()    
-    d['nav_block'] = get_nav_block(req)    
+    d['nav_block'] = get_nav_block(req)   
     d['passages_block'] = get_view_passage_block(ctx)    
     d['passage_count_block'] = ''   
     d['bulletins_block'] = get_bulletins_block()    

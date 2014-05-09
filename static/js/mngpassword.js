@@ -12,7 +12,6 @@ function dialog_confirm_yes() {
     var obj = new Object();
     obj.source = $("#setting_src_password").val();
     obj.newpass = $("#setting_new_password").val();
-    obj.checkpass = $("#setting_check_password").val();
     var jobj = JSON.stringify(obj);
     
     $.post("/manage/password/update", jobj, function(data) {
@@ -48,6 +47,10 @@ function setting_opt_submit() {
     }
     if(obj.source.length <= 0) {
         alert("原密码不能为空");
+        return;
+    }
+    if(obj.source == obj.newpass) {
+        alert("新密码与旧密码一致");
         return;
     }
     $("#dialog_confirm").modal();

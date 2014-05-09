@@ -44,7 +44,6 @@ function submit_comment() {
             alert(data);
         }
     });
-    
     return;
 }
 

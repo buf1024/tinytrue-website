@@ -9,6 +9,7 @@ import datetime
 from time import mktime, time
 import random
 
+import tinytrue
 from tinylog.models import *
 from tinylog.util import *
 
@@ -324,7 +325,10 @@ def get_ar_more_block():
 def get_comment_more_block(): 
     h = ''
     try:
-        comments = Comment.objects.all().order_by('-create_time')
+        settings = get_settings()
+        setting = settings['setting']
+        count = setting.blog_display_count * 5
+        comments = Comment.objects.all().order_by('-create_time')[:count]
         d = {}
         d['collect_title'] = u'评论汇总'
         d['is_comment'] = True
@@ -336,6 +340,41 @@ def get_comment_more_block():
             di['desc'] = comment.author
             di['passage_count'] = comment.content
             di['link'] = '/passage/' + str(comment.passage.id)
+            dl.append(di)
+            
+        d['items'] = dl
+        t = get_template('collectmore.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    except Exception, e:
+        print e
+        d = {}
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h
+def get_hot_more_block():
+    h = ''
+    try:
+    
+        settings = get_settings()
+        setting = settings['setting']
+        count = setting.blog_display_count * 5
+        passages = Passage.objects.filter(visiable=True, draft_flag=False).order_by('-hot')[:count]
+        d = {}
+        d['collect_title'] = u'热门文章汇总'
+        d['is_comment'] = False
+        d['is_passage'] = True
+        dl = []
+        for passage in passages:           
+            di = {}
+            di['id'] = passage.id
+            di['name'] = passage.title
+            di['desc'] = passage.hot
+            di['passage_count'] = passage.comment_set.count() 
+            di['link'] = '/passage/' + str(passage.id)
             dl.append(di)
             
         d['items'] = dl
@@ -352,15 +391,13 @@ def get_comment_more_block():
         h = t.render(c)
         
     return h
-
 @csrf_exempt
 def comment_passage(req):
     try:
         jobj = json.loads(req.body)   
         ip = req.META['REMOTE_ADDR']
-        
         recent = Comment.objects.filter(ip_address=ip).order_by('-create_time')
-        if len(recent) > 0:
+        if recent != None and len(recent) > 0:
             r = recent[0]
             t = r.create_time
             
@@ -383,21 +420,81 @@ def comment_passage(req):
             p = pc.passage            
         
         c = Comment()
-        c.author = jobj['name']
-        c.email = jobj['email']
-        c.site = jobj['site']
-        c.image = '/img/' + str(random.randint(0, 200)) + '.png'
+        if is_admin(req) == False:
+            c.author = jobj['name']
+            c.email = jobj['email']
+            c.site = jobj['site']
+            c.image = '/img/' + str(random.randint(0, 200)) + '.png'
+        else:          
+            c.author = req.user.username
+            c.email = req.user.email
+            c.site = tinytrue.settings.MY_SITE
+            c.image = '/img/0.png'
         c.content = jobj['comment']
         c.ip_address = ip
         c.create_time = datetime.datetime.today()
         c.passage = p
         c.parent = pc
+        c.is_notify = False
         c.save()
     except Exception, e:
         print e
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS')    
+    
+@csrf_exempt
+def fetch_page_passage(req, ctx):
+    if req.method != 'POST':
+        return HttpResponseRedirect('/')
+    
+    data = ''
+    page = ''
+    try:
+        settings = get_settings()
+        setting = settings['setting']
+        
+        page = int(ctx)
+        start = setting.blog_display_count * (page - 1)
+        end = start + setting.blog_display_count
+        passages = Passage.objects.filter(visiable=True, draft_flag=False).order_by('-front_flag', '-update_time')[start:end]
+
+
+        h = ''
+        t = get_template('passage.html')
+        for p in passages:
+            d = {}
+            d['has_passage'] = True
+            d['passage_id'] = p.id
+            d['passage_title'] = p.title
+            d['passage_create_time'] = p.create_time
+            d['passage_update_time'] = p.update_time
+            content = p.content
+            if setting.blog_overview:
+                content = p.summary
+            d['passage_content'] = content
+            
+
+            count = p.comment_set.count()
+            
+            d['passage_comment_count'] = count
+            d['passage_catolog'] = p.catalog
+                    
+        
+            labels = p.labels.all()
+            d['passage_label_list'] = labels
+            
+            c = Context(d)        
+            h = h + t.render(c) + '\n'
+        if h == '':
+            return HttpRespnse('FAIL')
+        
+        page = ctx
+        data = h
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+    return HttpResponse(page + '|' + data)
 #management admin require
 @csrf_exempt 
 def edit_passage(req):

@@ -22,9 +22,6 @@ def get_mnglogin_block():
     
 @csrf_exempt    
 def login(req):
-    r = try_redirect(req, True)
-    if r != None:
-        return r
     try:
         jobj = json.loads(req.body)
         

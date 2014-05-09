@@ -23,7 +23,6 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'tinylog.views.home'),
-    url(r'^install$', 'tinylog.views.install'),
     url(r'^manage$', 'tinylog.views.admin'),
     url(r'^manage/admin$', 'tinylog.views.admin'),
     url(r'^manage/login$', 'tinylog.views.login'),
@@ -73,9 +72,12 @@ urlpatterns = patterns('',
     url(r'^label/more$', 'tinylog.views.label_more'),
     url(r'^ar/more$', 'tinylog.views.ar_more'),
     url(r'^comment/more$', 'tinylog.views.comment_more'),
+    url(r'^hot/more$', 'tinylog.views.hot_more'),
     
     url(r'^passage/(\d+)$', 'tinylog.views.view_passage'),
     url(r'^comment/passage$', 'tinylog.views.comment_passage'),
+    
+    url(r'^passage/page/(\d+)$', 'tinylog.views.fetch_page_passage'),
     )
     
 handler404 = tinylog.views.error404

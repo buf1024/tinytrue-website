@@ -61,10 +61,9 @@ class Comment(models.Model):
     email = models.EmailField()  
     site = models.CharField(max_length = 256, null=True)
     image = models.CharField(max_length = 64)
-    content = models.TextField()
-    
+    content = models.TextField()    
     ip_address = models.IPAddressField()
-    
+    is_notify = models.BooleanField()
     create_time = models.DateTimeField()
     
     passage = models.ForeignKey(Passage)

@@ -7,6 +7,8 @@ from django.db.models import *
 from tinylog.models import *
 
 from time import time
+import tinytrue
+
 
 # 10分钟
 _g_read_interval = 10 * 60
@@ -187,6 +189,8 @@ def get_view_passage_block(ctx):
             di['id'] = comment.id
             di['image'] = comment.image
             site = comment.site
+            if site == None:
+                site = ''
             if len(site) > 0 and not site.startswith('http'):
                 site = 'http://' + site
             di['site'] = site
@@ -200,19 +204,21 @@ def get_view_passage_block(ctx):
                 sd = {}
                 sd['id'] = c.id
                 sd['image'] = c.image
-                site = comment.site
+                site = c.site
+                if site == None:
+                    site = ''
                 if len(site) > 0 and not site.startswith('http'):
                     site = 'http://' + site
                 sd['site'] = site
                 sd['author'] = c.author
                 sd['create_time'] = c.create_time
                 sd['content'] = c.content
+                sd['replyto'] = c.parent.author
                 sd['leavecomment'] = get_leave_comment(None, c.id, 'display-none', c.id)
                 ccs.append(sd)
             di['comment_set'] = ccs
             
             cc.append(di)
-        
         d['passage_comment_count'] = count
         d['passage_catolog'] = p.catalog
                 
@@ -231,13 +237,13 @@ def get_view_passage_block(ctx):
         d['leavecomment'] = get_leave_comment(u'THANKS FOR COMMENT', 'z', '', p.id)
         pre  = Passage.objects.filter(id = (int(ctx) - 1))
         nxt = Passage.objects.filter(id = (int(ctx) + 1))
-        if len(pre) > 0:
+        if pre != None and len(pre) > 0:
             d['pre_passage'] = pre[0]
             d['has_passage'] = True
-        if len(nxt) > 0:
+        if nxt != None and len(nxt) > 0:
             d['nxt_passage'] = nxt[0]
             d['has_passage'] = True
-           
+        
             
         h = h + '\n'
         t = get_template('comment.html')
@@ -256,42 +262,72 @@ def get_view_passage_block(ctx):
     return h
     
 def get_passage_count_block():
+    d = {}
+    d['data_role'] = 'passage'
+    d['data_page'] = 1
+    
+    count = Passage.objects.filter(visiable=True, draft_flag=False).count();
+    
     settings = get_settings()
     setting = settings['setting']
+    setting.blog_display_count
     
-    passage_count = Passage.objects.count()
+    pages = count / setting.blog_display_count
+    if count % setting.blog_display_count != 0:
+        pages = pages + 1
 
-    h = ''
-    if passage_count > 0:
-        d = {}
-        
-        d['page_count_all'] = passage_count
-        d['page_count'] = setting.blog_display_count
-        d['data_role'] = 'passage'
-
-        t = get_template('pagecount.html')
-        c = Context(d)
-        h = t.render(c)
-
-    return h;
+    d['page_total'] = pages
     
+    t = get_template('pagecount.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return h
+  
 def get_comment_count_block():
+    
+    d = {}
+    d['data_role'] = 'comment'
+    d['data_page'] = 1
+    
+    count = Comment.objects.count()
+    
     settings = get_settings()
     setting = settings['setting']
+    setting.blog_display_count
     
-    comment_count = Comment.objects.count()
+    pages = count / setting.blog_display_count
+    if count % setting.blog_display_count != 0:
+        pages = pages + 1
 
-    h = ''
-    if comment_count > 0:
-        d = {}
-        
-        d['page_count_all'] = comment_count
-        d['page_count'] = setting.blog_display_count
-        d['data_role'] = 'comment'
+    d['page_total'] = pages
+    
+    t = get_template('pagecount.html')
+    c = Context(d)
+    h = t.render(c)
 
-        t = get_template('pagecount.html')
-        c = Context(d)
-        h = t.render(c)
+    return h
+    
+def get_hot_count_block():
+    d = {}
+    d['data_role'] = 'hotmore'
+    d['data_page'] = 1
+    
+    count = Passage.objects.filter(visiable=True, draft_flag=False).count()
+    
+    settings = get_settings()
+    setting = settings['setting']
+    setting.blog_display_count
+    
+    pages = count / setting.blog_display_count
+    if count % setting.blog_display_count != 0:
+        pages = pages + 1
+
+    d['page_total'] = pages
+    
+    t = get_template('pagecount.html')
+    c = Context(d)
+    h = t.render(c)
 
     return h
     
@@ -361,7 +397,7 @@ def get_comment_hot(t, m):
         di['content'] = p.title + '(' + str(c) + ')'        
         pl.append(di)
     if len(passages) == m.display_count:        
-        d['module_more_link'] = '/commenthot/more' 
+        d['module_more_link'] = '/comment/more' 
     d['module_list'] = pl
     d['nocontent'] = u'暂无热评文章'
 
@@ -506,13 +542,11 @@ def get_confirm_dialog():
 def is_admin(req):
     return req.user.is_authenticated()
     
-def try_redirect(req = None, is_install = False):
-    if is_install == True:
-        settings = get_settings(True);
-        if len(settings) == 0:
-            return HttpResponseRedirect('/install')
-    else:
-        if is_admin(req) == False:
-            return HttpResponseRedirect('/manage/admin')
+def try_redirect(req = None):
+    if is_admin(req) == False:
+        return HttpResponseRedirect('/manage/admin')
             
     return None
+    
+
+    
