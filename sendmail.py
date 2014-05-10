@@ -5,6 +5,15 @@ import smtplib
 from email.mime.text import MIMEText
 from tinylog.models import *
 
+SMTP_HOST = 'smtp.qq.com'
+SMTP_PORT = 465
+
+SMTP_USER = '624038220@qq.com'
+SMTP_PASS = '=-8/abc123'
+
+SMTP_FROM = '624038220@qq.com'
+SMTP_NOTIFY = '450171094@qq.com'
+
 def send_mail(comment):    
     try:
         t = get_template('sendmail.html')

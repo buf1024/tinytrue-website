@@ -14,13 +14,17 @@ function submit_comment() {
     var suf = sp[sp.length - 1];
     var rid = btn$.attr("data");
     var role = btn$.attr("role");
+    var is_admin = btn$.attr("admin-flag");
     
     var name = $("#input_name_" + suf).val();
     var email = $("#input_email_" + suf).val();
     var comment = $("#input_comment_" + suf).val();
-    if(name == "" || email == "") {
-        alert("昵称或电子邮箱为空!");
-        return;
+    
+    if(is_admin == "False") {
+        if(name == "" || email == "") {
+            alert("昵称或电子邮箱为空!");
+            return;
+        }
     }
     if(comment.length <= 15) {
         alert("评论不能少于15个字符!");

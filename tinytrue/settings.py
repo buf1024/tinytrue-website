@@ -1,8 +1,6 @@
 # Django settings for tinytrue project.
 import os.path
 
-MY_SITE='www.bigfalse.com'
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -163,11 +161,6 @@ LOGGING = {
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SMTP_HOST = 'smtp.qq.com'
-SMTP_PORT = 465
 
-SMTP_USER = '624038220@qq.com'
-SMTP_PASS = '=-8/abc123'
-
-SMTP_FROM = '624038220@qq.com'
-SMTP_NOTIFY = '450171094@qq.com'
+MY_SITE = 'www.bigfalse.com'
+MORE_DISPLAY_COUNT = 2

@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     url(r'^manage/passage/backup$', 'tinylog.views.backup_passage'),
     
     url(r'^manage/comment$', 'tinylog.views.mngcomment'),
+    url(r'^manage/comment/page/(\d+)$', 'tinylog.views.fetch_page_mngcomment'),
     
     url(r'^manage/catalog$', 'tinylog.views.mngcatalog'),
     url(r'^manage/catalog/(\d+)\.json$', 'tinylog.views.req_catalog'),
@@ -67,17 +68,22 @@ urlpatterns = patterns('',
     
     url(r'^cat/(\d+)$', 'tinylog.views.cat_passage'),
     url(r'^label/(\d+)$', 'tinylog.views.label_passage'),
-    url(r'^ar/(\d+)$', 'tinylog.views.ar_passage'),    
+    url(r'^ar/(\d+)$', 'tinylog.views.ar_passage'),
+    
     url(r'^cat/more$', 'tinylog.views.cat_more'),
     url(r'^label/more$', 'tinylog.views.label_more'),
     url(r'^ar/more$', 'tinylog.views.ar_more'),
     url(r'^comment/more$', 'tinylog.views.comment_more'),
+    url(r'^commenthot/more$', 'tinylog.views.commenthot_more'),
     url(r'^hot/more$', 'tinylog.views.hot_more'),
     
     url(r'^passage/(\d+)$', 'tinylog.views.view_passage'),
     url(r'^comment/passage$', 'tinylog.views.comment_passage'),
     
     url(r'^passage/page/(\d+)$', 'tinylog.views.fetch_page_passage'),
+    url(r'^comment/page/(\d+)$', 'tinylog.views.fetch_page_comment'),
+    url(r'^hot/page/(\d+)$', 'tinylog.views.fetch_page_hot'),
+    url(r'^commenthot/page/(\d+)$', 'tinylog.views.fetch_page_commenthot'),
     )
     
 handler404 = tinylog.views.error404

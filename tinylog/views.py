@@ -187,11 +187,31 @@ def comment_more(req):
     
     d = {}    
     d['header_block'] = get_header_block(setting.title + u' : 评论汇总',
-                                             extjs = ['/js/collectmore.js', '/js/pagecount.js'])    
+                                             extjs = ['/js/collectmore.js', '/js/tablemore.js'])    
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block(req)    
     d['passages_block'] = get_comment_more_block()    
     d['passage_count_block'] = get_comment_count_block()
+    d['bulletins_block'] = get_bulletins_block()    
+    d['footer_block'] = get_footer_block()        
+
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
+    
+def commenthot_more(req):
+    settings = get_settings()
+    setting = settings['setting']
+    
+    d = {}    
+    d['header_block'] = get_header_block(setting.title + u' : 评论汇总',
+                                             extjs = ['/js/collectmore.js', '/js/tablemore.js'])    
+    d['extral_block'] = get_home_extral_block()    
+    d['nav_block'] = get_nav_block(req)    
+    d['passages_block'] = get_commenthot_more_block()    
+    d['passage_count_block'] = get_commenthot_count_block()
     d['bulletins_block'] = get_bulletins_block()    
     d['footer_block'] = get_footer_block()        
 
@@ -207,7 +227,7 @@ def hot_more(req):
     
     d = {}    
     d['header_block'] = get_header_block(setting.title + u' : 热门汇总',
-                                             extjs = ['/js/collectmore.js', '/js/pagecount.js'])    
+                                             extjs = ['/js/collectmore.js', '/js/tablemore.js'])    
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block(req)    
     d['passages_block'] = get_hot_more_block()    
@@ -227,11 +247,9 @@ def view_passage(req, ctx):
     d = {}    
     d['header_block'] = get_header_block(setting.title,
                                             extjs = ['/js/viewpassage.js'])    
-    
-    
     d['extral_block'] = get_home_extral_block()    
     d['nav_block'] = get_nav_block(req)   
-    d['passages_block'] = get_view_passage_block(ctx)    
+    d['passages_block'] = get_view_passage_block(req, ctx)    
     d['passage_count_block'] = ''   
     d['bulletins_block'] = get_bulletins_block()    
     d['footer_block'] = get_footer_block()        
@@ -355,7 +373,7 @@ def mngcomment(req):
 
     d = {}   
     d['header_block'] = get_header_block(setting.title + u' : 评论管理',
-                                              extjs = ['/js/mngcomment.js'])    
+                                              extjs = ['/js/mngcomment.js', '/js/tablemore.js'])    
     d['nav_block'] = get_nav_block(req)
     d['content_block'] = get_mngcomment_block()    
     d['footer_block'] = get_footer_block()        

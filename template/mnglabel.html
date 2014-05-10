@@ -5,6 +5,7 @@
 </ol>
 
 <table class="table table-hover table-bordered table-striped table-condensed">
+  <tbody>
   <tr>
     <th class="text-center-align">序号</th>
     <th class="text-center-align">标签</th>
@@ -12,7 +13,6 @@
     <th class="text-center-align">归属数</th>
     <th class="text-center-align">基本操作</th>
   </tr>
-  {% if labels %}
   {% for label in labels %}
   <tr>
     <td class="text-center-align">{{ forloop.counter }}</td>
@@ -25,7 +25,7 @@
     </td>
   </tr>
   {% endfor %}
-  {% endif %}
+  </tbody>
 </table>
 </div>
 <div class="col-md-3">

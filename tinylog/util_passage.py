@@ -17,9 +17,8 @@ def get_mngpassage_extral_block():
     h = get_confirm_dialog()    
     return h
 def get_mngpassage_block():
-    settings = get_settings()
-    setting = settings['setting']
-    passages = Passage.objects.all()
+
+    passages = Passage.objects.all()[:tinytrue.settings.MORE_DISPLAY_COUNT]
     l = []
     for passage in passages:
         d = {}
@@ -324,22 +323,20 @@ def get_ar_more_block():
     
 def get_comment_more_block(): 
     h = ''
-    try:
-        settings = get_settings()
-        setting = settings['setting']
-        count = setting.blog_display_count * 5
+    try:        
+        count = tinytrue.settings.MORE_DISPLAY_COUNT
         comments = Comment.objects.all().order_by('-create_time')[:count]
         d = {}
         d['collect_title'] = u'评论汇总'
         d['is_comment'] = True
         dl = []
-        for comment in comments:           
+        for c in comments:           
             di = {}
-            di['id'] = comment.passage.id
-            di['name'] = comment.passage.title
-            di['desc'] = comment.author
-            di['passage_count'] = comment.content
-            di['link'] = '/passage/' + str(comment.passage.id)
+            di['id'] = c.passage.id
+            di['name'] = c.passage.title
+            di['desc'] = c.author
+            di['passage_count'] = c.content
+            di['link'] = '/passage/' + str(c.passage.id)
             dl.append(di)
             
         d['items'] = dl
@@ -355,13 +352,44 @@ def get_comment_more_block():
         h = t.render(c)
         
     return h
+def get_commenthot_more_block(): 
+    h = ''
+    try:        
+        count = tinytrue.settings.MORE_DISPLAY_COUNT
+        passages = Passage.objects.filter(visiable=True, draft_flag=False).annotate(num_comments=Count('comment')).order_by('-num_comments')[:count]
+    
+        d = {}
+        d['collect_title'] = u'热评汇总'
+        d['is_comment'] = False
+        d['is_passage'] = True
+        dl = []
+        for p in passages:           
+            di = {}
+            di['id'] = p.id
+            di['name'] = p.title
+            di['desc'] = p.hot
+            di['passage_count'] = p.comment_set.count()
+            di['link'] = '/passage/' + str(p.id)
+            dl.append(di)
+            
+        d['items'] = dl
+        t = get_template('collectmore.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    except Exception, e:
+        print e
+        d = {}
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)
+        
+    return h    
+    
 def get_hot_more_block():
     h = ''
     try:
-    
-        settings = get_settings()
-        setting = settings['setting']
-        count = setting.blog_display_count * 5
+        count = tinytrue.settings.MORE_DISPLAY_COUNT
         passages = Passage.objects.filter(visiable=True, draft_flag=False).order_by('-hot')[:count]
         d = {}
         d['collect_title'] = u'热门文章汇总'
@@ -391,22 +419,25 @@ def get_hot_more_block():
         h = t.render(c)
         
     return h
+
 @csrf_exempt
 def comment_passage(req):
     try:
         jobj = json.loads(req.body)   
         ip = req.META['REMOTE_ADDR']
-        recent = Comment.objects.filter(ip_address=ip).order_by('-create_time')
-        if recent != None and len(recent) > 0:
-            r = recent[0]
-            t = r.create_time
-            
-            s = mktime(t.timetuple())
-            n = time()
-            
-            d = int(n - s)
-            if d <= 60:
-                return HttpResponse('FAIL|离上次评论时间过短')
+        
+        if tinytrue.settings.DEBUG == False:
+            recent = Comment.objects.filter(ip_address=ip).order_by('-create_time')
+            if recent != None and len(recent) > 0:
+                r = recent[0]
+                t = r.create_time
+                
+                s = mktime(t.timetuple())
+                n = time()
+                
+                d = int(n - s)
+                if d <= 60:
+                    return HttpResponse('FAIL|离上次评论时间过短')
             
         
         id = jobj['id']
@@ -419,18 +450,22 @@ def comment_passage(req):
             pc = Comment.objects.get(id=id)
             p = pc.passage            
         
+        if is_admin(req) == False:
+            if jobj['name'].strip() == '' or jobj['email'].strip() == '' or jobj['comment'].strip() == '':
+                return HttpResponse('FAIL')
+        
         c = Comment()
         if is_admin(req) == False:
-            c.author = jobj['name']
-            c.email = jobj['email']
-            c.site = jobj['site']
+            c.author = jobj['name'].strip()
+            c.email = jobj['email'].strip()
+            c.site = jobj['site'].strip()
             c.image = '/img/' + str(random.randint(0, 200)) + '.png'
         else:          
             c.author = req.user.username
             c.email = req.user.email
             c.site = tinytrue.settings.MY_SITE
             c.image = '/img/0.png'
-        c.content = jobj['comment']
+        c.content = jobj['comment'].strip()
         c.ip_address = ip
         c.create_time = datetime.datetime.today()
         c.passage = p
@@ -455,10 +490,11 @@ def fetch_page_passage(req, ctx):
         setting = settings['setting']
         
         page = int(ctx)
+        
         start = setting.blog_display_count * (page - 1)
         end = start + setting.blog_display_count
+        
         passages = Passage.objects.filter(visiable=True, draft_flag=False).order_by('-front_flag', '-update_time')[start:end]
-
 
         h = ''
         t = get_template('passage.html')
@@ -487,7 +523,7 @@ def fetch_page_passage(req, ctx):
             c = Context(d)        
             h = h + t.render(c) + '\n'
         if h == '':
-            return HttpRespnse('FAIL')
+            return HttpResponse('FAIL')
         
         page = ctx
         data = h
@@ -495,6 +531,51 @@ def fetch_page_passage(req, ctx):
         print e
         return HttpResponse('FAIL')
     return HttpResponse(page + '|' + data)
+
+@csrf_exempt
+def fetch_page_hot(req, ctx):
+    if req.method != 'POST':
+        return HttpResponseRedirect('/')
+    
+    data = ''
+    page = ''
+    try:
+        
+        page = int(ctx)
+        
+        start = tinytrue.settings.MORE_DISPLAY_COUNT * (page - 1)
+        end = start + tinytrue.settings.MORE_DISPLAY_COUNT
+        
+        passages = Passage.objects.all().order_by('-hot')[start:end]
+        
+        h = ''
+        t = get_template('tablemore.html')
+        d = {}
+        dl = []
+        for p in passages:           
+            di = {}
+            di['id'] = p.id
+            di['pre_id'] = start + 1
+            start = start + 1
+            di['name'] = p.title
+            di['desc'] = p.hot
+            di['passage_count'] = p.comment_set.count()
+            di['link'] = '/passage/' + str(p.id)
+            dl.append(di)
+        if len(dl) == 0:
+            return HttpResponse('FAIL')
+            
+        d['items'] = dl
+        c = Context(d)        
+        h = t.render(c)        
+        
+        page = ctx
+        data = h
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+    
+    return HttpResponse(page + '|' + data)    
 #management admin require
 @csrf_exempt 
 def edit_passage(req):

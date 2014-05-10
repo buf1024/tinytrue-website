@@ -26,7 +26,7 @@ function load_more() {
                 d = data.split("|");
                 if(d[0] == page) {
                     $("#page_count").attr("data-page", page);
-                    $("#content").append(d[1]);
+                    $("#table_more").append(d[1]);
                 }
             }
         });

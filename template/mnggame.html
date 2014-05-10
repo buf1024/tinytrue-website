@@ -4,6 +4,7 @@
   <li class="active">游戏管理</li>
 </ol>
 <table class="table table-hover table-bordered table-striped table-condensed">
+  <tbody>
   <tr>
     <th class="text-center-align">序号</th>
     <th class="text-center-align">名称</th>
@@ -12,7 +13,6 @@
     <th class="text-center-align">游戏次数</th>
     <th class="text-center-align">基本操作</th>
   </tr>
-  {% if games %}
   {% for game in games %}
   <tr>
     <td class="text-center-align">{{ game.id}}</td>
@@ -31,7 +31,7 @@
     </td>
   </tr>
   {% endfor %}
-  {% endif %}
+  </tbody>
 </table>
 </div>
 <div class="col-md-3">

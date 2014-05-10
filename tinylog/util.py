@@ -144,13 +144,13 @@ def get_passage_block():
         
     return h
     
-def get_leave_comment(title, id, exstyle, rid):
+def get_leave_comment(req, title, id, exstyle, rid):
     d = {}
     d['comment_title'] = title
     d['comment_id'] = id
     d['exstyle'] = exstyle
     d['relate_id'] = rid
-    
+    d['is_admin'] = is_admin(req)
     t = get_template('leavecomment.html')
     c = Context(d)        
     h = t.render(c)
@@ -167,7 +167,7 @@ def get_child_comments(c):
             cc = cc + scc
     return cc
 
-def get_view_passage_block(ctx):
+def get_view_passage_block(req, ctx):
     h = ''
     d = {}
     try:
@@ -197,7 +197,7 @@ def get_view_passage_block(ctx):
             di['author'] = comment.author
             di['create_time'] = comment.create_time
             di['content'] = comment.content
-            di['leavecomment'] = get_leave_comment(None, comment.id, 'display-none', comment.id)
+            di['leavecomment'] = get_leave_comment(req, None, comment.id, 'display-none', comment.id)
             scomments = get_child_comments(comment)
             ccs = []
             for c in scomments:
@@ -214,7 +214,7 @@ def get_view_passage_block(ctx):
                 sd['create_time'] = c.create_time
                 sd['content'] = c.content
                 sd['replyto'] = c.parent.author
-                sd['leavecomment'] = get_leave_comment(None, c.id, 'display-none', c.id)
+                sd['leavecomment'] = get_leave_comment(req, None, c.id, 'display-none', c.id)
                 ccs.append(sd)
             di['comment_set'] = ccs
             
@@ -234,7 +234,7 @@ def get_view_passage_block(ctx):
         d = {}
         d['comments'] = cc
         d['enable_comment'] = p.enable_comment
-        d['leavecomment'] = get_leave_comment(u'THANKS FOR COMMENT', 'z', '', p.id)
+        d['leavecomment'] = get_leave_comment(req, u'THANKS FOR COMMENT', 'z', '', p.id)
         pre  = Passage.objects.filter(id = (int(ctx) - 1))
         nxt = Passage.objects.filter(id = (int(ctx) + 1))
         if pre != None and len(pre) > 0:
@@ -292,14 +292,10 @@ def get_comment_count_block():
     
     count = Comment.objects.count()
     
-    settings = get_settings()
-    setting = settings['setting']
-    setting.blog_display_count
-    
-    pages = count / setting.blog_display_count
-    if count % setting.blog_display_count != 0:
+    pages = count / tinytrue.settings.MORE_DISPLAY_COUNT
+    if count % tinytrue.settings.MORE_DISPLAY_COUNT != 0:
         pages = pages + 1
-
+    print pages
     d['page_total'] = pages
     
     t = get_template('pagecount.html')
@@ -310,17 +306,13 @@ def get_comment_count_block():
     
 def get_hot_count_block():
     d = {}
-    d['data_role'] = 'hotmore'
+    d['data_role'] = 'hot'
     d['data_page'] = 1
     
     count = Passage.objects.filter(visiable=True, draft_flag=False).count()
     
-    settings = get_settings()
-    setting = settings['setting']
-    setting.blog_display_count
-    
-    pages = count / setting.blog_display_count
-    if count % setting.blog_display_count != 0:
+    pages = count / tinytrue.settings.MORE_DISPLAY_COUNT
+    if count % tinytrue.settings.MORE_DISPLAY_COUNT != 0:
         pages = pages + 1
 
     d['page_total'] = pages
@@ -330,7 +322,25 @@ def get_hot_count_block():
     h = t.render(c)
 
     return h
+
+def get_commenthot_count_block():
+    d = {}
+    d['data_role'] = 'commenthot'
+    d['data_page'] = 1
     
+    count = Passage.objects.filter(visiable=True, draft_flag=False).count()
+    
+    pages = count / tinytrue.settings.MORE_DISPLAY_COUNT
+    if count % tinytrue.settings.MORE_DISPLAY_COUNT != 0:
+        pages = pages + 1
+
+    d['page_total'] = pages
+    
+    t = get_template('pagecount.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return h    
 def get_comment(t, m):
     comments = Comment.objects.all().order_by('-create_time')[:m.display_count]
 
@@ -397,7 +407,7 @@ def get_comment_hot(t, m):
         di['content'] = p.title + '(' + str(c) + ')'        
         pl.append(di)
     if len(passages) == m.display_count:        
-        d['module_more_link'] = '/comment/more' 
+        d['module_more_link'] = '/commenthot/more' 
     d['module_list'] = pl
     d['nocontent'] = u'暂无热评文章'
 
