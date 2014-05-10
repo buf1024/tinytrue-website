@@ -46,7 +46,7 @@ function mngcomment_reply(event) {
     var idpair = $("#" + event.target.id).attr("data");
     var ids = idpair.split('|');
     
-    location.href = "/passage/" + ids[1] + "#" +ids[0]
+    window.open("/passage/" + ids[1] + "#" +ids[0]);
 }
 function rebind_event() {
     mngcomment_setup();

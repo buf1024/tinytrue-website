@@ -68,7 +68,9 @@ def get_header_block(webtitle, extjs = None, extcss = None):
     
 def get_home_extral_block():
     settings = get_settings()
-    games = settings['games']    
+    setting = settings['setting']
+    
+    games = settings['games']   
     h = ''
     
     if len(games) <= 0:    
@@ -89,7 +91,7 @@ def get_nav_block(req):
     setting = settings['setting']
     
     games = settings['games']
-
+    
     d = {}
     
     d['brand'] = setting.brand

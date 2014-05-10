@@ -11,6 +11,8 @@ from datetime import *
 from tinylog.models import *
 from tinylog.util import *
 
+import tinytrue
+
 def get_mnggame_block():
     
     games = Game.objects.all()
@@ -60,9 +62,83 @@ def get_mnggame_extral_block():
     
     h = h + confirm
     
+    return h 
+def get_play_game_block(ctx):
+    h = ''
+    d = {}
+    try:
+        game = Game.objects.get(id = ctx)
+        d['game_src'] = '/game/' + game.name + '/index.html'
+        d['game_width'] = game.width
+        d['game_height'] = game.height
+        
+        t = get_template('game.html')
+        c = Context(d)        
+        h = t.render(c)
+        
+        game.hot = game.hot + 1
+        game.save()
+        
+    except Exception, e:
+        print e
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)       
+        
     return h
-   
 
+def get_play_game_more_count_block():
+    d = {}
+    d['data_role'] = 'playgame'
+    d['data_page'] = 1
+    
+    count = Game.objects.filter(visiable=True).count()
+    
+    pages = count / tinytrue.settings.MORE_DISPLAY_COUNT
+    
+    if count % tinytrue.settings.MORE_DISPLAY_COUNT != 0:
+        pages = pages + 1
+
+    d['page_total'] = pages
+    
+    t = get_template('pagecount.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return h    
+ 
+def get_play_game_more_block():
+    h = ''
+    try:
+        games = Game.objects.filter(visiable=True)[:tinytrue.settings.MORE_DISPLAY_COUNT]
+        
+        t = get_template('gameitem.html')
+        idx = 0
+        for game in games:
+            d = {}
+            d['game_image'] = game.image
+            d['game_src'] = '/game/' + game.name + '/index.html'
+            d['game_name'] = game.name
+            d['game_hot'] = game.hot
+            
+            c = Context(d)        
+            h = t.render(c)
+            
+            if idx != 0:
+                h = '<hr>' + h
+            idx = idx + 1
+            
+        if h != '':
+            h = h + get_play_game_more_count_block()
+            
+            
+    except Exception, e:
+        print e
+        t = get_template('404.html')
+        c = Context(d)
+        h = t.render(c)       
+        
+    return h
 #management admin required   
 def req_game(req, ctx):
     r = try_redirect(req)        
@@ -75,6 +151,8 @@ def req_game(req, ctx):
         d['name'] = obj.name
         d['desc'] = obj.desc
         d['image'] = obj.image
+        d['width'] = obj.width
+        d['height'] = obj.height
         d['visiable'] = obj.visiable
         
         dcat = {}
@@ -85,7 +163,6 @@ def req_game(req, ctx):
         d['catalog'] = dcat
         
     h = json.dumps(d)
-    
     return HttpResponse(h)
  
 @csrf_exempt    
@@ -94,12 +171,12 @@ def new_game(req):
     if r != None:
         return r
     try:
-        jobj = json.loads(req.body)        
+        jobj = json.loads(req.body)  
         cat = Catalog.objects.get(id=jobj['catalog']['id'])        
         t = datetime.datetime.today()    
         game = Game(name=jobj['title'], desc=jobj['desc'],
-                image=jobj['image'], visiable=jobj['visiable'],
-                hot=0,
+                image=jobj['image'], width=jobj['width'], height=jobj['height'],
+                visiable=jobj['visiable'], hot=0,
                 create_time=t, update_time=t,
                 catalog = cat)
         game.save()
@@ -123,6 +200,8 @@ def update_game(req):
         game.name = jobj['title']
         game.desc = jobj['desc']
         game.image = jobj['image']
+        game.width = int(jobj['width'])
+        game.height = int(jobj['height'])
         game.visiable = jobj['visiable']
         cat = Catalog.objects.get(id=jobj['catalog']['id'])
         game.catalog = cat
@@ -146,26 +225,6 @@ def del_game(req):
         game.delete()
         get_settings(True)
     except:
-        return HttpResponse('FAIL')
-
-    return HttpResponse('SUCCESS')
-
-@csrf_exempt    
-def show_game(req):
-    r = try_redirect(req)
-    if r != None:
-        return r
-    try:
-        jobj = json.loads(req.body)
-        
-        t = datetime.datetime.today()        
-        game = Game.objects.get(id=jobj['id'])
-        game.visiable = jobj['visiable']
-        game.update_time = t
-        game.save()
-        get_settings(True)
-    except Exception, e:
-        print e
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS')

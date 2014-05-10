@@ -259,6 +259,42 @@ def view_passage(req, ctx):
     h = t.render(c)
 
     return HttpResponse(h)
+
+def play_game(req, ctx):
+    settings = get_settings()
+    setting = settings['setting']
+
+    d = {}
+    d['extral_block'] = ''
+    d['header_block'] = get_header_block(setting.title + u' : 游戏')    
+    d['nav_block'] = get_nav_block(req)
+    d['content_block'] = get_play_game_block(ctx)
+    d['footer_block'] = get_footer_block()
+    
+    t = get_template('general.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
+    
+def play_game_more(req):
+    settings = get_settings()
+    setting = settings['setting']
+
+    d = {}
+    d['extral_block'] = ''
+    d['header_block'] = get_header_block(setting.title + u' : 更多游戏')    
+    d['nav_block'] = get_nav_block(req)
+    d['passages_block'] = get_play_game_more_block()
+    d['passage_count_block'] = ''
+    d['bulletins_block'] = ''
+    d['footer_block'] = get_footer_block()
+    
+    t = get_template('home.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return HttpResponse(h)
     
 def search(req):
     k = req.GET.get('navq')

@@ -95,13 +95,13 @@ def new_label(req):
         return r
     try:
         jobj = json.loads(req.body)
-        
-        t = datetime.today()    
+        t = datetime.datetime.today()    
         label = Label(name=jobj['title'], desc=jobj['desc'],
                 create_time=t, update_time=t)
         label.save()
         get_settings(True)
-    except:
+    except Exception, e:
+        print e
         return HttpResponse('FAIL')
 
     return HttpResponse('SUCCESS')

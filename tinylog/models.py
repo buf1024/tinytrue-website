@@ -121,8 +121,9 @@ class Game(models.Model):
     name = models.CharField(max_length = 64)
     desc = models.CharField(max_length = 512, null=True)
     image = models.CharField(max_length = 128)
-    visiable = models.BooleanField()
-    
+    width = models.IntegerField()
+    height = models.IntegerField()
+    visiable = models.BooleanField()    
     #statistic
     hot = models.IntegerField()
     

@@ -61,7 +61,6 @@ urlpatterns = patterns('',
     url(r'^manage/game/new$', 'tinylog.views.new_game'),
     url(r'^manage/game/update$', 'tinylog.views.update_game'),
     url(r'^manage/game/delete$', 'tinylog.views.del_game'),
-    url(r'^manage/game/show$', 'tinylog.views.show_game'),
     
     url(r'^manage/logout$', 'tinylog.views.mnglogout'),
     
@@ -85,6 +84,9 @@ urlpatterns = patterns('',
     url(r'^comment/page/(\d+)$', 'tinylog.views.fetch_page_comment'),
     url(r'^hot/page/(\d+)$', 'tinylog.views.fetch_page_hot'),
     url(r'^commenthot/page/(\d+)$', 'tinylog.views.fetch_page_commenthot'),
+    
+    url(r'^playgame/(\d+)$', 'tinylog.views.play_game'),
+    url(r'^playgame/more$', 'tinylog.views.play_game_more'),
     )
     
 handler404 = tinylog.views.error404
@@ -104,5 +106,6 @@ if tinytrue.settings.DEBUG:
         url(r'^css/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT + '/css'}),
         url(r'^img/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT + '/img'}),
         url(r'^tinymce/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT + '/tinymce'}),
+        url(r'^game/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT + '/game'}),
     )
     
