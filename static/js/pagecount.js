@@ -24,9 +24,11 @@ function load_more() {
         $.post(url, "", function(data) {
             if(data != "FAIL") {     
                 d = data.split("|");
-                if(d[0] == page) {
+                if(d[0] == page) {                
                     $("#page_count").attr("data-page", page);
-                    $("#content").append(d[1]);
+                    var len = d[0].length;
+                    data = data.substring(len + 1);
+                    $("#content").append(data);
                 }
             }
         });

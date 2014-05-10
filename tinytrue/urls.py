@@ -84,6 +84,7 @@ urlpatterns = patterns('',
     url(r'^comment/page/(\d+)$', 'tinylog.views.fetch_page_comment'),
     url(r'^hot/page/(\d+)$', 'tinylog.views.fetch_page_hot'),
     url(r'^commenthot/page/(\d+)$', 'tinylog.views.fetch_page_commenthot'),
+    url(r'^playgame/page/(\d+)$', 'tinylog.views.fetch_page_game'),
     
     url(r'^playgame/(\d+)$', 'tinylog.views.play_game'),
     url(r'^playgame/more$', 'tinylog.views.play_game_more'),

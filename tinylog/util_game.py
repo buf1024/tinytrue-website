@@ -117,21 +117,18 @@ def get_play_game_more_block():
         for game in games:
             d = {}
             d['game_image'] = game.image
-            d['game_src'] = '/game/' + game.name + '/index.html'
+            d['game_src'] = '/playgame/' + str(game.id)
             d['game_name'] = game.name
             d['game_hot'] = game.hot
             
             c = Context(d)        
-            h = t.render(c)
+            g = t.render(c)
             
             if idx != 0:
-                h = '<hr>' + h
+                g = '<hr>' + g
             idx = idx + 1
             
-        if h != '':
-            h = h + get_play_game_more_count_block()
-            
-            
+            h = h + g
     except Exception, e:
         print e
         t = get_template('404.html')
@@ -139,6 +136,47 @@ def get_play_game_more_block():
         h = t.render(c)       
         
     return h
+    
+@csrf_exempt
+def fetch_page_game(req, ctx):
+    if req.method != 'POST':
+        return HttpResponseRedirect('/')
+    
+    data = ''
+    page = ''
+    try:        
+        page = int(ctx)
+        
+        start = tinytrue.settings.MORE_DISPLAY_COUNT * (page - 1)
+        end = start + tinytrue.settings.MORE_DISPLAY_COUNT
+        
+        games = Game.objects.filter(visiable=True)[start:end]
+        
+        h = ''
+        t = get_template('gameitem.html')
+        for game in games:
+            d = {}
+            d['game_image'] = game.image
+            d['game_src'] = '/playgame/' + str(game.id)
+            d['game_name'] = game.name
+            d['game_hot'] = game.hot
+            
+            c = Context(d)        
+            g = t.render(c)
+            
+            g = '<hr>' + g
+            
+            h = h + g
+        if h == '':
+            return HttpResponse('FAIL')
+        
+        page = ctx
+        data = h
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+    return HttpResponse(page + '|' + data)
+
 #management admin required   
 def req_game(req, ctx):
     r = try_redirect(req)        

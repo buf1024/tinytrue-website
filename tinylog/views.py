@@ -283,10 +283,11 @@ def play_game_more(req):
 
     d = {}
     d['extral_block'] = ''
-    d['header_block'] = get_header_block(setting.title + u' : 更多游戏')    
+    d['header_block'] = get_header_block(setting.title + u' : 更多游戏',
+                                            extjs=['/js/pagecount.js'])    
     d['nav_block'] = get_nav_block(req)
     d['passages_block'] = get_play_game_more_block()
-    d['passage_count_block'] = ''
+    d['passage_count_block'] = get_play_game_more_count_block()
     d['bulletins_block'] = ''
     d['footer_block'] = get_footer_block()
     
