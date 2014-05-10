@@ -56,3 +56,8 @@ function mngpassage_delete() {
     $("#dialog_confirm").modal();
     $("#dialog_confirm_yes").attr("data", id);
 }
+
+function rebind_event() {
+    mngpassage_setup();
+}
+

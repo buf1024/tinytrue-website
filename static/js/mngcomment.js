@@ -48,3 +48,6 @@ function mngcomment_reply(event) {
     
     location.href = "/passage/" + ids[1] + "#" +ids[0]
 }
+function rebind_event() {
+    mngcomment_setup();
+}

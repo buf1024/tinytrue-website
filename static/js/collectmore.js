@@ -10,3 +10,6 @@ function collect_view(event) {
     var link = $("#" + event.target.id).attr("data");
     location.href = link
 }
+function rebind_event() {
+    collectmore_setup();
+}

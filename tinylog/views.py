@@ -305,7 +305,7 @@ def mngpassage(req):
     d = {}
     d['extral_block'] = get_mngpassage_extral_block()
     d['header_block'] = get_header_block(setting.title + u' : 文章管理',
-                                              extjs = ['/js/mngpassage.js'])    
+                                              extjs = ['/js/mngpassage.js', '/js/tablemore.js'])    
     d['nav_block'] = get_nav_block(req)
     d['content_block'] = get_mngpassage_block()
     d['footer_block'] = get_footer_block()

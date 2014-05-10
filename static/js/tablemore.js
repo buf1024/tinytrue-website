@@ -26,7 +26,10 @@ function load_more() {
                 d = data.split("|");
                 if(d[0] == page) {
                     $("#page_count").attr("data-page", page);
-                    $("#table_more").append(d[1]);
+                    var len = d[0].length;
+                    data = data.substring(len + 1);
+                    $("#table_more").append(data);
+                    rebind_event();
                 }
             }
         });

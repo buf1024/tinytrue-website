@@ -16,8 +16,9 @@ def get_mngcomment_count_block():
     d['data_page'] = 1
     
     count = Comment.objects.count()
-        
+    
     pages = count / tinytrue.settings.MORE_DISPLAY_COUNT
+    
     if count % tinytrue.settings.MORE_DISPLAY_COUNT != 0:
         pages = pages + 1
 
@@ -55,13 +56,23 @@ def fetch_page_mngcomment(req, ctx):
         
         start = tinytrue.settings.MORE_DISPLAY_COUNT * (page - 1)
         end = start + tinytrue.settings.MORE_DISPLAY_COUNT
-        
         comments = Comment.objects.all().order_by('-create_time')[start:end]
         if len(comments) == '':
             return HttpResponse('FAIL')
-        
         d = {}        
-        d['comments'] = comments
+        ll = []
+        for c in comments:
+            di = {}
+            di['id'] = c.id
+            di['pre_id'] = start + 1
+            start = start + 1
+            di['title'] = c.passage.title
+            di['content'] = c.content
+            di['author'] = c.author
+            di['create_time'] = c.create_time
+            di['passage_id'] = c.passage.id
+            ll.append(di)
+        d['items'] = ll
         
         t = get_template('mngcommentmore.html')
         c = Context(d)        

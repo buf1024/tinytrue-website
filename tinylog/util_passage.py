@@ -16,9 +16,28 @@ from tinylog.util import *
 def get_mngpassage_extral_block():    
     h = get_confirm_dialog()    
     return h
+def get_mngpassage_count_block():
+    d = {}
+    d['data_role'] = 'manage/passage'
+    d['data_page'] = 1
+    
+    count = Passage.objects.count()
+    
+    pages = count / tinytrue.settings.MORE_DISPLAY_COUNT
+    
+    if count % tinytrue.settings.MORE_DISPLAY_COUNT != 0:
+        pages = pages + 1
+
+    d['page_total'] = pages
+    
+    t = get_template('pagecount.html')
+    c = Context(d)
+    h = t.render(c)
+
+    return h
 def get_mngpassage_block():
 
-    passages = Passage.objects.all()[:tinytrue.settings.MORE_DISPLAY_COUNT]
+    passages = Passage.objects.all().order_by("-update_time")[:tinytrue.settings.MORE_DISPLAY_COUNT]
     l = []
     for passage in passages:
         d = {}
@@ -29,7 +48,7 @@ def get_mngpassage_block():
         
     d = {}        
     d['passages'] = l
-    d['page_count_block'] = get_passage_count_block()
+    d['page_count_block'] = get_mngpassage_count_block()
     
     t = get_template('mngpassage.html')
     c = Context(d)
@@ -478,6 +497,7 @@ def comment_passage(req):
 
     return HttpResponse('SUCCESS')    
     
+    
 @csrf_exempt
 def fetch_page_passage(req, ctx):
     if req.method != 'POST':
@@ -577,6 +597,48 @@ def fetch_page_hot(req, ctx):
     
     return HttpResponse(page + '|' + data)    
 #management admin require
+@csrf_exempt
+def fetch_page_mngpassage(req, ctx):
+    if req.method != 'POST':
+        return HttpResponseRedirect('/')
+    
+    data = ''
+    page = ''
+    try:
+        
+        page = int(ctx)
+        
+        start = tinytrue.settings.MORE_DISPLAY_COUNT * (page - 1)
+        end = start + tinytrue.settings.MORE_DISPLAY_COUNT
+        passages = Passage.objects.all().order_by("-update_time")[start:end]
+        if len(passages) == '':
+            return HttpResponse('FAIL')
+        d = {}        
+        ll = []
+        for p in passages:
+            di = {}
+            di['id'] = p.id
+            di['pre_id'] = start + 1
+            start = start + 1
+            di['title'] = p.title
+            di['catalog_name'] = p.catalog.name
+            di['hot'] = p.hot
+            di['comment_count'] = p.comment_set.count()
+            ll.append(di)
+        d['passages'] = ll
+        
+        t = get_template('mngpassagemore.html')
+        c = Context(d)        
+        h = t.render(c)        
+        
+        page = ctx
+        data = h
+    except Exception, e:
+        print e
+        return HttpResponse('FAIL')
+    
+    return HttpResponse(page + '|' + data)
+ 
 @csrf_exempt 
 def edit_passage(req):
     r = try_redirect(req)

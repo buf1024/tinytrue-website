@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^manage/passage/edit$', 'tinylog.views.edit_passage'),
     url(r'^manage/passage/delete$', 'tinylog.views.del_passage'),
     url(r'^manage/passage/backup$', 'tinylog.views.backup_passage'),
+    url(r'^manage/passage/page/(\d+)$', 'tinylog.views.fetch_page_mngpassage'),
     
     url(r'^manage/comment$', 'tinylog.views.mngcomment'),
     url(r'^manage/comment/page/(\d+)$', 'tinylog.views.fetch_page_mngcomment'),
