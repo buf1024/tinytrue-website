@@ -120,6 +120,7 @@ def get_play_game_more_block():
             d['game_src'] = '/playgame/' + str(game.id)
             d['game_name'] = game.name
             d['game_hot'] = game.hot
+            d['game_desc'] = game.desc
             
             c = Context(d)        
             g = t.render(c)

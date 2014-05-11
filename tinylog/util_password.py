@@ -32,6 +32,7 @@ def update_password(req):
         user = req.user
         if user.check_password(old):
             user.set_password(new)
+            user.save()
         else:
             return HttpResponse('FAIL|密码不正确')
     except Exception, e:
