@@ -30,23 +30,13 @@ insert into tinylog_module(id, name, "desc", visiable, display_count,
  insert into tinylog_module(id, name, "desc", visiable, display_count, 
     create_time, update_time)
  values(6, '归档', '归档', 1, 5, '2014-04-01 00:00:00', '2014-04-01 00:00:00');
- 
- -- admin user
- delete from tinylog_user;
- insert into tinylog_user(id, name, password, email, create_time, update_time)
- values(1, 'buf1024', '111111', 'buf1024@gmail.com', '2014-04-01 00:00:00', '2014-04-01 00:00:00');
- 
+
  -- catalog
 delete from tinylog_catalog;
 insert into tinylog_catalog(id, name, "desc", "type", create_time, update_time)
 values(1, '益智', '益智游戏', 2, '2014-04-01 00:00:00', '2014-04-01 00:00:00');
 insert into tinylog_catalog(id, name, "desc", "type", create_time, update_time)
 values(2, '杂项', '未归类杂项', 1, '2014-04-01 00:00:00', '2014-04-01 00:00:00');
- 
- -- game
- --delete from tinylog_game;
- --insert into tinylog_game(id, name, "desc", image, visiable, hot, create_time, update_time, catalog_id)
- --values(1, '2048', 'an 2048 game', '/game/2048/game.png', 1, 0, '2014-04-01 00:00:00', '2014-04-01 00:00:00', 1);
-  
+
  commit;
  

@@ -105,18 +105,6 @@ class Module(models.Model):
 
     def __unicode__(self):
         return '<module:' + self.name + '>'
-
-class User(models.Model):
-    name = models.CharField(max_length = 64)
-    password = models.CharField(max_length = 128)
-    email = models.EmailField()
-    
-    create_time = models.DateTimeField()
-    update_time = models.DateTimeField()
-    
-    def __unicode__(self):
-        return '<user:' + self.name + '>'
-
 class Game(models.Model):
     name = models.CharField(max_length = 64)
     desc = models.CharField(max_length = 512, null=True)
