@@ -34,7 +34,7 @@ def home(req):
     t = get_template('home.html')
     c = Context(d)
     h = t.render(c)
-
+    
     return HttpResponse(h)
     
 def admin(req):
