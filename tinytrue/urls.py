@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     url(r'^manage/passage/page/(\d+)$', 'tinylog.views.fetch_page_mngpassage'),
     
     url(r'^manage/comment$', 'tinylog.views.mngcomment'),
+    url(r'^manage/comment/delete$', 'tinylog.views.del_comment'),
     url(r'^manage/comment/page/(\d+)$', 'tinylog.views.fetch_page_mngcomment'),
     
     url(r'^manage/catalog$', 'tinylog.views.mngcatalog'),
